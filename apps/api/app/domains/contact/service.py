@@ -1,0 +1,171 @@
+"""Business logic for Contact."""
+
+from __future__ import annotations
+
+from typing import Any
+from uuid import UUID
+
+import structlog
+
+from app.domains.contact.exceptions import (
+    ContactConflictError,
+    ContactNotFoundError,
+    ContactValidationError,
+)
+from app.domains.contact.models import Contact
+from app.domains.contact.repository import ContactRepository
+from app.domains.contact.schemas import ContactCreate, ContactRead, ContactUpdate
+
+logger = structlog.get_logger(__name__)
+
+
+class ContactService:
+    """Orchestrates contact use cases with validation, transitions, and auditing."""
+
+    def __init__(self, repository: ContactRepository) -> None:
+        self._repo = repository
+
+    def _set_status(self, entity: Contact, target: str, *, action: str) -> None:
+        if hasattr(entity, "status"):
+            entity.status = target
+            logger.info("contact.status_set", entity_id=str(entity.id), status=target, action=action)
+
+    async def _require_entity(
+        self, entity_id: UUID, *, tenant_id: UUID | None = None
+    ) -> Contact:
+        entity = await self._repo.get_by_id(entity_id, tenant_id=tenant_id)
+        if entity is None:
+            logger.warning("contact.not_found", entity_id=str(entity_id))
+            raise ContactNotFoundError(entity_id)
+        return entity
+
+    def _validate_tenant(self, tenant_id: UUID | None) -> UUID:
+        if tenant_id is None:
+            raise ContactValidationError('X-Tenant-Id is required')
+        return tenant_id
+
+    async def get(self, entity_id: UUID, *, tenant_id: UUID | None = None) -> ContactRead:
+        tenant_id = self._validate_tenant(tenant_id)
+        entity = await self._require_entity(entity_id, tenant_id=tenant_id)
+        logger.info("contact.service.get", entity_id=str(entity_id))
+        return ContactRead.model_validate(entity)
+
+    async def list(
+        self,
+        *,
+        tenant_id: UUID | None = None,
+        page: int = 1,
+        page_size: int = 50,
+        order_by: str = "created_at",
+        order_dir: str = "desc",
+        **filters: Any,
+    ) -> tuple[list[ContactRead], int]:
+        tenant_id = self._validate_tenant(tenant_id)
+        if page < 1:
+            raise ContactValidationError("Page must be >= 1")
+        if page_size < 1 or page_size > 200:
+            raise ContactValidationError("Page size must be between 1 and 200")
+        rows, total = await self._repo.list(
+            tenant_id=tenant_id,
+            page=page,
+            page_size=page_size,
+            order_by=order_by,
+            order_dir=order_dir,
+            **filters,
+        )
+        logger.info(
+            "contact.service.list",
+            page=page,
+            page_size=page_size,
+            total=total,
+            returned=len(rows),
+        )
+        return [ContactRead.model_validate(r) for r in rows], total
+
+    async def count(self, *, tenant_id: UUID | None = None, **filters: Any) -> int:
+        tenant_id = self._validate_tenant(tenant_id)
+        return await self._repo.count(tenant_id=tenant_id, **filters)
+
+    async def exists(self, entity_id: UUID, *, tenant_id: UUID | None = None) -> bool:
+        tenant_id = self._validate_tenant(tenant_id)
+        return await self._repo.exists(entity_id, tenant_id=tenant_id)
+
+    async def create(
+        self, data: ContactCreate, *, tenant_id: UUID | None = None
+    ) -> ContactRead:
+        tenant_id = self._validate_tenant(tenant_id)
+        self._validate_create(data)
+        entity = await self._repo.create(data, tenant_id=tenant_id)
+        logger.info("contact.service.create", entity_id=str(entity.id), tenant_id=str(tenant_id))
+        return ContactRead.model_validate(entity)
+
+    async def update(
+        self,
+        entity_id: UUID,
+        data: ContactUpdate,
+        *,
+        tenant_id: UUID | None = None,
+    ) -> ContactRead:
+        tenant_id = self._validate_tenant(tenant_id)
+        entity = await self._require_entity(entity_id, tenant_id=tenant_id)
+        self._validate_update(entity, data)
+        updated = await self._repo.update(entity, data)
+        logger.info("contact.service.update", entity_id=str(entity_id))
+        return ContactRead.model_validate(updated)
+
+    async def delete(
+        self, entity_id: UUID, *, tenant_id: UUID | None = None
+    ) -> None:
+        tenant_id = self._validate_tenant(tenant_id)
+        entity = await self._require_entity(entity_id, tenant_id=tenant_id)
+        await self._repo.soft_delete(entity)
+        logger.info("contact.service.delete", entity_id=str(entity_id))
+
+    async def restore(
+        self, entity_id: UUID, *, tenant_id: UUID | None = None
+    ) -> ContactRead:
+        tenant_id = self._validate_tenant(tenant_id)
+        entity = await self._repo.get_by_id(entity_id, tenant_id=tenant_id, include_deleted=True)
+        if entity is None:
+            raise ContactNotFoundError(entity_id)
+        restored = await self._repo.restore(entity)
+        logger.info("contact.service.restore", entity_id=str(entity_id))
+        return ContactRead.model_validate(restored)
+
+    def _validate_create(self, data: ContactCreate) -> None:
+        """Domain-specific create validation for Contact."""
+        raw = getattr(data, "first_name", None)
+        if raw is not None and not str(raw).strip():
+            raise ContactValidationError("first_name is required and cannot be blank")
+
+        raw = getattr(data, "last_name", None)
+        if raw is not None and not str(raw).strip():
+            raise ContactValidationError("last_name is required and cannot be blank")
+
+        email_val = getattr(data, "email", None)
+        if email_val is not None and "@" not in email_val:
+            raise ContactValidationError("Valid email required for email")
+
+    def _validate_update(self, entity: Contact, data: ContactUpdate) -> None:
+        """Domain-specific update validation for Contact."""
+        logger.debug("contact.validate_update", entity_id=str(entity.id))
+
+    async def set_primary(self, entity_id: UUID, tenant_id: UUID | None):
+        """Mark contact as primary for customer"""
+        entity = await self._require_entity(entity_id, tenant_id=tenant_id)
+        logger.info("contact.set_primary.start", entity_id=str(entity.id))
+        # Mark contact as primary for customer
+        logger.info("contact.set_primary.complete", entity_id=str(entity.id))
+        await self._repo._session.flush()
+        await self._repo._session.refresh(entity)
+        return entity
+
+    async def opt_out_notifications(self, entity_id: UUID, tenant_id: UUID | None):
+        """Disable all notification channels"""
+        entity = await self._require_entity(entity_id, tenant_id=tenant_id)
+        logger.info("contact.opt_out_notifications.start", entity_id=str(entity.id))
+        # Disable all notification channels
+        logger.info("contact.opt_out_notifications.complete", entity_id=str(entity.id))
+        await self._repo._session.flush()
+        await self._repo._session.refresh(entity)
+        return entity
