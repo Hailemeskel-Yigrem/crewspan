@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "relayops-worker"
+version = "0.1.0"
+description = "RelayOps background job worker"
+requires-python = ">=3.11"
+dependencies = [
+    "celery[redis]>=5.3.0",
+    "redis>=5.0.0",
+    "sqlalchemy[asyncio]>=2.0.25",
+    "asyncpg>=0.29.0",
+    "pydantic>=2.6.0",
+    "pydantic-settings>=2.2.0",
+    "structlog>=24.1.0",
+    "httpx>=0.27.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["worker*"]
