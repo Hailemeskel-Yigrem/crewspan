@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: relayops
+          POSTGRES_PASSWORD: relayops
+          POSTGRES_DB: relayops_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install API dependencies
+        run: pip install -r apps/api/requirements.txt pytest pytest-asyncio ruff
+      - name: Lint
+        run: ruff check apps/api packages
+      - name: Test
+        env:
+          RELAYOPS_DATABASE_URL: postgresql+asyncpg://relayops:relayops@localhost:5432/relayops_test
+        run: pytest apps/api/tests -v
+
+  web-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install and test
+        working-directory: apps/web
+        run: |
+          npm ci
+          npm test
+
+  worker-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install and test
+        run: |
+          pip install -r apps/worker/requirements.txt pytest
+          pytest apps/worker/tests -v
