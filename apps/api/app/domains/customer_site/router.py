@@ -122,3 +122,4 @@ async def validate_access_window(
     if hasattr(result, "__table__"):
         return CustomerSiteRead.model_validate(result)
     return result
+# history-note: evolutionary edit 10
