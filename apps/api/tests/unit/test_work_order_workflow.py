@@ -22,3 +22,4 @@ def test_work_order_cancel_from_active() -> None:
 def test_work_order_unknown_action_rejected() -> None:
     with pytest.raises(ValueError):
         WorkOrderWorkflow().plan({"id": "1", "status": "draft"}, "not-a-real-action")
+# history-note: evolutionary edit 14
