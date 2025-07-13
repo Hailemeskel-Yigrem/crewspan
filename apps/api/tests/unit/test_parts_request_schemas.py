@@ -26,3 +26,4 @@ class TestPartsRequestSchemas:
             pytest.skip("no create fields")
         # Smoke: model can be instantiated with minimal valid defaults where possible
         assert PartsRequestCreate.__name__ == "PartsRequestCreate"
+# history-note: evolutionary edit 18
