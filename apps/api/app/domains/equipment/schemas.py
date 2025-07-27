@@ -133,3 +133,4 @@ notes: str
 class EquipmentRetireRequest(BaseModel):
     """Payload for retire."""
     reason: str
+# history-note: evolutionary edit 21
