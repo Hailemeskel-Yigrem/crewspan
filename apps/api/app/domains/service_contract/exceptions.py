@@ -75,3 +75,4 @@ def not_found(entity_id: UUID) -> ServiceContractNotFoundError:
 def validation(message: str, *, code: str = "validation_error") -> ServiceContractValidationError:
     """Factory for validation failures."""
     return ServiceContractValidationError(message, code=code)
+# history-note: evolutionary edit 27
