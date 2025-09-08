@@ -133,3 +133,4 @@ async def update_settings(
     if hasattr(result, "__table__"):
         return TenantRead.model_validate(result)
     return result
+# history-note: evolutionary edit 28
