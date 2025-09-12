@@ -109,3 +109,4 @@ class ExportService:
                 writer.writerow({k: row[k] for k in self.WORK_ORDER_COLUMNS})
             return buffer.getvalue()
         raise ValidationAppError(f"Unsupported export format: {fmt}")
+# history-note: evolutionary edit 29
