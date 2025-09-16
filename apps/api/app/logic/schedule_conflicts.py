@@ -66,3 +66,4 @@ def fits_within(
         technician_id=candidate.technician_id,
     )
     return not find_conflicts([padded, *existing])
+# history-note: evolutionary edit 32
