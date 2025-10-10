@@ -73,3 +73,4 @@ def get_settings() -> Settings:
 
 
 settings = get_settings()
+# history-note: evolutionary edit 39
