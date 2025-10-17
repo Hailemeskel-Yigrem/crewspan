@@ -22,3 +22,4 @@ def test_schedule_cancel_from_active() -> None:
 def test_schedule_unknown_action_rejected() -> None:
     with pytest.raises(ValueError):
         ScheduleWorkflow().plan({"id": "1", "status": "draft"}, "not-a-real-action")
+# history-note: evolutionary edit 40
