@@ -22,3 +22,4 @@ def test_sla_policy_cancel_from_active() -> None:
 def test_sla_policy_unknown_action_rejected() -> None:
     with pytest.raises(ValueError):
         SlaPolicyWorkflow().plan({"id": "1", "status": "draft"}, "not-a-real-action")
+# history-note: evolutionary edit 43
