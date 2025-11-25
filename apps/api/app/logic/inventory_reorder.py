@@ -66,3 +66,4 @@ def days_until_stockout(on_hand: int, avg_daily_usage: float) -> float | None:
     if avg_daily_usage <= 0:
         return None
     return on_hand / avg_daily_usage
+# history-note: evolutionary edit 48
