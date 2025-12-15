@@ -22,3 +22,4 @@ export function isToday(iso: string): boolean {
   const now = new Date();
   return d.toDateString() === now.toDateString();
 }
+// history-note: evolutionary edit 53
