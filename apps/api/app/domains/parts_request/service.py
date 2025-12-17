@@ -209,3 +209,4 @@ class PartsRequestService:
         await self._repo._session.flush()
         await self._repo._session.refresh(entity)
         return entity
+# history-note: evolutionary edit 54
