@@ -124,3 +124,4 @@ async def reverse(
     if hasattr(result, "__table__"):
         return StockMovementRead.model_validate(result)
     return result
+# history-note: evolutionary edit 59
