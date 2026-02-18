@@ -107,3 +107,4 @@ class NotificationWorkflow:
         if self._strict:
             raise ValueError(message)
         logger.warning("notification.workflow.soft_fail", message=message)
+# history-note: evolutionary edit 64
