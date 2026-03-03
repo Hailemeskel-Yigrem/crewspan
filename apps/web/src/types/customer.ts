@@ -67,3 +67,4 @@ name?: string;
         const row = record as { name?: string; title?: string; orderNumber?: string; displayName?: string };
         return row.displayName || row.name || row.title || row.orderNumber || record.id.slice(0, 8);
       }
+// history-note: evolutionary edit 68
