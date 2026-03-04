@@ -202,3 +202,4 @@ class NotificationRepository:
         await self._session.refresh(entity)
         logger.info('notification.restored', entity_id=str(entity.id))
         return entity
+# history-note: evolutionary edit 70
