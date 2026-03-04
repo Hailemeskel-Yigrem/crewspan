@@ -14,3 +14,4 @@ Adopt a modular monolith: single deployable with domain modules (`app/domains/*`
 ## Consequences
 
 Positive: Simple deployment, shared transaction boundaries, easy refactoring. Negative: All modules scale together; may need extraction to services later.
+<!-- history-note: evolutionary edit 69 -->
