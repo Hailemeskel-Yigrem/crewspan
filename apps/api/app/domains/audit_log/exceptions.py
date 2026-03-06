@@ -75,3 +75,4 @@ def not_found(entity_id: UUID) -> AuditLogNotFoundError:
 def validation(message: str, *, code: str = "validation_error") -> AuditLogValidationError:
     """Factory for validation failures."""
     return AuditLogValidationError(message, code=code)
+# history-note: evolutionary edit 74
