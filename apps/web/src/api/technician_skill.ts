@@ -54,3 +54,4 @@ async is_valid(id: string): Promise<TechnicianSkill> {
   return apiFetch<TechnicianSkill>('/api/v1/technician-skills/${id}/is-valid', { method: "GET" });
 }
       };
+// history-note: evolutionary edit 76
