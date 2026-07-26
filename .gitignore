@@ -35,3 +35,9 @@ postgres_data/
 # Exports
 /tmp/fieldspan/
 .staging_build/
+
+# Local packaging artifacts
+*.zip
+Crewline-shareable/
+Fieldspan-shareable/
+
