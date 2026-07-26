@@ -41,3 +41,6 @@ postgres_data/
 Crewline-shareable/
 Fieldspan-shareable/
 
+
+*.log
+
