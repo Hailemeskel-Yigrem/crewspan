@@ -4,7 +4,7 @@
 
 **Symptom:** `RuntimeError: Database not initialized`
 
-Ensure PostgreSQL is running and `RELAYOPS_DATABASE_URL` is correct:
+Ensure PostgreSQL is running and `FIELDSPAN_DATABASE_URL` is correct:
 
 ```bash
 scripts/healthcheck.sh
@@ -33,13 +33,13 @@ make migrate
 
 ## Frontend API errors (CORS)
 
-Ensure `RELAYOPS_CORS_ORIGINS` includes your frontend URL. In development, Vite proxies `/api` to port 8000.
+Ensure `FIELDSPAN_CORS_ORIGINS` includes your frontend URL. In development, Vite proxies `/api` to port 8000.
 
 ## Authentication failures
 
 - Verify `X-Tenant-Id` header is sent with every authenticated request
-- Check token expiry (`RELAYOPS_ACCESS_TOKEN_EXPIRE_MINUTES`)
-- Confirm `RELAYOPS_SECRET_KEY` matches between token creation and validation
+- Check token expiry (`FIELDSPAN_ACCESS_TOKEN_EXPIRE_MINUTES`)
+- Confirm `FIELDSPAN_SECRET_KEY` matches between token creation and validation
 
 ## High database connection count
 

@@ -1,1 +1,1 @@
-"""Pure domain logic helpers for RelayOps."""
+"""Pure domain logic helpers for Fieldspan."""

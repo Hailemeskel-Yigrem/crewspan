@@ -1,1 +1,1 @@
-"""RelayOps API package."""
+"""Fieldspan API package."""

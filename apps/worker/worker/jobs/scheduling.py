@@ -7,12 +7,12 @@ from datetime import datetime, timedelta, timezone
 import structlog
 from celery import shared_task
 
-from worker.base import RelayOpsTask
+from worker.base import FieldspanTask
 
 logger = structlog.get_logger(__name__)
 
 
-@shared_task(base=RelayOpsTask, name="worker.jobs.scheduling.send_upcoming_appointment_reminders")
+@shared_task(base=FieldspanTask, name="worker.jobs.scheduling.send_upcoming_appointment_reminders")
 def send_upcoming_appointment_reminders(*, horizon_hours: int = 24) -> dict[str, int]:
     """Find appointments starting within horizon and notify assigned technicians."""
     now = datetime.now(timezone.utc)
@@ -28,7 +28,7 @@ def send_upcoming_appointment_reminders(*, horizon_hours: int = 24) -> dict[str,
     return {"reminders_sent": reminders_sent}
 
 
-@shared_task(base=RelayOpsTask, name="worker.jobs.scheduling.detect_schedule_conflicts")
+@shared_task(base=FieldspanTask, name="worker.jobs.scheduling.detect_schedule_conflicts")
 def detect_schedule_conflicts(
     technician_id: str,
     *,
@@ -48,7 +48,7 @@ def detect_schedule_conflicts(
     return {"has_conflicts": bool(conflicts), "conflicts": conflicts}
 
 
-@shared_task(base=RelayOpsTask, name="worker.jobs.scheduling.auto_dispatch_overdue")
+@shared_task(base=FieldspanTask, name="worker.jobs.scheduling.auto_dispatch_overdue")
 def auto_dispatch_overdue(*, tenant_id: str, grace_minutes: int = 15) -> dict[str, int]:
     """Re-dispatch work orders past scheduled start without technician acceptance."""
     cutoff = datetime.now(timezone.utc) - timedelta(minutes=grace_minutes)
@@ -61,7 +61,7 @@ def auto_dispatch_overdue(*, tenant_id: str, grace_minutes: int = 15) -> dict[st
     return {"redispatched": redispatched}
 
 
-@shared_task(base=RelayOpsTask, name="worker.jobs.scheduling.sync_technician_calendar")
+@shared_task(base=FieldspanTask, name="worker.jobs.scheduling.sync_technician_calendar")
 def sync_technician_calendar(technician_id: str, *, tenant_id: str) -> dict[str, str]:
     """Push schedule blocks to external calendar provider (Google/Outlook)."""
     logger.info(

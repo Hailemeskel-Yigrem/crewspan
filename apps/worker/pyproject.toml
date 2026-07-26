@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "relayops-worker"
+name = "fieldspan-worker"
 version = "0.1.0"
-description = "RelayOps background job worker"
+description = "Fieldspan background job worker"
 requires-python = ">=3.11"
 dependencies = [
     "celery[redis]>=5.3.0",

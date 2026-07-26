@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import Response, APIRouter, Depends, Query, status
 
 from app.deps import get_db_session, get_tenant_id
 from app.domains.customer.repository import CustomerRepository
@@ -84,13 +84,14 @@ async def update_customer(
     return await service.update(entity_id, payload, tenant_id=tenant_id)
 
 
-@router.delete("/{entity_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{entity_id}", status_code=status.HTTP_204_NO_CONTENT, response_class=Response)
 async def delete_customer(
     entity_id: UUID,
     service: CustomerService = Depends(get_customer_service),
     tenant_id: UUID = Depends(get_tenant_id),
-) -> None:
+) -> Response:
     await service.delete(entity_id, tenant_id=tenant_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 @router.post("/{entity_id}/restore", response_model=CustomerRead)
 async def restore_customer(
     entity_id: UUID,
@@ -111,7 +112,7 @@ async def update_credit_limit(
         return CustomerRead.model_validate(result)
     return result
 
-@router.post("/{entity_id}/merge-into", response_model=CustomerRead, status_code=status.HTTP_201)
+@router.post("/{entity_id}/merge-into", response_model=CustomerRead, status_code=status.HTTP_201_CREATED)
 async def merge_into(
     entity_id: UUID,
     payload: CustomerMergeIntoRequest,

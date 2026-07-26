@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import date, datetime, timezone
 from decimal import Decimal
 from unittest.mock import AsyncMock, MagicMock
 from uuid import uuid4
@@ -18,11 +19,23 @@ def mock_repo():
     entity = MagicMock()
     entity.id = uuid4()
     entity.tenant_id = uuid4()
-    entity.status = "draft"
+    entity.name = "sample-name"
+    entity.description = "sample-description"
+    entity.priority = "sample-priority"
+    entity.response_minutes = 1
+    entity.resolution_minutes = 1
+    entity.business_hours_only = True
+    entity.escalation_rules = "sample-escalation_rules"
+    entity.is_active = True
+    entity.created_at = datetime.now(timezone.utc)
+    entity.updated_at = datetime.now(timezone.utc)
+    entity.deleted_at = None
     repo.get_by_id.return_value = entity
     repo.list.return_value = ([entity], 1)
     repo.count.return_value = 1
     repo.exists.return_value = True
+    repo.create.return_value = entity
+    repo.update.return_value = entity
     return repo
 
 
@@ -51,11 +64,11 @@ class TestSlaPolicyServiceGet:
     async def test_get_raises_not_found(self, service, mock_repo):
         mock_repo.get_by_id.return_value = None
         with pytest.raises(SlaPolicyNotFoundError):
-            await service.get(tenant_id=uuid4(), entity_id=uuid4())
+            await service.get(uuid4(), tenant_id=uuid4())
 
     @pytest.mark.asyncio
     async def test_get_returns_read_model(self, service):
-        result = await service.get(tenant_id=uuid4(), entity_id=uuid4())
+        result = await service.get(uuid4(), tenant_id=uuid4())
         assert result is not None
 
 

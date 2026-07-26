@@ -7,6 +7,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-ENV RELAYOPS_ENVIRONMENT=production
+ENV FIELDSPAN_ENVIRONMENT=production
 
-CMD ["celery", "-A", "worker.celery_app:celery_app", "worker", "--loglevel=info", "-Q", "relayops.default,relayops.notifications,relayops.scheduling,relayops.invoicing,relayops.webhooks,relayops.reports"]
+CMD ["celery", "-A", "worker.celery_app:celery_app", "worker", "--loglevel=info", "-Q", "fieldspan.default,fieldspan.notifications,fieldspan.scheduling,fieldspan.invoicing,fieldspan.webhooks,fieldspan.reports"]

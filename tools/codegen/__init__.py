@@ -1,4 +1,4 @@
-"""Code generation helpers for RelayOps repository bootstrap."""
+"""Code generation helpers for Fieldspan repository bootstrap."""
 
 from tools.codegen.domains import DOMAINS, DomainSpec, all_domains, get_domain
 from tools.codegen.generate_api import generate_api_tree, print_generation_summary

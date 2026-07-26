@@ -8,12 +8,12 @@ from decimal import Decimal
 import structlog
 from celery import shared_task
 
-from worker.base import RelayOpsTask
+from worker.base import FieldspanTask
 
 logger = structlog.get_logger(__name__)
 
 
-@shared_task(base=RelayOpsTask, name="worker.jobs.invoicing.generate_from_work_order")
+@shared_task(base=FieldspanTask, name="worker.jobs.invoicing.generate_from_work_order")
 def generate_from_work_order(work_order_id: str, *, tenant_id: str) -> dict[str, str]:
     """Create draft invoice from completed work order labor and parts."""
     logger.info(
@@ -40,7 +40,7 @@ def generate_from_work_order(work_order_id: str, *, tenant_id: str) -> dict[str,
     }
 
 
-@shared_task(base=RelayOpsTask, name="worker.jobs.invoicing.process_draft_invoices")
+@shared_task(base=FieldspanTask, name="worker.jobs.invoicing.process_draft_invoices")
 def process_draft_invoices(*, tenant_id: str | None = None) -> dict[str, int]:
     """Finalize and send draft invoices past issue date."""
     today = date.today()
@@ -50,7 +50,7 @@ def process_draft_invoices(*, tenant_id: str | None = None) -> dict[str, int]:
     return {"finalized": finalized, "sent": sent}
 
 
-@shared_task(base=RelayOpsTask, name="worker.jobs.invoicing.send_payment_reminders")
+@shared_task(base=FieldspanTask, name="worker.jobs.invoicing.send_payment_reminders")
 def send_payment_reminders(*, days_overdue: int = 7) -> dict[str, int]:
     """Email customers with overdue unpaid invoices."""
     logger.info("invoicing.payment_reminders", days_overdue=days_overdue)
@@ -58,7 +58,7 @@ def send_payment_reminders(*, days_overdue: int = 7) -> dict[str, int]:
     return {"reminders_sent": reminders}
 
 
-@shared_task(base=RelayOpsTask, name="worker.jobs.invoicing.recalculate_invoice_totals")
+@shared_task(base=FieldspanTask, name="worker.jobs.invoicing.recalculate_invoice_totals")
 def recalculate_invoice_totals(invoice_id: str, *, tenant_id: str) -> dict[str, str]:
     """Recompute invoice subtotal, tax, and total from line items."""
     logger.info("invoicing.recalculate", invoice_id=invoice_id, tenant_id=tenant_id)

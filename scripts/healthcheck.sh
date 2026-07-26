@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-API_URL="${RELAYOPS_API_URL:-http://localhost:8000}"
-WEB_URL="${RELAYOPS_WEB_URL:-http://localhost:3000}"
+API_URL="${FIELDSPAN_API_URL:-http://localhost:8000}"
+WEB_URL="${FIELDSPAN_WEB_URL:-http://localhost:3000}"
 
-echo "Checking RelayOps services..."
+echo "Checking Fieldspan services..."
 echo
 
 check() {

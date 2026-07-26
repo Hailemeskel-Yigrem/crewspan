@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to RelayOps are documented here.
+All notable changes to Fieldspan are documented here.
 
 ## [0.4.0] — 2026-07-15
 

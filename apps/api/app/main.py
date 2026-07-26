@@ -1,4 +1,4 @@
-"""RelayOps API application entrypoint."""
+"""Fieldspan API application entrypoint."""
 
 from __future__ import annotations
 
@@ -47,15 +47,15 @@ logger = structlog.get_logger(__name__)
 async def lifespan(app: FastAPI):
     configure_logging()
     await init_db()
-    logger.info("relayops.startup", environment=settings.environment)
+    logger.info("fieldspan.startup", environment=settings.environment)
     yield
     await close_db()
-    logger.info("relayops.shutdown")
+    logger.info("fieldspan.shutdown")
 
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title="RelayOps API",
+        title="Fieldspan API",
         description="Multi-tenant field service operations platform",
         version="0.1.0",
         lifespan=lifespan,
@@ -73,7 +73,7 @@ def create_app() -> FastAPI:
 
     @app.get("/health")
     async def health() -> dict[str, str]:
-        return {"status": "ok", "service": "relayops-api"}
+        return {"status": "ok", "service": "fieldspan-api"}
 
     @app.get("/ready")
     async def ready() -> dict[str, str]:

@@ -1,6 +1,6 @@
 # Database
 
-RelayOps uses PostgreSQL 15+ with SQLAlchemy 2.0 async ORM and Alembic migrations.
+Fieldspan uses PostgreSQL 15+ with SQLAlchemy 2.0 async ORM and Alembic migrations.
 
 ## Schema Overview
 

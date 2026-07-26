@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import date, datetime, timezone
 from decimal import Decimal
 from unittest.mock import AsyncMock, MagicMock
 from uuid import uuid4
@@ -18,11 +19,26 @@ def mock_repo():
     entity = MagicMock()
     entity.id = uuid4()
     entity.tenant_id = uuid4()
+    entity.invoice_number = "sample-invoice_number"
+    entity.customer_id = uuid4()
+    entity.work_order_id = uuid4()
     entity.status = "draft"
+    entity.issue_date = date.today()
+    entity.due_date = date.today()
+    entity.subtotal = Decimal('10.00')
+    entity.tax_amount = Decimal('10.00')
+    entity.total_amount = Decimal('10.00')
+    entity.currency = "sample-currency"
+    entity.notes = "sample-notes"
+    entity.created_at = datetime.now(timezone.utc)
+    entity.updated_at = datetime.now(timezone.utc)
+    entity.deleted_at = None
     repo.get_by_id.return_value = entity
     repo.list.return_value = ([entity], 1)
     repo.count.return_value = 1
     repo.exists.return_value = True
+    repo.create.return_value = entity
+    repo.update.return_value = entity
     return repo
 
 
@@ -54,11 +70,11 @@ class TestInvoiceServiceGet:
     async def test_get_raises_not_found(self, service, mock_repo):
         mock_repo.get_by_id.return_value = None
         with pytest.raises(InvoiceNotFoundError):
-            await service.get(tenant_id=uuid4(), entity_id=uuid4())
+            await service.get(uuid4(), tenant_id=uuid4())
 
     @pytest.mark.asyncio
     async def test_get_returns_read_model(self, service):
-        result = await service.get(tenant_id=uuid4(), entity_id=uuid4())
+        result = await service.get(uuid4(), tenant_id=uuid4())
         assert result is not None
 
 

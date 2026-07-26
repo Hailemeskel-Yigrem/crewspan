@@ -29,7 +29,7 @@
 
 ## Recommendations
 
-1. Rotate `RELAYOPS_SECRET_KEY` periodically
+1. Rotate `FIELDSPAN_SECRET_KEY` periodically
 2. Use short JWT expiry (≤ 60 minutes) with refresh token flow (planned)
 3. Enable rate limiting at API gateway
 4. Audit webhook secret rotation via `rotate_secret` endpoint

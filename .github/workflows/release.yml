@@ -20,6 +20,6 @@ jobs:
         with:
           context: ./apps/${{ matrix.service }}
           push: false
-          tags: relayops/${{ matrix.service }}:${{ github.ref_name }}
+          tags: fieldspan/${{ matrix.service }}:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

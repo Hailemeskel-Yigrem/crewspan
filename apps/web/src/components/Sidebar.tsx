@@ -21,7 +21,7 @@ export function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <span className="sidebar-logo">RelayOps</span>
+        <span className="sidebar-logo">Fieldspan</span>
         <span className="sidebar-tenant">{user?.tenantId?.slice(0, 8) ?? '—'}</span>
       </div>
       <nav className="sidebar-nav">

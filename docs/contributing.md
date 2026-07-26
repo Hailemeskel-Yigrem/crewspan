@@ -10,7 +10,7 @@
 ## Setup
 
 ```bash
-git clone <repo-url> RelayOps && cd RelayOps
+git clone <repo-url> Fieldspan && cd Fieldspan
 cp .env.example .env
 make install
 make up

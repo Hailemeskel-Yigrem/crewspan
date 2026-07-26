@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "relayops-api"
+name = "fieldspan-api"
 version = "0.1.0"
-description = "RelayOps multi-tenant field service operations API"
+description = "Fieldspan multi-tenant field service operations API"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.110.0",

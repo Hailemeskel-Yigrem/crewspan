@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import Response, APIRouter, Depends, Query, status
 
 from app.deps import get_db_session, get_tenant_id
 from app.domains.role.repository import RoleRepository
@@ -83,13 +83,14 @@ async def update_role(
     return await service.update(entity_id, payload, tenant_id=tenant_id)
 
 
-@router.delete("/{entity_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{entity_id}", status_code=status.HTTP_204_NO_CONTENT, response_class=Response)
 async def delete_role(
     entity_id: UUID,
     service: RoleService = Depends(get_role_service),
     tenant_id: UUID = Depends(get_tenant_id),
-) -> None:
+) -> Response:
     await service.delete(entity_id, tenant_id=tenant_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 @router.post("/{entity_id}/restore", response_model=RoleRead)
 async def restore_role(
     entity_id: UUID,
@@ -123,7 +124,7 @@ async def revoke_permission(
         return RoleRead.model_validate(result)
     return result
 
-@router.post("/{entity_id}/clone", response_model=RoleRead, status_code=status.HTTP_201)
+@router.post("/{entity_id}/clone", response_model=RoleRead, status_code=status.HTTP_201_CREATED)
 async def clone(
     entity_id: UUID,
     payload: RoleCloneRequest,

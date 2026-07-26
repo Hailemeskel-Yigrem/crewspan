@@ -33,5 +33,5 @@ apps/web/coverage/
 postgres_data/
 
 # Exports
-/tmp/relayops/
+/tmp/fieldspan/
 .staging_build/

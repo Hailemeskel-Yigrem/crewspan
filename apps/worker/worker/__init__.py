@@ -1,1 +1,1 @@
-"""RelayOps worker package."""
+"""Fieldspan worker package."""

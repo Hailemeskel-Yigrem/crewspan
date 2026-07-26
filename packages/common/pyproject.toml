@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "relayops-common"
+name = "fieldspan-common"
 version = "0.1.0"
-description = "Shared utilities for RelayOps services"
+description = "Shared utilities for Fieldspan services"
 requires-python = ">=3.11"
 dependencies = [
     "structlog>=24.1.0",

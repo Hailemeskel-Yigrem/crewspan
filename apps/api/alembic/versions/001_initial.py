@@ -1,4 +1,4 @@
-"""Initial RelayOps schema migration."""
+"""Initial Fieldspan schema migration."""
 
 from __future__ import annotations
 

@@ -25,7 +25,7 @@ function decodeToken(token: string): AuthUser | null {
       id: payload.sub ?? '',
       email: payload.email ?? '',
       fullName: payload.name ?? payload.email ?? 'User',
-      tenantId: payload.tenant_id ?? localStorage.getItem('relayops_tenant_id') ?? '',
+      tenantId: payload.tenant_id ?? localStorage.getItem('fieldspan_tenant_id') ?? '',
     };
   } catch {
     return null;
@@ -33,23 +33,23 @@ function decodeToken(token: string): AuthUser | null {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem('relayops_token'));
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem('fieldspan_token'));
   const [user, setUser] = useState<AuthUser | null>(() => {
-    const t = localStorage.getItem('relayops_token');
+    const t = localStorage.getItem('fieldspan_token');
     return t ? decodeToken(t) : null;
   });
 
   const login = useCallback(async (email: string, password: string, tenantId: string) => {
-    localStorage.setItem('relayops_tenant_id', tenantId);
+    localStorage.setItem('fieldspan_tenant_id', tenantId);
     const { token: newToken } = await apiLogin(email, password, tenantId);
-    localStorage.setItem('relayops_token', newToken);
+    localStorage.setItem('fieldspan_token', newToken);
     setToken(newToken);
     setUser(decodeToken(newToken));
   }, []);
 
   const logout = useCallback(() => {
-    localStorage.removeItem('relayops_token');
-    localStorage.removeItem('relayops_tenant_id');
+    localStorage.removeItem('fieldspan_token');
+    localStorage.removeItem('fieldspan_tenant_id');
     setToken(null);
     setUser(null);
   }, []);

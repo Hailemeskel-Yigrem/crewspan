@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import Response, APIRouter, Depends, Query, status
 
 from app.deps import get_db_session, get_tenant_id
 from app.domains.stock_movement.repository import StockMovementRepository
@@ -86,13 +86,14 @@ async def update_stock_movement(
     return await service.update(entity_id, payload, tenant_id=tenant_id)
 
 
-@router.delete("/{entity_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{entity_id}", status_code=status.HTTP_204_NO_CONTENT, response_class=Response)
 async def delete_stock_movement(
     entity_id: UUID,
     service: StockMovementService = Depends(get_stock_movement_service),
     tenant_id: UUID = Depends(get_tenant_id),
-) -> None:
+) -> Response:
     await service.delete(entity_id, tenant_id=tenant_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 @router.post("/{entity_id}/restore", response_model=StockMovementRead)
 async def restore_stock_movement(
     entity_id: UUID,

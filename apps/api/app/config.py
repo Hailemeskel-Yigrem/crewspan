@@ -1,4 +1,4 @@
-"""RelayOps API configuration with environment-aware validation."""
+"""Fieldspan API configuration with environment-aware validation."""
 
 from __future__ import annotations
 
@@ -13,18 +13,18 @@ Environment = Literal["development", "staging", "production", "test"]
 
 
 class Settings(BaseSettings):
-    """Application settings loaded from environment variables (RELAYOPS_ prefix)."""
+    """Application settings loaded from environment variables (FIELDSPAN_ prefix)."""
 
     model_config = SettingsConfigDict(
         env_file=".env",
-        env_prefix="RELAYOPS_",
+        env_prefix="FIELDSPAN_",
         extra="ignore",
         case_sensitive=False,
     )
 
     environment: Environment = "development"
     debug: bool = False
-    database_url: str = "postgresql+asyncpg://relayops:relayops@localhost:5432/relayops"
+    database_url: str = "postgresql+asyncpg://fieldspan:fieldspan@localhost:5432/fieldspan"
     redis_url: str = "redis://localhost:6379/0"
     secret_key: str = Field(default="change-me-in-production")
     access_token_expire_minutes: int = Field(default=60, ge=5, le=1440)
@@ -46,7 +46,7 @@ class Settings(BaseSettings):
     def validate_secret_key(cls, value: str, info) -> str:
         env = info.data.get("environment", "development")
         if env == "production" and value == "change-me-in-production":
-            raise ValueError("RELAYOPS_SECRET_KEY must be set in production")
+            raise ValueError("FIELDSPAN_SECRET_KEY must be set in production")
         if len(value) < 16:
             raise ValueError("secret_key must be at least 16 characters")
         return value

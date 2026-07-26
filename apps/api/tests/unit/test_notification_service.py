@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import date, datetime, timezone
 from decimal import Decimal
 from unittest.mock import AsyncMock, MagicMock
 from uuid import uuid4
@@ -18,11 +19,24 @@ def mock_repo():
     entity = MagicMock()
     entity.id = uuid4()
     entity.tenant_id = uuid4()
+    entity.recipient_id = uuid4()
+    entity.recipient_email = "sample-recipient_email"
+    entity.channel = "sample-channel"
+    entity.template_key = "sample-template_key"
+    entity.subject = "sample-subject"
+    entity.body = "sample-body"
     entity.status = "draft"
+    entity.sent_at = datetime.now(timezone.utc)
+    entity.payload_meta = "sample-payload_meta"
+    entity.created_at = datetime.now(timezone.utc)
+    entity.updated_at = datetime.now(timezone.utc)
+    entity.deleted_at = None
     repo.get_by_id.return_value = entity
     repo.list.return_value = ([entity], 1)
     repo.count.return_value = 1
     repo.exists.return_value = True
+    repo.create.return_value = entity
+    repo.update.return_value = entity
     return repo
 
 
@@ -54,11 +68,11 @@ class TestNotificationServiceGet:
     async def test_get_raises_not_found(self, service, mock_repo):
         mock_repo.get_by_id.return_value = None
         with pytest.raises(NotificationNotFoundError):
-            await service.get(tenant_id=uuid4(), entity_id=uuid4())
+            await service.get(uuid4(), tenant_id=uuid4())
 
     @pytest.mark.asyncio
     async def test_get_returns_read_model(self, service):
-        result = await service.get(tenant_id=uuid4(), entity_id=uuid4())
+        result = await service.get(uuid4(), tenant_id=uuid4())
         assert result is not None
 
 
