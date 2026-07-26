@@ -13,7 +13,7 @@ def partial_main_py(domains: list[DomainSpec]) -> str:
         f'    app.include_router({d.snake}_router, prefix="/api/v1")' for d in domains
     )
     return (
-        '"""Fieldspan API application entrypoint."""\n\n'
+        '"""Crewspan API application entrypoint."""\n\n'
         "from __future__ import annotations\n\n"
         "from contextlib import asynccontextmanager\n\n"
         "import structlog\n"
@@ -30,13 +30,13 @@ def partial_main_py(domains: list[DomainSpec]) -> str:
         "async def lifespan(app: FastAPI):\n"
         "    configure_logging()\n"
         "    await init_db()\n"
-        '    logger.info("fieldspan.startup", environment=settings.environment)\n'
+        '    logger.info("crewspan.startup", environment=settings.environment)\n'
         "    yield\n"
         "    await close_db()\n"
-        '    logger.info("fieldspan.shutdown")\n\n\n'
+        '    logger.info("crewspan.shutdown")\n\n\n'
         "def create_app() -> FastAPI:\n"
         "    app = FastAPI(\n"
-        '        title="Fieldspan API",\n'
+        '        title="Crewspan API",\n'
         '        description="Multi-tenant field service operations platform",\n'
         '        version="0.1.0",\n'
         "        lifespan=lifespan,\n"
@@ -53,7 +53,7 @@ def partial_main_py(domains: list[DomainSpec]) -> str:
         "    register_exception_handlers(app)\n\n"
         '    @app.get("/health")\n'
         "    async def health() -> dict[str, str]:\n"
-        '        return {"status": "ok", "service": "fieldspan-api"}\n\n'
+        '        return {"status": "ok", "service": "crewspan-api"}\n\n'
         '    @app.get("/ready")\n'
         "    async def ready() -> dict[str, str]:\n"
         '        return {"status": "ready"}\n\n'

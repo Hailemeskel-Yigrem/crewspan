@@ -10,11 +10,11 @@ Services: `api`, `web`, `worker`, `worker-beat`, `postgres`, `redis`
 
 ## Production Checklist
 
-1. Set strong `FIELDSPAN_SECRET_KEY` (32+ random bytes)
+1. Set strong `CREWSPAN_SECRET_KEY` (32+ random bytes)
 2. Configure managed PostgreSQL with SSL
 3. Use Redis Cluster or ElastiCache for Celery broker
 4. Enable HTTPS termination at load balancer
-5. Set `FIELDSPAN_CORS_ORIGINS` to production domain
+5. Set `CREWSPAN_CORS_ORIGINS` to production domain
 6. Configure log aggregation (JSON structured logs)
 7. Set up database backups and point-in-time recovery
 
@@ -23,9 +23,9 @@ Services: `api`, `web`, `worker`, `worker-beat`, `postgres`, `redis`
 Build images:
 
 ```bash
-docker build -t fieldspan-api:latest apps/api
-docker build -t fieldspan-web:latest apps/web
-docker build -t fieldspan-worker:latest apps/worker
+docker build -t crewspan-api:latest apps/api
+docker build -t crewspan-web:latest apps/web
+docker build -t crewspan-worker:latest apps/worker
 ```
 
 Deploy with secrets mounted for database URL, Redis URL, and JWT secret.
@@ -39,8 +39,8 @@ Deploy with secrets mounted for database URL, Redis URL, and JWT secret.
 
 | Setting | Development | Staging | Production |
 |---------|-------------|---------|------------|
-| `FIELDSPAN_DEBUG` | true | false | false |
-| `FIELDSPAN_LOG_JSON` | false | true | true |
+| `CREWSPAN_DEBUG` | true | false | false |
+| `CREWSPAN_LOG_JSON` | false | true | true |
 | DB | Docker postgres | Managed PG | Managed PG + SSL |
 | Redis | Docker redis | ElastiCache | ElastiCache cluster |
 | HTTPS | Vite proxy | TLS at LB | TLS at LB |
@@ -52,10 +52,10 @@ Deploy with secrets mounted for database URL, Redis URL, and JWT secret.
 |---------|-------|------|-------|
 | postgres | postgres:15 | 5432 | Persistent volume |
 | redis | redis:7 | 6379 | Broker + cache |
-| api | fieldspan-api | 8000 | Uvicorn, hot reload in dev |
-| web | fieldspan-web | 3000/80 | Vite dev or nginx prod |
-| worker | fieldspan-worker | — | Celery consumer |
-| worker-beat | fieldspan-worker | — | Celery beat scheduler |
+| api | crewspan-api | 8000 | Uvicorn, hot reload in dev |
+| web | crewspan-web | 3000/80 | Vite dev or nginx prod |
+| worker | crewspan-worker | — | Celery consumer |
+| worker-beat | crewspan-worker | — | Celery beat scheduler |
 
 ## Kubernetes Manifests (Outline)
 
@@ -67,23 +67,23 @@ spec:
     spec:
       containers:
         - name: api
-          image: fieldspan-api:0.4.0
+          image: crewspan-api:0.4.0
           envFrom:
             - secretRef:
-                name: fieldspan-secrets
+                name: crewspan-secrets
           livenessProbe:
             httpGet: {{ path: /health, port: 8000 }}
           readinessProbe:
             httpGet: {{ path: /ready, port: 8000 }}
 ```
 
-Secrets should include: `FIELDSPAN_DATABASE_URL`, `FIELDSPAN_REDIS_URL`, `FIELDSPAN_SECRET_KEY`.
+Secrets should include: `CREWSPAN_DATABASE_URL`, `CREWSPAN_REDIS_URL`, `CREWSPAN_SECRET_KEY`.
 
 ## Database Migrations in CI/CD
 
 ```bash
 # Run before rolling out new API version
-kubectl exec deploy/fieldspan-api -- alembic upgrade head
+kubectl exec deploy/crewspan-api -- alembic upgrade head
 ```
 
 Never run migrations concurrently from multiple pods — use a CI job or init container.

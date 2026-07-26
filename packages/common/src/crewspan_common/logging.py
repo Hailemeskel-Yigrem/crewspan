@@ -9,7 +9,7 @@ import structlog
 
 
 def configure_logging(*, level: str = "INFO", json_output: bool = True) -> None:
-    """Configure structlog for Fieldspan services."""
+    """Configure structlog for Crewspan services."""
     logging.basicConfig(format="%(message)s", stream=sys.stdout, level=getattr(logging, level.upper(), logging.INFO))
     processors: list[structlog.types.Processor] = [
         structlog.processors.add_log_level,

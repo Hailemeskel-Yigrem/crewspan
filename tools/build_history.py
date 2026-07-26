@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build Fieldspan git history spanning Mar 2023 – Mar 2026.
+"""Build Crewspan git history spanning Mar 2023 – Mar 2026.
 
 Replays ~200–280 deterministic commits using approved authors, phased codegen
 output, and evolutionary patch commits. Safe on Windows PowerShell (subprocess +
@@ -49,7 +49,7 @@ LICENSE_TEXT = textwrap.dedent(
     """\
     MIT License
 
-    Copyright (c) 2023 Fieldspan contributors
+    Copyright (c) 2023 Crewspan contributors
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -464,7 +464,7 @@ def plan_commits(all_paths: list[str], contents: dict[str, str], rng: random.Ran
 
     # --- Bootstrap ---
     add(
-        "Initial commit: Fieldspan project charter and repository metadata",
+        "Initial commit: Crewspan project charter and repository metadata",
         pick(lambda p: p in {"README.md", "LICENSE", ".gitignore"}),
         0,
     )
@@ -883,7 +883,7 @@ def collect_stats() -> dict[str, object]:
 
 
 def print_stats(stats: dict[str, object]) -> None:
-    print("\n=== Fieldspan history stats ===")
+    print("\n=== Crewspan history stats ===")
     print(f"Commits:     {stats['commits']}")
     print(f"Date range:  {stats['first_date']} .. {stats['last_date']}")
     print(f"Files:       {stats['files']}")
@@ -900,7 +900,7 @@ def print_stats(stats: dict[str, object]) -> None:
 
 def main() -> None:
     rng = random.Random(HISTORY_SEED)
-    print("Generating Fieldspan source tree…")
+    print("Generating Crewspan source tree…")
     contents = build_all_contents()
     print(f"  staged {len(contents)} files from codegen")
 

@@ -1,6 +1,6 @@
 # Architecture
 
-Fieldspan is a multi-tenant SaaS platform for field service operations. The system follows a modular monolith architecture with clear domain boundaries.
+Crewspan is a multi-tenant SaaS platform for field service operations. The system follows a modular monolith architecture with clear domain boundaries.
 
 ## High-Level Overview
 
@@ -25,7 +25,7 @@ Every tenant-scoped resource carries a `tenant_id` UUID. The API enforces tenant
 
 ## Domain Model
 
-Fieldspan implements 26 bounded contexts:
+Crewspan implements 26 bounded contexts:
 
 ### Tenant
 
@@ -225,7 +225,7 @@ The React SPA uses:
 
 ## Cross-Cutting Services
 
-Beyond per-domain modules, Fieldspan ships shared application services:
+Beyond per-domain modules, Crewspan ships shared application services:
 
 - **AuthService** — login, refresh tokens, password rotation with bcrypt
 - **ReportingService** — dashboard KPIs, technician utilization aggregates

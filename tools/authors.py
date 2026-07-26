@@ -1,4 +1,4 @@
-"""Commit authors for Fieldspan historical development."""
+"""Commit authors for Crewspan historical development."""
 
 AUTHORS = [
     ("Hailemeskel Yigrem", "hailemeskelyigrem5@gmail.com"),

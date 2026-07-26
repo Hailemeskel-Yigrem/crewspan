@@ -1,4 +1,4 @@
-# Fieldspan
+# Crewspan
 
 Multi-tenant field service operations platform for scheduling technicians, managing work orders, inventory, invoicing, and SLA compliance.
 
@@ -18,7 +18,7 @@ make seed        # Load demo tenant data
 ## Repository Structure
 
 ```
-Fieldspan/
+Crewspan/
 ├── apps/
 │   ├── api/          FastAPI backend (26 domain modules)
 │   ├── web/          Vite + React 18 frontend

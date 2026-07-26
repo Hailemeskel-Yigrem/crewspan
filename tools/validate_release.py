@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Fieldspan git history, scale, and authors before packaging."""
+"""Validate Crewspan git history, scale, and authors before packaging."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from datetime import date
 from pathlib import Path
 
 WORKSPACE = Path(__file__).resolve().parents[1]
-PROJECT = WORKSPACE / "fieldspan"
+PROJECT = WORKSPACE / "crewspan"
 sys.path.insert(0, str(WORKSPACE))
 
 from tools.authors import AUTHORS

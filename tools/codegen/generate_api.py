@@ -1,4 +1,4 @@
-"""Generate the Fieldspan FastAPI application tree."""
+"""Generate the Crewspan FastAPI application tree."""
 
 from __future__ import annotations
 
@@ -24,9 +24,9 @@ def _pyproject() -> str:
         build-backend = "setuptools.build_meta"
 
         [project]
-        name = "fieldspan-api"
+        name = "crewspan-api"
         version = "0.1.0"
-        description = "Fieldspan multi-tenant field service operations API"
+        description = "Crewspan multi-tenant field service operations API"
         requires-python = ">=3.11"
         dependencies = [
             "fastapi>=0.110.0",
@@ -89,7 +89,7 @@ def _requirements() -> str:
 
 def _main_py(router_imports: str, router_includes: str) -> str:
     return f'''\
-        """Fieldspan API application entrypoint."""
+        """Crewspan API application entrypoint."""
 
         from __future__ import annotations
 
@@ -113,15 +113,15 @@ def _main_py(router_imports: str, router_includes: str) -> str:
         async def lifespan(app: FastAPI):
             configure_logging()
             await init_db()
-            logger.info("fieldspan.startup", environment=settings.environment)
+            logger.info("crewspan.startup", environment=settings.environment)
             yield
             await close_db()
-            logger.info("fieldspan.shutdown")
+            logger.info("crewspan.shutdown")
 
 
         def create_app() -> FastAPI:
             app = FastAPI(
-                title="Fieldspan API",
+                title="Crewspan API",
                 description="Multi-tenant field service operations platform",
                 version="0.1.0",
                 lifespan=lifespan,
@@ -139,7 +139,7 @@ def _main_py(router_imports: str, router_includes: str) -> str:
 
             @app.get("/health")
             async def health() -> dict[str, str]:
-                return {{"status": "ok", "service": "fieldspan-api"}}
+                return {{"status": "ok", "service": "crewspan-api"}}
 
             @app.get("/ready")
             async def ready() -> dict[str, str]:
@@ -156,7 +156,7 @@ def _main_py(router_imports: str, router_includes: str) -> str:
 def _config_py() -> str:
     return textwrap.dedent(
         '''\
-        """Fieldspan API configuration with environment-aware validation."""
+        """Crewspan API configuration with environment-aware validation."""
 
         from __future__ import annotations
 
@@ -171,18 +171,18 @@ def _config_py() -> str:
 
 
         class Settings(BaseSettings):
-            """Application settings loaded from environment variables (FIELDSPAN_ prefix)."""
+            """Application settings loaded from environment variables (CREWSPAN_ prefix)."""
 
             model_config = SettingsConfigDict(
                 env_file=".env",
-                env_prefix="FIELDSPAN_",
+                env_prefix="CREWSPAN_",
                 extra="ignore",
                 case_sensitive=False,
             )
 
             environment: Environment = "development"
             debug: bool = False
-            database_url: str = "postgresql+asyncpg://fieldspan:fieldspan@localhost:5432/fieldspan"
+            database_url: str = "postgresql+asyncpg://crewspan:crewspan@localhost:5432/crewspan"
             redis_url: str = "redis://localhost:6379/0"
             secret_key: str = Field(default="change-me-in-production")
             access_token_expire_minutes: int = Field(default=60, ge=5, le=1440)
@@ -204,7 +204,7 @@ def _config_py() -> str:
             def validate_secret_key(cls, value: str, info) -> str:
                 env = info.data.get("environment", "development")
                 if env == "production" and value == "change-me-in-production":
-                    raise ValueError("FIELDSPAN_SECRET_KEY must be set in production")
+                    raise ValueError("CREWSPAN_SECRET_KEY must be set in production")
                 if len(value) < 16:
                     raise ValueError("secret_key must be at least 16 characters")
                 return value
@@ -824,7 +824,7 @@ def _alembic_ini() -> str:
         [alembic]
         script_location = alembic
         prepend_sys_path = .
-        sqlalchemy.url = postgresql+asyncpg://fieldspan:fieldspan@localhost:5432/fieldspan
+        sqlalchemy.url = postgresql+asyncpg://crewspan:crewspan@localhost:5432/crewspan
 
         [loggers]
         keys = root,sqlalchemy,alembic
@@ -964,7 +964,7 @@ def _initial_migration() -> str:
     upgrade = "\n".join(table_blocks)
     downgrade_tables = ", ".join(f'"{d.table_name or d.plural}"' for d in reversed(DOMAINS))
     return f'''\
-        """Initial Fieldspan schema migration."""
+        """Initial Crewspan schema migration."""
 
         from __future__ import annotations
 
@@ -1004,7 +1004,7 @@ def _dockerfile() -> str:
 
         COPY . .
 
-        ENV FIELDSPAN_ENVIRONMENT=production
+        ENV CREWSPAN_ENVIRONMENT=production
         EXPOSE 8000
 
         CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
@@ -1670,7 +1670,7 @@ def _export_service_py() -> str:
 
 
 def generate_api_tree(root: Path) -> dict[str, int]:
-    """Write the complete Fieldspan API tree under *root*.
+    """Write the complete Crewspan API tree under *root*.
 
     Returns a mapping of relative path -> line count for generated files.
     """
@@ -1683,7 +1683,7 @@ def generate_api_tree(root: Path) -> dict[str, int]:
     record("pyproject.toml", _pyproject())
     record("requirements.txt", _requirements())
     record("Dockerfile", _dockerfile())
-    record("app/__init__.py", '"""Fieldspan API package."""\n')
+    record("app/__init__.py", '"""Crewspan API package."""\n')
     record("app/config.py", _config_py())
     record("app/logging_config.py", _logging_config_py())
     record("app/middleware.py", _middleware_py())

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Finalize Fieldspan working tree for ZIP delivery (in-timeline commit + package)."""
+"""Finalize Crewspan working tree for ZIP delivery (in-timeline commit + package)."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 
 WORKSPACE = Path(__file__).resolve().parents[1]
-PROJECT = WORKSPACE / "fieldspan"
+PROJECT = WORKSPACE / "crewspan"
 sys.path.insert(0, str(WORKSPACE))
 
 from tools.authors import AUTHORS
@@ -115,7 +115,7 @@ trim_trailing_whitespace = false
 
 ## Supported versions
 
-Security fixes are applied to the latest release branch of Fieldspan.
+Security fixes are applied to the latest release branch of Crewspan.
 
 ## Reporting a vulnerability
 
@@ -129,17 +129,17 @@ Do not open public issues for vulnerabilities that expose tenant data or authent
 
 ## Hardening notes
 
-- Set `FIELDSPAN_SECRET_KEY` to a long random value in every non-development environment.
+- Set `CREWSPAN_SECRET_KEY` to a long random value in every non-development environment.
 - Require TLS termination in front of the API and web containers.
 - Rotate webhook signing secrets when endpoints are rotated.
-- Keep `FIELDSPAN_ENVIRONMENT=production` only behind validated configuration.
+- Keep `CREWSPAN_ENVIRONMENT=production` only behind validated configuration.
 """,
     )
     write(
         "CHANGELOG.md",
         """# Changelog
 
-All notable changes to Fieldspan are documented in [docs/changelog.md](docs/changelog.md).
+All notable changes to Crewspan are documented in [docs/changelog.md](docs/changelog.md).
 
 This root file exists so release tooling and GitHub Releases can discover the project history at the repository root.
 """,
@@ -211,7 +211,7 @@ def strip_sample_hosts_in_tree() -> list[str]:
                 """    # Production would load webhook URL and secret from database
     url = "https://example.com/webhook"
     secret = "placeholder-secret"
-    headers["X-Fieldspan-Signature"] = _sign_payload(secret, body)
+    headers["X-Crewspan-Signature"] = _sign_payload(secret, body)
     try:
         with httpx.Client(timeout=settings.webhook_timeout_seconds) as client:
             response = client.post(url, content=body, headers=headers)
@@ -232,7 +232,7 @@ def strip_sample_hosts_in_tree() -> list[str]:
         )
         return {"webhook_id": webhook_id, "status_code": 0, "skipped": True}
 
-    headers["X-Fieldspan-Signature"] = _sign_payload(secret, body)
+    headers["X-Crewspan-Signature"] = _sign_payload(secret, body)
     try:
         with httpx.Client(timeout=settings.webhook_timeout_seconds) as client:
             response = client.post(target_url, content=body, headers=headers)
@@ -244,8 +244,8 @@ def strip_sample_hosts_in_tree() -> list[str]:
     return {"webhook_id": webhook_id, "status_code": response.status_code}
 """,
             )
-        new = new.replace("user@example.com", "dispatcher@fieldspan.local")
-        new = new.replace("billing@example.com", "billing@fieldspan.local")
+        new = new.replace("user@example.com", "dispatcher@crewspan.local")
+        new = new.replace("billing@example.com", "billing@crewspan.local")
         new = new.replace("https://example.com/webhook", "")
         new = new.replace("http://example.com", "")
         new = new.replace("https://example.com", "")
@@ -310,7 +310,7 @@ def build_zip(output: Path) -> None:
             if should_skip(path):
                 continue
             # Keep .git fully (required for shareable history)
-            arc = Path("Fieldspan") / rel
+            arc = Path("Crewspan") / rel
             zf.write(path, arc.as_posix())
             count += 1
     size_mb = output.stat().st_size / (1024 * 1024)
@@ -348,7 +348,7 @@ def main() -> None:
         raise SystemExit(2)
     print("Working tree clean.")
 
-    build_zip(WORKSPACE / "Fieldspan-release.zip")
+    build_zip(WORKSPACE / "Crewspan-release.zip")
 
     # Final integrity checks
     commits = subprocess.run(

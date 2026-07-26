@@ -1,4 +1,4 @@
-"""Generate the Fieldspan Vite + React web application tree."""
+"""Generate the Crewspan Vite + React web application tree."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ def _write(path: Path, content: str) -> int:
 
 def _package_json() -> str:
     return """{
-  "name": "fieldspan-web",
+  "name": "crewspan-web",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -103,7 +103,7 @@ def _index_html() -> str:
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fieldspan — Field Service Operations</title>
+    <title>Crewspan — Field Service Operations</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
@@ -260,8 +260,8 @@ export interface PaginatedResponse<T> {
 }
 
 function getAuthHeaders(): Record<string, string> {
-  const token = localStorage.getItem('fieldspan_token');
-  const tenantId = localStorage.getItem('fieldspan_tenant_id');
+  const token = localStorage.getItem('crewspan_token');
+  const tenantId = localStorage.getItem('crewspan_tenant_id');
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (token) headers.Authorization = `Bearer ${token}`;
   if (tenantId) headers['X-Tenant-Id'] = tenantId;
@@ -323,7 +323,7 @@ function decodeToken(token: string): AuthUser | null {
       id: payload.sub ?? '',
       email: payload.email ?? '',
       fullName: payload.name ?? payload.email ?? 'User',
-      tenantId: payload.tenant_id ?? localStorage.getItem('fieldspan_tenant_id') ?? '',
+      tenantId: payload.tenant_id ?? localStorage.getItem('crewspan_tenant_id') ?? '',
     };
   } catch {
     return null;
@@ -331,23 +331,23 @@ function decodeToken(token: string): AuthUser | null {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem('fieldspan_token'));
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem('crewspan_token'));
   const [user, setUser] = useState<AuthUser | null>(() => {
-    const t = localStorage.getItem('fieldspan_token');
+    const t = localStorage.getItem('crewspan_token');
     return t ? decodeToken(t) : null;
   });
 
   const login = useCallback(async (email: string, password: string, tenantId: string) => {
-    localStorage.setItem('fieldspan_tenant_id', tenantId);
+    localStorage.setItem('crewspan_tenant_id', tenantId);
     const { token: newToken } = await apiLogin(email, password, tenantId);
-    localStorage.setItem('fieldspan_token', newToken);
+    localStorage.setItem('crewspan_token', newToken);
     setToken(newToken);
     setUser(decodeToken(newToken));
   }, []);
 
   const logout = useCallback(() => {
-    localStorage.removeItem('fieldspan_token');
-    localStorage.removeItem('fieldspan_tenant_id');
+    localStorage.removeItem('crewspan_token');
+    localStorage.removeItem('crewspan_tenant_id');
     setToken(null);
     setUser(null);
   }, []);
@@ -405,7 +405,7 @@ export function LoginPage() {
     <div className="login-page">
       <div className="login-card">
         <div className="login-brand">
-          <span className="login-logo">Fieldspan</span>
+          <span className="login-logo">Crewspan</span>
           <p className="login-tagline">Field service operations platform</p>
         </div>
         <form onSubmit={(e) => void handleSubmit(e)} className="login-form">
@@ -484,7 +484,7 @@ export function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <span className="sidebar-logo">Fieldspan</span>
+        <span className="sidebar-logo">Crewspan</span>
         <span className="sidebar-tenant">{user?.tenantId?.slice(0, 8) ?? '—'}</span>
       </div>
       <nav className="sidebar-nav">
@@ -2007,7 +2007,7 @@ export function SlaPoliciesPage() {
 
 
 def generate_web_tree(root: Path) -> dict[str, int]:
-    """Write the complete Fieldspan web application under *root*/apps/web."""
+    """Write the complete Crewspan web application under *root*/apps/web."""
     web_root = root / "apps" / "web"
     stats: dict[str, int] = {}
 

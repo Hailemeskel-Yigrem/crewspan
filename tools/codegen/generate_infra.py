@@ -1,4 +1,4 @@
-"""Generate Fieldspan infrastructure, scripts, and shared packages."""
+"""Generate Crewspan infrastructure, scripts, and shared packages."""
 
 from __future__ import annotations
 
@@ -18,15 +18,15 @@ def _docker_compose() -> str:
   postgres:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: fieldspan
-      POSTGRES_PASSWORD: fieldspan
-      POSTGRES_DB: fieldspan
+      POSTGRES_USER: crewspan
+      POSTGRES_PASSWORD: crewspan
+      POSTGRES_DB: crewspan
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U fieldspan"]
+      test: ["CMD-SHELL", "pg_isready -U crewspan"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -48,10 +48,10 @@ def _docker_compose() -> str:
     ports:
       - "8000:8000"
     environment:
-      FIELDSPAN_DATABASE_URL: postgresql+asyncpg://fieldspan:fieldspan@postgres:5432/fieldspan
-      FIELDSPAN_REDIS_URL: redis://redis:6379/0
-      FIELDSPAN_SECRET_KEY: dev-secret-change-in-production
-      FIELDSPAN_CORS_ORIGINS: '["http://localhost:3000"]'
+      CREWSPAN_DATABASE_URL: postgresql+asyncpg://crewspan:crewspan@postgres:5432/crewspan
+      CREWSPAN_REDIS_URL: redis://redis:6379/0
+      CREWSPAN_SECRET_KEY: dev-secret-change-in-production
+      CREWSPAN_CORS_ORIGINS: '["http://localhost:3000"]'
     depends_on:
       postgres:
         condition: service_healthy
@@ -72,9 +72,9 @@ def _docker_compose() -> str:
       context: ./apps/worker
       dockerfile: Dockerfile
     environment:
-      FIELDSPAN_DATABASE_URL: postgresql+asyncpg://fieldspan:fieldspan@postgres:5432/fieldspan
-      FIELDSPAN_CELERY_BROKER_URL: redis://redis:6379/1
-      FIELDSPAN_CELERY_RESULT_BACKEND: redis://redis:6379/2
+      CREWSPAN_DATABASE_URL: postgresql+asyncpg://crewspan:crewspan@postgres:5432/crewspan
+      CREWSPAN_CELERY_BROKER_URL: redis://redis:6379/1
+      CREWSPAN_CELERY_RESULT_BACKEND: redis://redis:6379/2
     depends_on:
       postgres:
         condition: service_healthy
@@ -86,8 +86,8 @@ def _docker_compose() -> str:
       context: ./apps/worker
       dockerfile: Dockerfile.beat
     environment:
-      FIELDSPAN_CELERY_BROKER_URL: redis://redis:6379/1
-      FIELDSPAN_CELERY_RESULT_BACKEND: redis://redis:6379/2
+      CREWSPAN_CELERY_BROKER_URL: redis://redis:6379/1
+      CREWSPAN_CELERY_RESULT_BACKEND: redis://redis:6379/2
     depends_on:
       - redis
       - worker
@@ -113,9 +113,9 @@ jobs:
       postgres:
         image: postgres:15-alpine
         env:
-          POSTGRES_USER: fieldspan
-          POSTGRES_PASSWORD: fieldspan
-          POSTGRES_DB: fieldspan_test
+          POSTGRES_USER: crewspan
+          POSTGRES_PASSWORD: crewspan
+          POSTGRES_DB: crewspan_test
         ports:
           - 5432:5432
         options: >-
@@ -138,7 +138,7 @@ jobs:
         run: ruff check apps/api packages
       - name: Test
         env:
-          FIELDSPAN_DATABASE_URL: postgresql+asyncpg://fieldspan:fieldspan@localhost:5432/fieldspan_test
+          CREWSPAN_DATABASE_URL: postgresql+asyncpg://crewspan:crewspan@localhost:5432/crewspan_test
         run: pytest apps/api/tests -v
 
   web-tests:
@@ -191,35 +191,35 @@ jobs:
         with:
           context: ./apps/${{ matrix.service }}
           push: false
-          tags: fieldspan/${{ matrix.service }}:${{ github.ref_name }}
+          tags: crewspan/${{ matrix.service }}:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 """
 
 
 def _env_example() -> str:
-    return """# Fieldspan Environment Configuration
+    return """# Crewspan Environment Configuration
 # Copy to .env and adjust for your environment
 
-FIELDSPAN_ENVIRONMENT=development
-FIELDSPAN_DEBUG=false
+CREWSPAN_ENVIRONMENT=development
+CREWSPAN_DEBUG=false
 
 # Database
-FIELDSPAN_DATABASE_URL=postgresql+asyncpg://fieldspan:fieldspan@localhost:5432/fieldspan
+CREWSPAN_DATABASE_URL=postgresql+asyncpg://crewspan:crewspan@localhost:5432/crewspan
 
 # Redis
-FIELDSPAN_REDIS_URL=redis://localhost:6379/0
-FIELDSPAN_CELERY_BROKER_URL=redis://localhost:6379/1
-FIELDSPAN_CELERY_RESULT_BACKEND=redis://localhost:6379/2
+CREWSPAN_REDIS_URL=redis://localhost:6379/0
+CREWSPAN_CELERY_BROKER_URL=redis://localhost:6379/1
+CREWSPAN_CELERY_RESULT_BACKEND=redis://localhost:6379/2
 
 # Security
-FIELDSPAN_SECRET_KEY=change-me-in-production-use-openssl-rand-hex-32
+CREWSPAN_SECRET_KEY=change-me-in-production-use-openssl-rand-hex-32
 
 # API
-FIELDSPAN_CORS_ORIGINS=["http://localhost:3000"]
-FIELDSPAN_ACCESS_TOKEN_EXPIRE_MINUTES=60
-FIELDSPAN_LOG_LEVEL=INFO
-FIELDSPAN_LOG_JSON=true
+CREWSPAN_CORS_ORIGINS=["http://localhost:3000"]
+CREWSPAN_ACCESS_TOKEN_EXPIRE_MINUTES=60
+CREWSPAN_LOG_LEVEL=INFO
+CREWSPAN_LOG_JSON=true
 """
 
 
@@ -306,7 +306,7 @@ apps/web/coverage/
 postgres_data/
 
 # Exports
-/tmp/fieldspan/
+/tmp/crewspan/
 """
 
 
@@ -368,7 +368,7 @@ import asyncio
 import uuid
 from datetime import datetime, timezone
 
-print("Fieldspan seed script")
+print("Crewspan seed script")
 print("=" * 40)
 
 TENANT_ID = str(uuid.uuid4())
@@ -409,10 +409,10 @@ def _healthcheck_script() -> str:
     return """#!/usr/bin/env bash
 set -euo pipefail
 
-API_URL="${FIELDSPAN_API_URL:-http://localhost:8000}"
-WEB_URL="${FIELDSPAN_WEB_URL:-http://localhost:3000}"
+API_URL="${CREWSPAN_API_URL:-http://localhost:8000}"
+WEB_URL="${CREWSPAN_WEB_URL:-http://localhost:3000}"
 
-echo "Checking Fieldspan services..."
+echo "Checking Crewspan services..."
 echo
 
 check() {
@@ -455,9 +455,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "fieldspan-common"
+name = "crewspan-common"
 version = "0.1.0"
-description = "Shared utilities for Fieldspan services"
+description = "Shared utilities for Crewspan services"
 requires-python = ">=3.11"
 dependencies = [
     "structlog>=24.1.0",
@@ -466,22 +466,22 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["src"]
 """,
-        "src/fieldspan_common/__init__.py": '"""Fieldspan shared utilities."""\n\n__version__ = "0.1.0"\n',
-        "src/fieldspan_common/errors.py": '''"""Shared error types for Fieldspan services."""
+        "src/crewspan_common/__init__.py": '"""Crewspan shared utilities."""\n\n__version__ = "0.1.0"\n',
+        "src/crewspan_common/errors.py": '''"""Shared error types for Crewspan services."""
 
 from __future__ import annotations
 
 
-class FieldspanError(Exception):
-    """Base exception for Fieldspan platform errors."""
+class CrewspanError(Exception):
+    """Base exception for Crewspan platform errors."""
 
-    def __init__(self, message: str, *, code: str = "fieldspan_error") -> None:
+    def __init__(self, message: str, *, code: str = "crewspan_error") -> None:
         self.message = message
         self.code = code
         super().__init__(message)
 
 
-class NotFoundError(FieldspanError):
+class NotFoundError(CrewspanError):
     """Raised when a requested resource does not exist."""
 
     def __init__(self, *, resource: str, identifier: str) -> None:
@@ -493,14 +493,14 @@ class NotFoundError(FieldspanError):
         )
 
 
-class ValidationError(FieldspanError):
+class ValidationError(CrewspanError):
     """Raised when input fails validation."""
 
     def __init__(self, message: str) -> None:
         super().__init__(message, code="validation_error")
 
 
-class TenantIsolationError(FieldspanError):
+class TenantIsolationError(CrewspanError):
     """Raised when a cross-tenant access is attempted."""
 
     def __init__(self, *, tenant_id: str, resource: str) -> None:
@@ -509,7 +509,7 @@ class TenantIsolationError(FieldspanError):
             code="tenant_isolation_violation",
         )
 ''',
-        "src/fieldspan_common/logging.py": '''"""Structured logging helpers."""
+        "src/crewspan_common/logging.py": '''"""Structured logging helpers."""
 
 from __future__ import annotations
 
@@ -520,7 +520,7 @@ import structlog
 
 
 def configure_logging(*, level: str = "INFO", json_output: bool = True) -> None:
-    """Configure structlog for Fieldspan services."""
+    """Configure structlog for Crewspan services."""
     logging.basicConfig(format="%(message)s", stream=sys.stdout, level=getattr(logging, level.upper(), logging.INFO))
     processors: list[structlog.types.Processor] = [
         structlog.processors.add_log_level,
@@ -552,9 +552,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "fieldspan-sdk"
+name = "crewspan-sdk"
 version = "0.1.0"
-description = "Python client for the Fieldspan API"
+description = "Python client for the Crewspan API"
 requires-python = ">=3.11"
 dependencies = [
     "httpx>=0.27.0",
@@ -564,8 +564,8 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["src"]
 """,
-        "src/fieldspan_sdk/__init__.py": '"""Fieldspan Python SDK."""\n\nfrom fieldspan_sdk.client import FieldspanClient, FieldspanAPIError\n\n__all__ = ["FieldspanClient", "FieldspanAPIError"]\n',
-        "src/fieldspan_sdk/client.py": '''"""Minimal Fieldspan API client."""
+        "src/crewspan_sdk/__init__.py": '"""Crewspan Python SDK."""\n\nfrom crewspan_sdk.client import CrewspanClient, CrewspanAPIError\n\n__all__ = ["CrewspanClient", "CrewspanAPIError"]\n',
+        "src/crewspan_sdk/client.py": '''"""Minimal Crewspan API client."""
 
 from __future__ import annotations
 
@@ -575,15 +575,15 @@ from uuid import UUID
 import httpx
 
 
-class FieldspanAPIError(Exception):
+class CrewspanAPIError(Exception):
     def __init__(self, message: str, *, status_code: int) -> None:
         self.message = message
         self.status_code = status_code
         super().__init__(message)
 
 
-class FieldspanClient:
-    """HTTP client for Fieldspan REST API."""
+class CrewspanClient:
+    """HTTP client for Crewspan REST API."""
 
     def __init__(
         self,
@@ -608,7 +608,7 @@ class FieldspanClient:
         with httpx.Client(base_url=self.base_url, timeout=self.timeout) as client:
             response = client.request(method, path, headers=self._headers(), **kwargs)
             if response.status_code >= 400:
-                raise FieldspanAPIError(response.text, status_code=response.status_code)
+                raise CrewspanAPIError(response.text, status_code=response.status_code)
             if response.status_code == 204:
                 return None
             return response.json()

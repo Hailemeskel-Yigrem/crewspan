@@ -33,13 +33,13 @@ apps/web/coverage/
 postgres_data/
 
 # Exports
-/tmp/fieldspan/
+/tmp/crewspan/
 .staging_build/
 
 # Local packaging artifacts
 *.zip
-Crewline-shareable/
-Fieldspan-shareable/
+Crewspan-shareable/
+Crewspan-shareable/
 
 
 *.log

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Zip this working tree (including .git) as Fieldspan. Does not create a git commit."""
+"""Zip this working tree (including .git) as Crewspan. Does not create a git commit."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUTPUT = ROOT.parent / "Fieldspan-shareable.zip"
+DEFAULT_OUTPUT = ROOT.parent / "Crewspan-shareable.zip"
 
 SKIP_DIR_NAMES = {
     ".ruff_cache",
@@ -21,7 +21,7 @@ SKIP_DIR_NAMES = {
 SKIP_SUFFIXES = {".pyc", ".zip", ".log"}
 
 
-def zip_fieldspan(output: Path) -> Path:
+def zip_crewspan(output: Path) -> Path:
     if not (ROOT / ".git").exists():
         raise SystemExit(f"No git repository at {ROOT}.")
 
@@ -37,9 +37,9 @@ def zip_fieldspan(output: Path) -> Path:
                 continue
             if path.suffix.lower() in SKIP_SUFFIXES:
                 continue
-            if path.name.startswith("Fieldspan-") and path.suffix == ".zip":
+            if path.name.startswith("Crewspan-") and path.suffix == ".zip":
                 continue
-            arcname = Path("Fieldspan") / path.relative_to(ROOT)
+            arcname = Path("Crewspan") / path.relative_to(ROOT)
             zf.write(path, arcname.as_posix())
 
     size_mb = output.stat().st_size / (1024 * 1024)
@@ -48,10 +48,10 @@ def zip_fieldspan(output: Path) -> Path:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Zip Fieldspan including .git")
+    parser = argparse.ArgumentParser(description="Zip Crewspan including .git")
     parser.add_argument("-o", "--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
-    zip_fieldspan(args.output)
+    zip_crewspan(args.output)
 
 
 if __name__ == "__main__":

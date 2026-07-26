@@ -9,13 +9,13 @@ from pathlib import Path
 import structlog
 from celery import shared_task
 
-from worker.base import FieldspanTask
+from worker.base import CrewspanTask
 from worker.config import settings
 
 logger = structlog.get_logger(__name__)
 
 
-@shared_task(base=FieldspanTask, name="worker.jobs.reports.export_work_orders_csv")
+@shared_task(base=CrewspanTask, name="worker.jobs.reports.export_work_orders_csv")
 def export_work_orders_csv(
     *,
     tenant_id: str,
@@ -46,7 +46,7 @@ def export_work_orders_csv(
     return {"filepath": str(filepath), "format": "csv"}
 
 
-@shared_task(base=FieldspanTask, name="worker.jobs.reports.export_sla_breaches")
+@shared_task(base=CrewspanTask, name="worker.jobs.reports.export_sla_breaches")
 def export_sla_breaches(*, tenant_id: str, month: str) -> dict[str, str]:
     """Generate monthly SLA breach summary report."""
     logger.info("reports.export.sla_breaches", tenant_id=tenant_id, month=month)
@@ -62,7 +62,7 @@ def export_sla_breaches(*, tenant_id: str, month: str) -> dict[str, str]:
     return {"filepath": str(filepath)}
 
 
-@shared_task(base=FieldspanTask, name="worker.jobs.reports.technician_utilization")
+@shared_task(base=CrewspanTask, name="worker.jobs.reports.technician_utilization")
 def technician_utilization(
     *,
     tenant_id: str,
@@ -80,7 +80,7 @@ def technician_utilization(
     return {"period_start": period_start, "period_end": period_end, "technicians": metrics}
 
 
-@shared_task(base=FieldspanTask, name="worker.jobs.reports.inventory_valuation")
+@shared_task(base=CrewspanTask, name="worker.jobs.reports.inventory_valuation")
 def inventory_valuation(*, tenant_id: str, as_of: str | None = None) -> dict[str, str]:
     """Calculate total inventory valuation across all locations."""
     valuation_date = as_of or date.today().isoformat()

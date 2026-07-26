@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Build Fieldspan into ./fieldspan with a multi-year git history.
+"""Build Crewspan into ./crewspan with a multi-year git history.
 
 Builds in a temporary directory (avoids Windows workspace file locks), then
-moves the finished repository (including .git) into ./fieldspan.
+moves the finished repository (including .git) into ./crewspan.
 """
 
 from __future__ import annotations
@@ -131,7 +131,7 @@ def patch_tools_into_contents(contents: dict[str, str]) -> None:
         "tools/build_history.py",
         "tools/run_bootstrap.py",
         "tools/zip_release.py",
-        "tools/ship_fieldspan.py",
+        "tools/ship_crewspan.py",
         "tools/build_cascaderelay.py",
     }
     tools_root = WORKSPACE / "tools"
@@ -150,7 +150,7 @@ def patch_tools_into_contents(contents: dict[str, str]) -> None:
 
 
 def main() -> None:
-    project = WORKSPACE / "fieldspan"
+    project = WORKSPACE / "crewspan"
     print("Generating source tree…")
     # Codegen staging + tooling paths resolve against the workspace.
     bh.ROOT = WORKSPACE
@@ -162,7 +162,7 @@ def main() -> None:
     planned = plan_commits(sorted(contents.keys()), contents, rng)
     follow = synthesize_followup_commits(contents, FOLLOWUP_COUNT, rng)
 
-    build_dir = Path(tempfile.mkdtemp(prefix="fieldspan_hist_"))
+    build_dir = Path(tempfile.mkdtemp(prefix="crewspan_hist_"))
     print(f"Replaying history in {build_dir}…")
     bh.ROOT = build_dir
 
@@ -195,12 +195,12 @@ def main() -> None:
 
     print(f"Publishing to {project}…")
     # Publish via a sibling folder first so a locked previous tree cannot block the move.
-    staged = project.parent / "fieldspan_publish"
+    staged = project.parent / "crewspan_publish"
     force_rm(staged)
     shutil.move(str(build_dir), str(staged))
     force_rm(project)
     if project.exists():
-        # Fall back: keep published tree under fieldspan_publish if swap is locked.
+        # Fall back: keep published tree under crewspan_publish if swap is locked.
         print(f"WARNING: could not replace {project}; leaving build at {staged}")
         project = staged
     else:
@@ -221,7 +221,7 @@ def main() -> None:
             except OSError:
                 pass
 
-    print("\n=== Fieldspan history stats ===")
+    print("\n=== Crewspan history stats ===")
     print(f"Commits:     {committed}")
     print(f"Date range:  {min(dates_s)} .. {max(dates_s)}")
     print(f"Files:       {file_count}")

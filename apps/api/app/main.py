@@ -1,4 +1,4 @@
-"""Fieldspan API application entrypoint."""
+"""Crewspan API application entrypoint."""
 
 from __future__ import annotations
 
@@ -47,15 +47,15 @@ logger = structlog.get_logger(__name__)
 async def lifespan(app: FastAPI):
     configure_logging()
     await init_db()
-    logger.info("fieldspan.startup", environment=settings.environment)
+    logger.info("crewspan.startup", environment=settings.environment)
     yield
     await close_db()
-    logger.info("fieldspan.shutdown")
+    logger.info("crewspan.shutdown")
 
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title="Fieldspan API",
+        title="Crewspan API",
         description="Multi-tenant field service operations platform",
         version="0.1.0",
         lifespan=lifespan,
@@ -73,7 +73,7 @@ def create_app() -> FastAPI:
 
     @app.get("/health")
     async def health() -> dict[str, str]:
-        return {"status": "ok", "service": "fieldspan-api"}
+        return {"status": "ok", "service": "crewspan-api"}
 
     @app.get("/ready")
     async def ready() -> dict[str, str]:

@@ -10,7 +10,7 @@
 ## Setup
 
 ```bash
-git clone <repo-url> Fieldspan && cd Fieldspan
+git clone <repo-url> Crewspan && cd Crewspan
 cp .env.example .env
 make install
 make up

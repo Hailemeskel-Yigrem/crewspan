@@ -1,4 +1,4 @@
-"""Generate the Fieldspan background worker application tree."""
+"""Generate the Crewspan background worker application tree."""
 
 from __future__ import annotations
 
@@ -23,9 +23,9 @@ def _worker_pyproject() -> str:
         build-backend = "setuptools.build_meta"
 
         [project]
-        name = "fieldspan-worker"
+        name = "crewspan-worker"
         version = "0.1.0"
-        description = "Fieldspan background job worker"
+        description = "Crewspan background job worker"
         requires-python = ">=3.11"
         dependencies = [
             "celery[redis]>=5.3.0",
@@ -63,7 +63,7 @@ def _worker_requirements() -> str:
 def _celery_app_py() -> str:
     return textwrap.dedent(
         '''\
-        """Celery application factory for Fieldspan workers."""
+        """Celery application factory for Crewspan workers."""
 
         from __future__ import annotations
 
@@ -75,7 +75,7 @@ def _celery_app_py() -> str:
         configure_logging()
 
         celery_app = Celery(
-            "fieldspan-worker",
+            "crewspan-worker",
             broker=settings.celery_broker_url,
             backend=settings.celery_result_backend,
             include=[
@@ -96,13 +96,13 @@ def _celery_app_py() -> str:
             task_track_started=True,
             task_acks_late=True,
             worker_prefetch_multiplier=1,
-            task_default_queue="fieldspan.default",
+            task_default_queue="crewspan.default",
             task_routes={
-                "worker.jobs.notifications.*": {"queue": "fieldspan.notifications"},
-                "worker.jobs.scheduling.*": {"queue": "fieldspan.scheduling"},
-                "worker.jobs.invoicing.*": {"queue": "fieldspan.invoicing"},
-                "worker.jobs.webhooks.*": {"queue": "fieldspan.webhooks"},
-                "worker.jobs.reports.*": {"queue": "fieldspan.reports"},
+                "worker.jobs.notifications.*": {"queue": "crewspan.notifications"},
+                "worker.jobs.scheduling.*": {"queue": "crewspan.scheduling"},
+                "worker.jobs.invoicing.*": {"queue": "crewspan.invoicing"},
+                "worker.jobs.webhooks.*": {"queue": "crewspan.webhooks"},
+                "worker.jobs.reports.*": {"queue": "crewspan.reports"},
             },
             beat_schedule={
                 "dispatch-schedule-reminders": {
@@ -134,16 +134,16 @@ def _worker_config_py() -> str:
 
 
         class WorkerSettings(BaseSettings):
-            model_config = SettingsConfigDict(env_file=".env", env_prefix="FIELDSPAN_", extra="ignore")
+            model_config = SettingsConfigDict(env_file=".env", env_prefix="CREWSPAN_", extra="ignore")
 
             environment: str = "development"
-            database_url: str = "postgresql+asyncpg://fieldspan:fieldspan@localhost:5432/fieldspan"
+            database_url: str = "postgresql+asyncpg://crewspan:crewspan@localhost:5432/crewspan"
             celery_broker_url: str = "redis://localhost:6379/1"
             celery_result_backend: str = "redis://localhost:6379/2"
             log_level: str = "INFO"
             webhook_timeout_seconds: int = 30
-            notification_from_email: str = "noreply@fieldspan.local"
-            report_export_dir: str = "/tmp/fieldspan/exports"
+            notification_from_email: str = "noreply@crewspan.local"
+            report_export_dir: str = "/tmp/crewspan/exports"
 
 
         settings = WorkerSettings()
@@ -199,7 +199,7 @@ def _worker_base_py() -> str:
         logger = structlog.get_logger(__name__)
 
 
-        class FieldspanTask(Task):
+        class CrewspanTask(Task):
             """Base task with structured logging and retry defaults."""
 
             autoretry_for = (Exception,)
@@ -236,13 +236,13 @@ def _notifications_job_py() -> str:
         import structlog
         from celery import shared_task
 
-        from worker.base import FieldspanTask
+        from worker.base import CrewspanTask
         from worker.config import settings
 
         logger = structlog.get_logger(__name__)
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.notifications.send_email")
+        @shared_task(base=CrewspanTask, name="worker.jobs.notifications.send_email")
         def send_email(notification_id: str, *, tenant_id: str) -> dict[str, str]:
             \"\"\"Deliver a queued email notification by ID.\"\"\"
             logger.info(
@@ -260,7 +260,7 @@ def _notifications_job_py() -> str:
             return {"status": "sent", "notification_id": notification_id, "delivered_at": delivered_at}
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.notifications.send_sms")
+        @shared_task(base=CrewspanTask, name="worker.jobs.notifications.send_sms")
         def send_sms(notification_id: str, *, tenant_id: str, phone: str) -> dict[str, str]:
             \"\"\"Deliver SMS notification to technician or customer contact.\"\"\"
             if not phone.startswith("+"):
@@ -274,7 +274,7 @@ def _notifications_job_py() -> str:
             return {"status": "sent", "notification_id": notification_id}
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.notifications.process_pending_batch")
+        @shared_task(base=CrewspanTask, name="worker.jobs.notifications.process_pending_batch")
         def process_pending_batch(*, tenant_id: str | None = None, limit: int = 100) -> dict[str, int]:
             \"\"\"Poll pending notifications and enqueue channel-specific delivery tasks.\"\"\"
             logger.info("notification.batch.start", tenant_id=tenant_id, limit=limit)
@@ -285,7 +285,7 @@ def _notifications_job_py() -> str:
             return {"processed": processed, "failed": failed}
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.notifications.dispatch_work_order_update")
+        @shared_task(base=CrewspanTask, name="worker.jobs.notifications.dispatch_work_order_update")
         def dispatch_work_order_update(
             work_order_id: str,
             *,
@@ -322,12 +322,12 @@ def _scheduling_job_py() -> str:
         import structlog
         from celery import shared_task
 
-        from worker.base import FieldspanTask
+        from worker.base import CrewspanTask
 
         logger = structlog.get_logger(__name__)
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.scheduling.send_upcoming_appointment_reminders")
+        @shared_task(base=CrewspanTask, name="worker.jobs.scheduling.send_upcoming_appointment_reminders")
         def send_upcoming_appointment_reminders(*, horizon_hours: int = 24) -> dict[str, int]:
             \"\"\"Find appointments starting within horizon and notify assigned technicians.\"\"\"
             now = datetime.now(timezone.utc)
@@ -343,7 +343,7 @@ def _scheduling_job_py() -> str:
             return {"reminders_sent": reminders_sent}
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.scheduling.detect_schedule_conflicts")
+        @shared_task(base=CrewspanTask, name="worker.jobs.scheduling.detect_schedule_conflicts")
         def detect_schedule_conflicts(
             technician_id: str,
             *,
@@ -363,7 +363,7 @@ def _scheduling_job_py() -> str:
             return {"has_conflicts": bool(conflicts), "conflicts": conflicts}
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.scheduling.auto_dispatch_overdue")
+        @shared_task(base=CrewspanTask, name="worker.jobs.scheduling.auto_dispatch_overdue")
         def auto_dispatch_overdue(*, tenant_id: str, grace_minutes: int = 15) -> dict[str, int]:
             \"\"\"Re-dispatch work orders past scheduled start without technician acceptance.\"\"\"
             cutoff = datetime.now(timezone.utc) - timedelta(minutes=grace_minutes)
@@ -376,7 +376,7 @@ def _scheduling_job_py() -> str:
             return {"redispatched": redispatched}
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.scheduling.sync_technician_calendar")
+        @shared_task(base=CrewspanTask, name="worker.jobs.scheduling.sync_technician_calendar")
         def sync_technician_calendar(technician_id: str, *, tenant_id: str) -> dict[str, str]:
             \"\"\"Push schedule blocks to external calendar provider (Google/Outlook).\"\"\"
             logger.info(
@@ -402,12 +402,12 @@ def _invoicing_job_py() -> str:
         import structlog
         from celery import shared_task
 
-        from worker.base import FieldspanTask
+        from worker.base import CrewspanTask
 
         logger = structlog.get_logger(__name__)
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.invoicing.generate_from_work_order")
+        @shared_task(base=CrewspanTask, name="worker.jobs.invoicing.generate_from_work_order")
         def generate_from_work_order(work_order_id: str, *, tenant_id: str) -> dict[str, str]:
             \"\"\"Create draft invoice from completed work order labor and parts.\"\"\"
             logger.info(
@@ -434,7 +434,7 @@ def _invoicing_job_py() -> str:
             }
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.invoicing.process_draft_invoices")
+        @shared_task(base=CrewspanTask, name="worker.jobs.invoicing.process_draft_invoices")
         def process_draft_invoices(*, tenant_id: str | None = None) -> dict[str, int]:
             \"\"\"Finalize and send draft invoices past issue date.\"\"\"
             today = date.today()
@@ -444,7 +444,7 @@ def _invoicing_job_py() -> str:
             return {"finalized": finalized, "sent": sent}
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.invoicing.send_payment_reminders")
+        @shared_task(base=CrewspanTask, name="worker.jobs.invoicing.send_payment_reminders")
         def send_payment_reminders(*, days_overdue: int = 7) -> dict[str, int]:
             \"\"\"Email customers with overdue unpaid invoices.\"\"\"
             logger.info("invoicing.payment_reminders", days_overdue=days_overdue)
@@ -452,7 +452,7 @@ def _invoicing_job_py() -> str:
             return {"reminders_sent": reminders}
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.invoicing.recalculate_invoice_totals")
+        @shared_task(base=CrewspanTask, name="worker.jobs.invoicing.recalculate_invoice_totals")
         def recalculate_invoice_totals(invoice_id: str, *, tenant_id: str) -> dict[str, str]:
             \"\"\"Recompute invoice subtotal, tax, and total from line items.\"\"\"
             logger.info("invoicing.recalculate", invoice_id=invoice_id, tenant_id=tenant_id)
@@ -477,7 +477,7 @@ def _webhooks_job_py() -> str:
         import structlog
         from celery import shared_task
 
-        from worker.base import FieldspanTask
+        from worker.base import CrewspanTask
         from worker.config import settings
 
         logger = structlog.get_logger(__name__)
@@ -487,7 +487,7 @@ def _webhooks_job_py() -> str:
             return hmac.new(secret.encode(), payload, hashlib.sha256).hexdigest()
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.webhooks.deliver_event")
+        @shared_task(base=CrewspanTask, name="worker.jobs.webhooks.deliver_event")
         def deliver_event(
             webhook_id: str,
             *,
@@ -505,13 +505,13 @@ def _webhooks_job_py() -> str:
             body = json.dumps({"event": event_type, "data": payload, "tenant_id": tenant_id}).encode()
             headers = {
                 "Content-Type": "application/json",
-                "X-Fieldspan-Event": event_type,
-                "X-Fieldspan-Timestamp": datetime.now(timezone.utc).isoformat(),
+                "X-Crewspan-Event": event_type,
+                "X-Crewspan-Timestamp": datetime.now(timezone.utc).isoformat(),
             }
             # Production would load webhook URL and secret from database
             url = "https://example.com/webhook"
             secret = "placeholder-secret"
-            headers["X-Fieldspan-Signature"] = _sign_payload(secret, body)
+            headers["X-Crewspan-Signature"] = _sign_payload(secret, body)
             try:
                 with httpx.Client(timeout=settings.webhook_timeout_seconds) as client:
                     response = client.post(url, content=body, headers=headers)
@@ -523,7 +523,7 @@ def _webhooks_job_py() -> str:
             return {"webhook_id": webhook_id, "status_code": response.status_code}
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.webhooks.retry_failed_deliveries")
+        @shared_task(base=CrewspanTask, name="worker.jobs.webhooks.retry_failed_deliveries")
         def retry_failed_deliveries(*, max_attempts: int = 5) -> dict[str, int]:
             \"\"\"Retry webhook deliveries that failed and are under max attempts.\"\"\"
             logger.info("webhook.retry.scan", max_attempts=max_attempts)
@@ -532,7 +532,7 @@ def _webhooks_job_py() -> str:
             return {"retried": retried, "permanently_failed": permanently_failed}
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.webhooks.disable_noisy_endpoints")
+        @shared_task(base=CrewspanTask, name="worker.jobs.webhooks.disable_noisy_endpoints")
         def disable_noisy_endpoints(*, failure_threshold: int = 10) -> dict[str, int]:
             \"\"\"Disable webhooks exceeding consecutive failure threshold.\"\"\"
             logger.info("webhook.disable_noisy", failure_threshold=failure_threshold)
@@ -556,13 +556,13 @@ def _reports_job_py() -> str:
         import structlog
         from celery import shared_task
 
-        from worker.base import FieldspanTask
+        from worker.base import CrewspanTask
         from worker.config import settings
 
         logger = structlog.get_logger(__name__)
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.reports.export_work_orders_csv")
+        @shared_task(base=CrewspanTask, name="worker.jobs.reports.export_work_orders_csv")
         def export_work_orders_csv(
             *,
             tenant_id: str,
@@ -593,7 +593,7 @@ def _reports_job_py() -> str:
             return {"filepath": str(filepath), "format": "csv"}
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.reports.export_sla_breaches")
+        @shared_task(base=CrewspanTask, name="worker.jobs.reports.export_sla_breaches")
         def export_sla_breaches(*, tenant_id: str, month: str) -> dict[str, str]:
             \"\"\"Generate monthly SLA breach summary report.\"\"\"
             logger.info("reports.export.sla_breaches", tenant_id=tenant_id, month=month)
@@ -609,7 +609,7 @@ def _reports_job_py() -> str:
             return {"filepath": str(filepath)}
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.reports.technician_utilization")
+        @shared_task(base=CrewspanTask, name="worker.jobs.reports.technician_utilization")
         def technician_utilization(
             *,
             tenant_id: str,
@@ -627,7 +627,7 @@ def _reports_job_py() -> str:
             return {"period_start": period_start, "period_end": period_end, "technicians": metrics}
 
 
-        @shared_task(base=FieldspanTask, name="worker.jobs.reports.inventory_valuation")
+        @shared_task(base=CrewspanTask, name="worker.jobs.reports.inventory_valuation")
         def inventory_valuation(*, tenant_id: str, as_of: str | None = None) -> dict[str, str]:
             \"\"\"Calculate total inventory valuation across all locations.\"\"\"
             valuation_date = as_of or date.today().isoformat()
@@ -649,9 +649,9 @@ def _worker_dockerfile() -> str:
 
         COPY . .
 
-        ENV FIELDSPAN_ENVIRONMENT=production
+        ENV CREWSPAN_ENVIRONMENT=production
 
-        CMD ["celery", "-A", "worker.celery_app:celery_app", "worker", "--loglevel=info", "-Q", "fieldspan.default,fieldspan.notifications,fieldspan.scheduling,fieldspan.invoicing,fieldspan.webhooks,fieldspan.reports"]
+        CMD ["celery", "-A", "worker.celery_app:celery_app", "worker", "--loglevel=info", "-Q", "crewspan.default,crewspan.notifications,crewspan.scheduling,crewspan.invoicing,crewspan.webhooks,crewspan.reports"]
         """
     )
 
@@ -674,7 +674,7 @@ def _worker_dockerfile_beat() -> str:
 
 
 def generate_worker_tree(root: Path) -> dict[str, int]:
-    """Write the Fieldspan worker tree under *root*.
+    """Write the Crewspan worker tree under *root*.
 
     Returns a mapping of relative path -> line count for generated files.
     """
@@ -688,7 +688,7 @@ def generate_worker_tree(root: Path) -> dict[str, int]:
     record("requirements.txt", _worker_requirements())
     record("Dockerfile", _worker_dockerfile())
     record("Dockerfile.beat", _worker_dockerfile_beat())
-    record("worker/__init__.py", '"""Fieldspan worker package."""\n')
+    record("worker/__init__.py", '"""Crewspan worker package."""\n')
     record("worker/config.py", _worker_config_py())
     record("worker/logging_config.py", _worker_logging_py())
     record("worker/celery_app.py", _celery_app_py())

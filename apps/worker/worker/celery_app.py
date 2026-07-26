@@ -1,4 +1,4 @@
-"""Celery application factory for Fieldspan workers."""
+"""Celery application factory for Crewspan workers."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from worker.logging_config import configure_logging
 configure_logging()
 
 celery_app = Celery(
-    "fieldspan-worker",
+    "crewspan-worker",
     broker=settings.celery_broker_url,
     backend=settings.celery_result_backend,
     include=[
@@ -31,13 +31,13 @@ celery_app.conf.update(
     task_track_started=True,
     task_acks_late=True,
     worker_prefetch_multiplier=1,
-    task_default_queue="fieldspan.default",
+    task_default_queue="crewspan.default",
     task_routes={
-        "worker.jobs.notifications.*": {"queue": "fieldspan.notifications"},
-        "worker.jobs.scheduling.*": {"queue": "fieldspan.scheduling"},
-        "worker.jobs.invoicing.*": {"queue": "fieldspan.invoicing"},
-        "worker.jobs.webhooks.*": {"queue": "fieldspan.webhooks"},
-        "worker.jobs.reports.*": {"queue": "fieldspan.reports"},
+        "worker.jobs.notifications.*": {"queue": "crewspan.notifications"},
+        "worker.jobs.scheduling.*": {"queue": "crewspan.scheduling"},
+        "worker.jobs.invoicing.*": {"queue": "crewspan.invoicing"},
+        "worker.jobs.webhooks.*": {"queue": "crewspan.webhooks"},
+        "worker.jobs.reports.*": {"queue": "crewspan.reports"},
     },
     beat_schedule={
         "dispatch-schedule-reminders": {

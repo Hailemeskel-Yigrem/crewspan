@@ -1,4 +1,4 @@
-"""Fieldspan domain specifications for API code generation."""
+"""Crewspan domain specifications for API code generation."""
 
 from __future__ import annotations
 

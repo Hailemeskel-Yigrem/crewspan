@@ -1,11 +1,11 @@
-"""Tests for fieldspan_common package."""
+"""Tests for crewspan_common package."""
 
-from fieldspan_common.errors import FieldspanError, NotFoundError
-from fieldspan_common.logging import get_logger
+from crewspan_common.errors import CrewspanError, NotFoundError
+from crewspan_common.logging import get_logger
 
 
 def test_relay_ops_error_message():
-    err = FieldspanError("test error", code="test_code")
+    err = CrewspanError("test error", code="test_code")
     assert err.message == "test error"
     assert err.code == "test_code"
 

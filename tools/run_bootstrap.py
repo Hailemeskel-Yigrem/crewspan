@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bootstrap Fieldspan in-place with a full multi-year git history."""
+"""Bootstrap Crewspan in-place with a full multi-year git history."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ PRODUCT_DIRS = (
     "packages",
     "scripts",
     ".github",
-    "fieldspan",
+    "crewspan",
     ".staging_build",
     ".staging_probe",
     "cascaderelay",
@@ -80,7 +80,7 @@ def clean_product_tree() -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Bootstrap Fieldspan with git history")
+    parser = argparse.ArgumentParser(description="Bootstrap Crewspan with git history")
     parser.add_argument(
         "--fresh",
         action="store_true",

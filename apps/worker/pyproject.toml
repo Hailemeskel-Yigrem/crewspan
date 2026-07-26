@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "fieldspan-worker"
+name = "crewspan-worker"
 version = "0.1.0"
-description = "Fieldspan background job worker"
+description = "Crewspan background job worker"
 requires-python = ">=3.11"
 dependencies = [
     "celery[redis]>=5.3.0",

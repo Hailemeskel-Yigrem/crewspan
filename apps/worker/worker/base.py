@@ -11,7 +11,7 @@ from celery import Task
 logger = structlog.get_logger(__name__)
 
 
-class FieldspanTask(Task):
+class CrewspanTask(Task):
     """Base task with structured logging and retry defaults."""
 
     autoretry_for = (Exception,)

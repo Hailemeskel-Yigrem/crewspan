@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Fieldspan are documented here.
+All notable changes to Crewspan are documented here.
 
 ## [0.4.0] — 2026-07-15
 

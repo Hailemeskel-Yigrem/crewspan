@@ -1,4 +1,4 @@
-"""Expand Fieldspan with high-value workflow/logic modules (not filler)."""
+"""Expand Crewspan with high-value workflow/logic modules (not filler)."""
 
 from __future__ import annotations
 
@@ -44,7 +44,7 @@ def generate_expand_tree(root: Path) -> dict[str, str]:
         files[f"apps/web/src/features/{domain.plural}/selectors.test.ts"] = _selectors_test(domain)
 
     logic = {
-        "apps/api/app/logic/__init__.py": '"""Pure domain logic helpers for Fieldspan."""\n',
+        "apps/api/app/logic/__init__.py": '"""Pure domain logic helpers for Crewspan."""\n',
         "apps/api/app/logic/dispatch_optimizer.py": DISPATCH_OPTIMIZER,
         "apps/api/app/logic/sla_clock.py": SLA_CLOCK,
         "apps/api/app/logic/geo.py": GEO,
@@ -168,7 +168,7 @@ def generate_expand_tree(root: Path) -> dict[str, str]:
             f"# ADR-{num}: {title}\n\n"
             "## Status\n\nAccepted\n\n"
             "## Context\n\n"
-            "Fieldspan is a multi-tenant field service platform. Architectural boundaries must "
+            "Crewspan is a multi-tenant field service platform. Architectural boundaries must "
             "stay testable as domains grow.\n\n"
             "## Decision\n\n"
             f"{decision}\n\n"
@@ -180,7 +180,7 @@ def generate_expand_tree(root: Path) -> dict[str, str]:
 
     files["docs/guides/operator-handbook.md"] = (
         "# Operator Handbook\n\n"
-        "Practical checklist for Fieldspan tenant operators.\n\n"
+        "Practical checklist for Crewspan tenant operators.\n\n"
         "## Daily\n\n"
         "1. Review open work orders older than SLA target\n"
         "2. Confirm technician schedules have no conflicts\n"

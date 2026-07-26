@@ -1,4 +1,4 @@
-"""Template functions for Fieldspan web application code generation."""
+"""Template functions for Crewspan web application code generation."""
 
 from __future__ import annotations
 

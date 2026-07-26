@@ -18,8 +18,8 @@ export interface PaginatedResponse<T> {
 }
 
 function getAuthHeaders(): Record<string, string> {
-  const token = localStorage.getItem('fieldspan_token');
-  const tenantId = localStorage.getItem('fieldspan_tenant_id');
+  const token = localStorage.getItem('crewspan_token');
+  const tenantId = localStorage.getItem('crewspan_tenant_id');
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (token) headers.Authorization = `Bearer ${token}`;
   if (tenantId) headers['X-Tenant-Id'] = tenantId;

@@ -138,7 +138,7 @@ Deleted records are excluded from list/count unless `include_deleted=true` (admi
 
 ## Rate Limiting
 
-Production deployments should enforce rate limits at the gateway. Fieldspan includes a token-bucket helper (`app/logic/rate_limit.py`) suitable for edge adapters. Default config: 120 requests/minute per tenant (configurable via `FIELDSPAN_RATE_LIMIT_PER_MINUTE`).
+Production deployments should enforce rate limits at the gateway. Crewspan includes a token-bucket helper (`app/logic/rate_limit.py`) suitable for edge adapters. Default config: 120 requests/minute per tenant (configurable via `CREWSPAN_RATE_LIMIT_PER_MINUTE`).
 
 ## Idempotency
 

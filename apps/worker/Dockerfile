@@ -7,6 +7,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-ENV FIELDSPAN_ENVIRONMENT=production
+ENV CREWSPAN_ENVIRONMENT=production
 
-CMD ["celery", "-A", "worker.celery_app:celery_app", "worker", "--loglevel=info", "-Q", "fieldspan.default,fieldspan.notifications,fieldspan.scheduling,fieldspan.invoicing,fieldspan.webhooks,fieldspan.reports"]
+CMD ["celery", "-A", "worker.celery_app:celery_app", "worker", "--loglevel=info", "-Q", "crewspan.default,crewspan.notifications,crewspan.scheduling,crewspan.invoicing,crewspan.webhooks,crewspan.reports"]

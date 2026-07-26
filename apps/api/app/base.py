@@ -6,4 +6,4 @@ from sqlalchemy.orm import DeclarativeBase
 
 
 class Base(DeclarativeBase):
-    """Base class for Fieldspan ORM models."""
+    """Base class for Crewspan ORM models."""

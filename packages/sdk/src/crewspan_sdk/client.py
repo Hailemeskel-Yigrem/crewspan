@@ -1,4 +1,4 @@
-"""Minimal Fieldspan API client."""
+"""Minimal Crewspan API client."""
 
 from __future__ import annotations
 
@@ -8,15 +8,15 @@ from uuid import UUID
 import httpx
 
 
-class FieldspanAPIError(Exception):
+class CrewspanAPIError(Exception):
     def __init__(self, message: str, *, status_code: int) -> None:
         self.message = message
         self.status_code = status_code
         super().__init__(message)
 
 
-class FieldspanClient:
-    """HTTP client for Fieldspan REST API."""
+class CrewspanClient:
+    """HTTP client for Crewspan REST API."""
 
     def __init__(
         self,
@@ -41,7 +41,7 @@ class FieldspanClient:
         with httpx.Client(base_url=self.base_url, timeout=self.timeout) as client:
             response = client.request(method, path, headers=self._headers(), **kwargs)
             if response.status_code >= 400:
-                raise FieldspanAPIError(response.text, status_code=response.status_code)
+                raise CrewspanAPIError(response.text, status_code=response.status_code)
             if response.status_code == 204:
                 return None
             return response.json()

@@ -1,1 +1,1 @@
-"""Fieldspan API package."""
+"""Crewspan API package."""

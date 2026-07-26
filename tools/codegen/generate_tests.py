@@ -1,4 +1,4 @@
-"""Generate Fieldspan test suites for API and web applications."""
+"""Generate Crewspan test suites for API and web applications."""
 
 from __future__ import annotations
 
@@ -47,7 +47,7 @@ def _write(path: Path, content: str) -> int:
 
 
 def _conftest_api() -> str:
-    return """\"\"\"Shared pytest fixtures for Fieldspan API tests.\"\"\"
+    return """\"\"\"Shared pytest fixtures for Crewspan API tests.\"\"\"
 
 from __future__ import annotations
 
@@ -104,14 +104,14 @@ describe('{page_name}', () => {{
 
 
 def _package_common_test() -> str:
-    return """\"\"\"Tests for fieldspan_common package.\"\"\"
+    return """\"\"\"Tests for crewspan_common package.\"\"\"
 
-from fieldspan_common.errors import FieldspanError, NotFoundError
-from fieldspan_common.logging import get_logger
+from crewspan_common.errors import CrewspanError, NotFoundError
+from crewspan_common.logging import get_logger
 
 
 def test_relay_ops_error_message():
-    err = FieldspanError("test error", code="test_code")
+    err = CrewspanError("test error", code="test_code")
     assert err.message == "test error"
     assert err.code == "test_code"
 
@@ -129,22 +129,22 @@ def test_get_logger_returns_logger():
 
 
 def _package_sdk_test() -> str:
-    return """\"\"\"Tests for fieldspan SDK client.\"\"\"
+    return """\"\"\"Tests for crewspan SDK client.\"\"\"
 
 from unittest.mock import MagicMock, patch
 from uuid import uuid4
 
 import pytest
 
-from fieldspan_sdk.client import FieldspanClient, FieldspanAPIError
+from crewspan_sdk.client import CrewspanClient, CrewspanAPIError
 
 
 def test_client_requires_base_url():
-    client = FieldspanClient(base_url="http://localhost:8000", tenant_id=str(uuid4()))
+    client = CrewspanClient(base_url="http://localhost:8000", tenant_id=str(uuid4()))
     assert client.base_url == "http://localhost:8000"
 
 
-@patch("fieldspan_sdk.client.httpx.Client")
+@patch("crewspan_sdk.client.httpx.Client")
 def test_list_work_orders(mock_client_cls):
     mock_response = MagicMock()
     mock_response.status_code = 200
@@ -152,13 +152,13 @@ def test_list_work_orders(mock_client_cls):
     mock_response.raise_for_status = MagicMock()
     mock_client_cls.return_value.__enter__.return_value.get.return_value = mock_response
 
-    client = FieldspanClient(base_url="http://localhost:8000", tenant_id=str(uuid4()), token="tok")
+    client = CrewspanClient(base_url="http://localhost:8000", tenant_id=str(uuid4()), token="tok")
     result = client.list_work_orders()
     assert result["total"] == 0
 
 
 def test_api_error_attributes():
-    err = FieldspanAPIError("Not found", status_code=404)
+    err = CrewspanAPIError("Not found", status_code=404)
     assert err.status_code == 404
 """
 

@@ -10,7 +10,7 @@ from datetime import datetime
 from pathlib import Path
 
 WORKSPACE = Path(__file__).resolve().parents[1]
-PROJECT = WORKSPACE / "fieldspan"
+PROJECT = WORKSPACE / "crewspan"
 sys.path.insert(0, str(WORKSPACE))
 
 from tools.authors import AUTHORS
@@ -72,7 +72,7 @@ def test_ready_endpoint():
     )
     write(
         "apps/api/tests/conftest.py",
-        '''"""Shared pytest fixtures for Fieldspan API tests."""
+        '''"""Shared pytest fixtures for Crewspan API tests."""
 
 from __future__ import annotations
 
@@ -81,8 +81,8 @@ from uuid import uuid4
 
 import pytest
 
-os.environ.setdefault("FIELDSPAN_ENVIRONMENT", "test")
-os.environ.setdefault("FIELDSPAN_DATABASE_URL", "sqlite+aiosqlite:///:memory:")
+os.environ.setdefault("CREWSPAN_ENVIRONMENT", "test")
+os.environ.setdefault("CREWSPAN_DATABASE_URL", "sqlite+aiosqlite:///:memory:")
 
 
 @pytest.fixture

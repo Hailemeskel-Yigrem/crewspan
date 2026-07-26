@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "fieldspan-common"
+name = "crewspan-common"
 version = "0.1.0"
-description = "Shared utilities for Fieldspan services"
+description = "Shared utilities for Crewspan services"
 requires-python = ">=3.11"
 dependencies = [
     "structlog>=24.1.0",

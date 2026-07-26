@@ -1,4 +1,4 @@
-"""Generate Fieldspan documentation tree."""
+"""Generate Crewspan documentation tree."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ def _write(path: Path, content: str) -> int:
 
 def _root_readme() -> str:
     domains_list = "\n".join(f"- **{d.title}** — {d.description}" for d in DOMAINS[:8])
-    return f"""# Fieldspan
+    return f"""# Crewspan
 
 Multi-tenant field service operations platform for scheduling technicians, managing work orders, inventory, invoicing, and SLA compliance.
 
@@ -37,7 +37,7 @@ make seed        # Load demo tenant data
 ## Repository Structure
 
 ```
-Fieldspan/
+Crewspan/
 ├── apps/
 │   ├── api/          FastAPI backend ({len(DOMAINS)} domain modules)
 │   ├── web/          Vite + React 18 frontend
@@ -73,9 +73,9 @@ Proprietary — All rights reserved.
 
 
 def _docs_readme() -> str:
-    return """# Fieldspan Documentation
+    return """# Crewspan Documentation
 
-Welcome to the Fieldspan documentation hub.
+Welcome to the Crewspan documentation hub.
 
 | Document | Description |
 |----------|-------------|
@@ -99,7 +99,7 @@ def _architecture_md() -> str:
     )
     return f"""# Architecture
 
-Fieldspan is a multi-tenant SaaS platform for field service operations. The system follows a modular monolith architecture with clear domain boundaries.
+Crewspan is a multi-tenant SaaS platform for field service operations. The system follows a modular monolith architecture with clear domain boundaries.
 
 ## High-Level Overview
 
@@ -124,7 +124,7 @@ Every tenant-scoped resource carries a `tenant_id` UUID. The API enforces tenant
 
 ## Domain Model
 
-Fieldspan implements {len(DOMAINS)} bounded contexts:
+Crewspan implements {len(DOMAINS)} bounded contexts:
 
 {domain_sections}
 
@@ -170,7 +170,7 @@ The React SPA uses:
 
 ## Cross-Cutting Services
 
-Beyond per-domain modules, Fieldspan ships shared application services:
+Beyond per-domain modules, Crewspan ships shared application services:
 
 - **AuthService** — login, refresh tokens, password rotation with bcrypt
 - **ReportingService** — dashboard KPIs, technician utilization aggregates
@@ -349,7 +349,7 @@ Deleted records are excluded from list/count unless `include_deleted=true` (admi
 
 ## Rate Limiting
 
-Production deployments should enforce rate limits at the gateway. Fieldspan includes a token-bucket helper (`app/logic/rate_limit.py`) suitable for edge adapters. Default config: 120 requests/minute per tenant (configurable via `FIELDSPAN_RATE_LIMIT_PER_MINUTE`).
+Production deployments should enforce rate limits at the gateway. Crewspan includes a token-bucket helper (`app/logic/rate_limit.py`) suitable for edge adapters. Default config: 120 requests/minute per tenant (configurable via `CREWSPAN_RATE_LIMIT_PER_MINUTE`).
 
 ## Idempotency
 
@@ -386,11 +386,11 @@ Services: `api`, `web`, `worker`, `worker-beat`, `postgres`, `redis`
 
 ## Production Checklist
 
-1. Set strong `FIELDSPAN_SECRET_KEY` (32+ random bytes)
+1. Set strong `CREWSPAN_SECRET_KEY` (32+ random bytes)
 2. Configure managed PostgreSQL with SSL
 3. Use Redis Cluster or ElastiCache for Celery broker
 4. Enable HTTPS termination at load balancer
-5. Set `FIELDSPAN_CORS_ORIGINS` to production domain
+5. Set `CREWSPAN_CORS_ORIGINS` to production domain
 6. Configure log aggregation (JSON structured logs)
 7. Set up database backups and point-in-time recovery
 
@@ -399,9 +399,9 @@ Services: `api`, `web`, `worker`, `worker-beat`, `postgres`, `redis`
 Build images:
 
 ```bash
-docker build -t fieldspan-api:latest apps/api
-docker build -t fieldspan-web:latest apps/web
-docker build -t fieldspan-worker:latest apps/worker
+docker build -t crewspan-api:latest apps/api
+docker build -t crewspan-web:latest apps/web
+docker build -t crewspan-worker:latest apps/worker
 ```
 
 Deploy with secrets mounted for database URL, Redis URL, and JWT secret.
@@ -415,8 +415,8 @@ Deploy with secrets mounted for database URL, Redis URL, and JWT secret.
 
 | Setting | Development | Staging | Production |
 |---------|-------------|---------|------------|
-| `FIELDSPAN_DEBUG` | true | false | false |
-| `FIELDSPAN_LOG_JSON` | false | true | true |
+| `CREWSPAN_DEBUG` | true | false | false |
+| `CREWSPAN_LOG_JSON` | false | true | true |
 | DB | Docker postgres | Managed PG | Managed PG + SSL |
 | Redis | Docker redis | ElastiCache | ElastiCache cluster |
 | HTTPS | Vite proxy | TLS at LB | TLS at LB |
@@ -428,10 +428,10 @@ Deploy with secrets mounted for database URL, Redis URL, and JWT secret.
 |---------|-------|------|-------|
 | postgres | postgres:15 | 5432 | Persistent volume |
 | redis | redis:7 | 6379 | Broker + cache |
-| api | fieldspan-api | 8000 | Uvicorn, hot reload in dev |
-| web | fieldspan-web | 3000/80 | Vite dev or nginx prod |
-| worker | fieldspan-worker | — | Celery consumer |
-| worker-beat | fieldspan-worker | — | Celery beat scheduler |
+| api | crewspan-api | 8000 | Uvicorn, hot reload in dev |
+| web | crewspan-web | 3000/80 | Vite dev or nginx prod |
+| worker | crewspan-worker | — | Celery consumer |
+| worker-beat | crewspan-worker | — | Celery beat scheduler |
 
 ## Kubernetes Manifests (Outline)
 
@@ -443,23 +443,23 @@ spec:
     spec:
       containers:
         - name: api
-          image: fieldspan-api:0.4.0
+          image: crewspan-api:0.4.0
           envFrom:
             - secretRef:
-                name: fieldspan-secrets
+                name: crewspan-secrets
           livenessProbe:
             httpGet: {{ path: /health, port: 8000 }}
           readinessProbe:
             httpGet: {{ path: /ready, port: 8000 }}
 ```
 
-Secrets should include: `FIELDSPAN_DATABASE_URL`, `FIELDSPAN_REDIS_URL`, `FIELDSPAN_SECRET_KEY`.
+Secrets should include: `CREWSPAN_DATABASE_URL`, `CREWSPAN_REDIS_URL`, `CREWSPAN_SECRET_KEY`.
 
 ## Database Migrations in CI/CD
 
 ```bash
 # Run before rolling out new API version
-kubectl exec deploy/fieldspan-api -- alembic upgrade head
+kubectl exec deploy/crewspan-api -- alembic upgrade head
 ```
 
 Never run migrations concurrently from multiple pods — use a CI job or init container.
@@ -494,7 +494,7 @@ def _database_md() -> str:
     tables = "\n".join(f"| `{d.table_name or d.plural}` | {d.title} | {'Yes' if d.tenant_scoped else 'No'} | {'Yes' if d.soft_delete else 'No'} |" for d in DOMAINS)
     return f"""# Database
 
-Fieldspan uses PostgreSQL 15+ with SQLAlchemy 2.0 async ORM and Alembic migrations.
+Crewspan uses PostgreSQL 15+ with SQLAlchemy 2.0 async ORM and Alembic migrations.
 
 ## Schema Overview
 
@@ -594,35 +594,35 @@ Alembic revision chain lives in `apps/api/alembic/versions/`. Initial migration 
 def _configuration_md() -> str:
     return """# Configuration
 
-All settings use the `FIELDSPAN_` environment prefix.
+All settings use the `CREWSPAN_` environment prefix.
 
 ## Required Variables
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `FIELDSPAN_DATABASE_URL` | PostgreSQL connection string | `postgresql+asyncpg://fieldspan:fieldspan@localhost:5432/fieldspan` |
-| `FIELDSPAN_REDIS_URL` | Redis connection string | `redis://localhost:6379/0` |
-| `FIELDSPAN_SECRET_KEY` | JWT signing key | `change-me-in-production` |
+| `CREWSPAN_DATABASE_URL` | PostgreSQL connection string | `postgresql+asyncpg://crewspan:crewspan@localhost:5432/crewspan` |
+| `CREWSPAN_REDIS_URL` | Redis connection string | `redis://localhost:6379/0` |
+| `CREWSPAN_SECRET_KEY` | JWT signing key | `change-me-in-production` |
 
 ## Optional Variables
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `FIELDSPAN_ENVIRONMENT` | `development` / `staging` / `production` | `development` |
-| `FIELDSPAN_DEBUG` | Enable SQL echo | `false` |
-| `FIELDSPAN_LOG_LEVEL` | Logging level | `INFO` |
-| `FIELDSPAN_LOG_JSON` | JSON log format | `true` |
-| `FIELDSPAN_CORS_ORIGINS` | Allowed CTA origins (JSON array) | `["http://localhost:3000"]` |
-| `FIELDSPAN_ACCESS_TOKEN_EXPIRE_MINUTES` | JWT TTL | `60` |
-| `FIELDSPAN_DEFAULT_PAGE_SIZE` | API pagination default | `50` |
+| `CREWSPAN_ENVIRONMENT` | `development` / `staging` / `production` | `development` |
+| `CREWSPAN_DEBUG` | Enable SQL echo | `false` |
+| `CREWSPAN_LOG_LEVEL` | Logging level | `INFO` |
+| `CREWSPAN_LOG_JSON` | JSON log format | `true` |
+| `CREWSPAN_CORS_ORIGINS` | Allowed CTA origins (JSON array) | `["http://localhost:3000"]` |
+| `CREWSPAN_ACCESS_TOKEN_EXPIRE_MINUTES` | JWT TTL | `60` |
+| `CREWSPAN_DEFAULT_PAGE_SIZE` | API pagination default | `50` |
 
 ## Worker Settings
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `FIELDSPAN_CELERY_BROKER_URL` | Celery broker | `redis://localhost:6379/1` |
-| `FIELDSPAN_CELERY_RESULT_BACKEND` | Celery results | `redis://localhost:6379/2` |
-| `FIELDSPAN_WEBHOOK_TIMEOUT_SECONDS` | Webhook HTTP timeout | `30` |
+| `CREWSPAN_CELERY_BROKER_URL` | Celery broker | `redis://localhost:6379/1` |
+| `CREWSPAN_CELERY_RESULT_BACKEND` | Celery results | `redis://localhost:6379/2` |
+| `CREWSPAN_WEBHOOK_TIMEOUT_SECONDS` | Webhook HTTP timeout | `30` |
 """
 
 
@@ -633,7 +633,7 @@ def _troubleshooting_md() -> str:
 
 **Symptom:** `RuntimeError: Database not initialized`
 
-Ensure PostgreSQL is running and `FIELDSPAN_DATABASE_URL` is correct:
+Ensure PostgreSQL is running and `CREWSPAN_DATABASE_URL` is correct:
 
 ```bash
 scripts/healthcheck.sh
@@ -662,13 +662,13 @@ make migrate
 
 ## Frontend API errors (CORS)
 
-Ensure `FIELDSPAN_CORS_ORIGINS` includes your frontend URL. In development, Vite proxies `/api` to port 8000.
+Ensure `CREWSPAN_CORS_ORIGINS` includes your frontend URL. In development, Vite proxies `/api` to port 8000.
 
 ## Authentication failures
 
 - Verify `X-Tenant-Id` header is sent with every authenticated request
-- Check token expiry (`FIELDSPAN_ACCESS_TOKEN_EXPIRE_MINUTES`)
-- Confirm `FIELDSPAN_SECRET_KEY` matches between token creation and validation
+- Check token expiry (`CREWSPAN_ACCESS_TOKEN_EXPIRE_MINUTES`)
+- Confirm `CREWSPAN_SECRET_KEY` matches between token creation and validation
 
 ## High database connection count
 
@@ -689,7 +689,7 @@ def _contributing_md() -> str:
 ## Setup
 
 ```bash
-git clone <repo-url> Fieldspan && cd Fieldspan
+git clone <repo-url> Crewspan && cd Crewspan
 cp .env.example .env
 make install
 make up
@@ -742,7 +742,7 @@ pre-commit run --all-files
 def _changelog_md() -> str:
     return """# Changelog
 
-All notable changes to Fieldspan are documented here.
+All notable changes to Crewspan are documented here.
 
 ## [0.4.0] — 2026-07-15
 
@@ -831,7 +831,7 @@ def _security_md() -> str:
 
 ## Recommendations
 
-1. Rotate `FIELDSPAN_SECRET_KEY` periodically
+1. Rotate `CREWSPAN_SECRET_KEY` periodically
 2. Use short JWT expiry (≤ 60 minutes) with refresh token flow (planned)
 3. Enable rate limiting at API gateway
 4. Audit webhook secret rotation via `rotate_secret` endpoint
@@ -882,7 +882,7 @@ def generate_docs_tree(root: Path) -> dict[str, int]:
 
     adrs = [
         (1, "Modular Monolith Architecture", "Accepted", "2023-11-15",
-         "Fieldspan needs to ship quickly while maintaining clear domain boundaries for a team of 3-5 engineers.",
+         "Crewspan needs to ship quickly while maintaining clear domain boundaries for a team of 3-5 engineers.",
          "Adopt a modular monolith: single deployable with domain modules (`app/domains/*`) each containing models, schemas, repository, service, and router.",
          "Positive: Simple deployment, shared transaction boundaries, easy refactoring. Negative: All modules scale together; may need extraction to services later."),
         (2, "UUID Primary Keys", "Accepted", "2023-11-20",
@@ -894,7 +894,7 @@ def generate_docs_tree(root: Path) -> dict[str, int]:
          "Require `X-Tenant-Id` header on all authenticated requests. Embed tenant_id in JWT. Filter all repository queries by tenant_id.",
          "Positive: Strong isolation, simple schema. Negative: Header must be present on every request; misconfiguration risks cross-tenant access."),
         (4, "Celery for Background Jobs", "Accepted", "2024-03-05",
-         "Fieldspan needs async processing for notifications, webhooks, report exports, and scheduled tasks.",
+         "Crewspan needs async processing for notifications, webhooks, report exports, and scheduled tasks.",
          "Use Celery with Redis broker, separate queues per job category, Celery Beat for periodic tasks.",
          "Positive: Battle-tested, queue isolation, retry support. Negative: Additional infrastructure (Redis), operational complexity."),
         (5, "Code Generation for Domain Bootstrap", "Accepted", "2024-06-01",

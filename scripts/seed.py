@@ -7,7 +7,7 @@ import asyncio
 import uuid
 from datetime import datetime, timezone
 
-print("Fieldspan seed script")
+print("Crewspan seed script")
 print("=" * 40)
 
 TENANT_ID = str(uuid.uuid4())

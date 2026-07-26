@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rewrite Fieldspan domain modules with valid Python and commit the fix."""
+"""Rewrite Crewspan domain modules with valid Python and commit the fix."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from datetime import datetime
 from pathlib import Path
 
 WORKSPACE = Path(__file__).resolve().parents[1]
-PROJECT = WORKSPACE / "fieldspan"
+PROJECT = WORKSPACE / "crewspan"
 sys.path.insert(0, str(WORKSPACE))
 
 from tools.authors import AUTHORS
@@ -577,7 +577,7 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
     )
     write(
         "apps/api/app/main.py",
-        f'''"""Fieldspan API application entrypoint."""
+        f'''"""Crewspan API application entrypoint."""
 
 from __future__ import annotations
 
@@ -601,15 +601,15 @@ logger = structlog.get_logger(__name__)
 async def lifespan(_: FastAPI):
     configure_logging()
     await init_db()
-    logger.info("fieldspan.startup", environment=settings.environment)
+    logger.info("crewspan.startup", environment=settings.environment)
     yield
     await close_db()
-    logger.info("fieldspan.shutdown")
+    logger.info("crewspan.shutdown")
 
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title="Fieldspan API",
+        title="Crewspan API",
         description="Multi-tenant field service operations platform",
         version="1.0.0",
         lifespan=lifespan,
@@ -627,7 +627,7 @@ def create_app() -> FastAPI:
 
     @app.get("/health")
     async def health() -> dict[str, str]:
-        return {{"status": "ok", "service": "fieldspan-api"}}
+        return {{"status": "ok", "service": "crewspan-api"}}
 
     @app.get("/ready")
     async def ready() -> dict[str, str]:
@@ -666,7 +666,7 @@ def main() -> None:
 
     write(
         "apps/api/tests/conftest.py",
-        '''"""Shared pytest fixtures for Fieldspan API tests."""
+        '''"""Shared pytest fixtures for Crewspan API tests."""
 
 from __future__ import annotations
 
@@ -676,8 +676,8 @@ from uuid import uuid4
 import pytest
 
 # Prefer in-memory SQLite during local/unit test collection when Postgres is absent.
-os.environ.setdefault("FIELDSPAN_ENVIRONMENT", "test")
-os.environ.setdefault("FIELDSPAN_DATABASE_URL", "sqlite+aiosqlite:///:memory:")
+os.environ.setdefault("CREWSPAN_ENVIRONMENT", "test")
+os.environ.setdefault("CREWSPAN_DATABASE_URL", "sqlite+aiosqlite:///:memory:")
 
 
 @pytest.fixture

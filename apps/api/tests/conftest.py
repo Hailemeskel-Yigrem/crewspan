@@ -1,4 +1,4 @@
-"""Shared pytest fixtures for Fieldspan API tests."""
+"""Shared pytest fixtures for Crewspan API tests."""
 
 from __future__ import annotations
 

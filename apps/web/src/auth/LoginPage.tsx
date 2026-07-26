@@ -34,7 +34,7 @@ export function LoginPage() {
     <div className="login-page">
       <div className="login-card">
         <div className="login-brand">
-          <span className="login-logo">Fieldspan</span>
+          <span className="login-logo">Crewspan</span>
           <p className="login-tagline">Field service operations platform</p>
         </div>
         <form onSubmit={(e) => void handleSubmit(e)} className="login-form">

@@ -2,15 +2,15 @@ services:
   postgres:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: fieldspan
-      POSTGRES_PASSWORD: fieldspan
-      POSTGRES_DB: fieldspan
+      POSTGRES_USER: crewspan
+      POSTGRES_PASSWORD: crewspan
+      POSTGRES_DB: crewspan
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U fieldspan"]
+      test: ["CMD-SHELL", "pg_isready -U crewspan"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -32,10 +32,10 @@ services:
     ports:
       - "8000:8000"
     environment:
-      FIELDSPAN_DATABASE_URL: postgresql+asyncpg://fieldspan:fieldspan@postgres:5432/fieldspan
-      FIELDSPAN_REDIS_URL: redis://redis:6379/0
-      FIELDSPAN_SECRET_KEY: dev-secret-change-in-production
-      FIELDSPAN_CORS_ORIGINS: '["http://localhost:3000"]'
+      CREWSPAN_DATABASE_URL: postgresql+asyncpg://crewspan:crewspan@postgres:5432/crewspan
+      CREWSPAN_REDIS_URL: redis://redis:6379/0
+      CREWSPAN_SECRET_KEY: dev-secret-change-in-production
+      CREWSPAN_CORS_ORIGINS: '["http://localhost:3000"]'
     depends_on:
       postgres:
         condition: service_healthy
@@ -56,9 +56,9 @@ services:
       context: ./apps/worker
       dockerfile: Dockerfile
     environment:
-      FIELDSPAN_DATABASE_URL: postgresql+asyncpg://fieldspan:fieldspan@postgres:5432/fieldspan
-      FIELDSPAN_CELERY_BROKER_URL: redis://redis:6379/1
-      FIELDSPAN_CELERY_RESULT_BACKEND: redis://redis:6379/2
+      CREWSPAN_DATABASE_URL: postgresql+asyncpg://crewspan:crewspan@postgres:5432/crewspan
+      CREWSPAN_CELERY_BROKER_URL: redis://redis:6379/1
+      CREWSPAN_CELERY_RESULT_BACKEND: redis://redis:6379/2
     depends_on:
       postgres:
         condition: service_healthy
@@ -70,8 +70,8 @@ services:
       context: ./apps/worker
       dockerfile: Dockerfile.beat
     environment:
-      FIELDSPAN_CELERY_BROKER_URL: redis://redis:6379/1
-      FIELDSPAN_CELERY_RESULT_BACKEND: redis://redis:6379/2
+      CREWSPAN_CELERY_BROKER_URL: redis://redis:6379/1
+      CREWSPAN_CELERY_RESULT_BACKEND: redis://redis:6379/2
     depends_on:
       - redis
       - worker

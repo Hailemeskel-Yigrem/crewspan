@@ -8,13 +8,13 @@ from uuid import UUID
 import structlog
 from celery import shared_task
 
-from worker.base import FieldspanTask
+from worker.base import CrewspanTask
 from worker.config import settings
 
 logger = structlog.get_logger(__name__)
 
 
-@shared_task(base=FieldspanTask, name="worker.jobs.notifications.send_email")
+@shared_task(base=CrewspanTask, name="worker.jobs.notifications.send_email")
 def send_email(notification_id: str, *, tenant_id: str) -> dict[str, str]:
     """Deliver a queued email notification by ID."""
     logger.info(
@@ -32,7 +32,7 @@ def send_email(notification_id: str, *, tenant_id: str) -> dict[str, str]:
     return {"status": "sent", "notification_id": notification_id, "delivered_at": delivered_at}
 
 
-@shared_task(base=FieldspanTask, name="worker.jobs.notifications.send_sms")
+@shared_task(base=CrewspanTask, name="worker.jobs.notifications.send_sms")
 def send_sms(notification_id: str, *, tenant_id: str, phone: str) -> dict[str, str]:
     """Deliver SMS notification to technician or customer contact."""
     if not phone.startswith("+"):
@@ -46,7 +46,7 @@ def send_sms(notification_id: str, *, tenant_id: str, phone: str) -> dict[str, s
     return {"status": "sent", "notification_id": notification_id}
 
 
-@shared_task(base=FieldspanTask, name="worker.jobs.notifications.process_pending_batch")
+@shared_task(base=CrewspanTask, name="worker.jobs.notifications.process_pending_batch")
 def process_pending_batch(*, tenant_id: str | None = None, limit: int = 100) -> dict[str, int]:
     """Poll pending notifications and enqueue channel-specific delivery tasks."""
     logger.info("notification.batch.start", tenant_id=tenant_id, limit=limit)
@@ -57,7 +57,7 @@ def process_pending_batch(*, tenant_id: str | None = None, limit: int = 100) -> 
     return {"processed": processed, "failed": failed}
 
 
-@shared_task(base=FieldspanTask, name="worker.jobs.notifications.dispatch_work_order_update")
+@shared_task(base=CrewspanTask, name="worker.jobs.notifications.dispatch_work_order_update")
 def dispatch_work_order_update(
     work_order_id: str,
     *,
