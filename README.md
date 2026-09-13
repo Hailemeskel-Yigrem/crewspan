@@ -27,8 +27,7 @@ Crewspan/
 │   ├── common/       Shared Python utilities
 │   └── sdk/          Python API client
 ├── docs/             Architecture and operations guides
-├── scripts/          Migration, seed, healthcheck scripts
-└── tools/codegen/    Code generators for bootstrapping
+└── scripts/          Migration, seed, healthcheck scripts
 ```
 
 ## Core Domains

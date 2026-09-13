@@ -10,7 +10,7 @@ Welcome to the Crewspan documentation hub.
 | [database.md](database.md) | Schema, migrations, and multi-tenancy |
 | [configuration.md](configuration.md) | Environment variables and settings |
 | [troubleshooting.md](troubleshooting.md) | Common issues and diagnostics |
-| [contributing.md](contributing.md) | Development setup and code standards |
+| [CONTRIBUTING.md](../CONTRIBUTING.md) | Development setup and code standards |
 | [security.md](security.md) | Security model and best practices |
-| [changelog.md](changelog.md) | Release history |
+| [CHANGELOG.md](../CHANGELOG.md) | Release history |
 | [adr/](adr/) | Architecture Decision Records |

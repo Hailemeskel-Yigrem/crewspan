@@ -34,10 +34,3 @@ dev-web:
 
 health:
 	bash scripts/healthcheck.sh
-
-generate:
-	python -m tools.codegen.generate_api
-	python -m tools.codegen.generate_web
-	python -m tools.codegen.generate_tests
-	python -m tools.codegen.generate_docs
-	python -m tools.codegen.generate_infra

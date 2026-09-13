@@ -2,6 +2,34 @@
 
 All notable changes to Crewspan are documented here.
 
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/).
+
+## [Unreleased]
+
+### Fixed
+- Initial Alembic revision imported the SQLAlchemy types it referenced, so
+  `make migrate` no longer fails with `NameError` before creating any table.
+- Domain routers import the request body schemas they annotate; `/docs` and
+  `/openapi.json` return 200 instead of 500 and the spec covers 174 paths.
+- Domain validation errors interpolate the offending value instead of printing
+  the literal `{entity.status}`.
+- `WorkOrderTaskService.complete` no longer references an undefined `notes`.
+- Web API client modules parse: comma-separated methods, TypeScript type names,
+  real template literals for path parameters, and snake_case request bodies.
+- Pages read the snake_case fields the API returns, so detail and list views no
+  longer render `undefined`.
+- `ToastProvider` renders the toasts it collects.
+
+### Changed
+- `npm run build`, `tsc --noEmit`, and both test suites pass from a fresh clone.
+- CI installs from committed lockfiles and gates lint, typecheck, coverage, and
+  a dependency audit.
+
+### Removed
+- One-time codegen and history-bootstrap tooling under `tools/`; `apps/` is the
+  source of truth.
+
 ## [0.4.0] — 2026-07-15
 
 ### Added
