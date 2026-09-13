@@ -1,4 +1,4 @@
-.PHONY: up down migrate seed test lint install dev-api dev-web health
+.PHONY: up down migrate seed test lint typecheck coverage install dev-api dev-web health
 
 up:
 	docker compose up -d
@@ -17,12 +17,20 @@ test:
 	cd apps/web && npm test
 
 lint:
-	ruff check apps packages
+	ruff check apps packages scripts
 	cd apps/web && npm run lint
 
+typecheck:
+	cd apps/api && mypy app
+	cd apps/web && npm run typecheck
+
+coverage:
+	cd apps/api && pytest tests --cov=app --cov-report=term-missing
+	cd apps/web && npm run test:coverage
+
 install:
-	pip install -r apps/api/requirements.txt
-	pip install -r apps/worker/requirements.txt
+	pip install -r apps/api/requirements.lock.txt
+	pip install -r apps/worker/requirements.lock.txt
 	pip install -e packages/common -e packages/sdk
 	cd apps/web && npm ci
 

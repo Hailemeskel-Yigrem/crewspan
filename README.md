@@ -45,14 +45,22 @@ Crewspan/
 ## Development
 
 ```bash
+make install       # Install from the committed lockfiles
 make dev-api       # Run API with hot reload
 make dev-web       # Run Vite dev server
-make test          # Run all test suites
+make test          # pytest (api, worker, packages) + vitest
 make lint          # Ruff + ESLint
+make typecheck     # mypy + tsc --noEmit
+make coverage      # Test suites with their coverage floors enforced
 ```
 
-See [docs/contributing.md](docs/contributing.md) for full development workflow.
+Dependencies are pinned in `apps/api/requirements.lock.txt`,
+`apps/worker/requirements.lock.txt` and `apps/web/package-lock.json`; CI
+installs from those same files.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full development workflow and
+[CHANGELOG.md](CHANGELOG.md) for release history.
 
 ## License
 
-Proprietary — All rights reserved.
+MIT — see [LICENSE](LICENSE).
