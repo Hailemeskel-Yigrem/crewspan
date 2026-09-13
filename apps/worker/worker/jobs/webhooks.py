@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import httpx
 import structlog
@@ -40,12 +40,21 @@ def deliver_event(
     headers = {
         "Content-Type": "application/json",
         "X-Crewspan-Event": event_type,
-        "X-Crewspan-Timestamp": datetime.now(timezone.utc).isoformat(),
+        "X-Crewspan-Timestamp": datetime.now(UTC).isoformat(),
     }
-    # Production would load webhook URL and secret from database
-    url = "https://example.com/webhook"
-    secret = "placeholder-secret"
-    headers["X-Crewspan-Signature"] = _sign_payload(secret, body)
+    # Until the endpoint is read from the webhook record, the target and its
+    # signing secret come from configuration. Without both, do nothing rather
+    # than post tenant data to a placeholder host.
+    if not settings.webhook_target_url or not settings.webhook_signing_secret:
+        logger.warning(
+            "webhook.deliver.skipped",
+            webhook_id=webhook_id,
+            reason="webhook_target_url or webhook_signing_secret is not configured",
+        )
+        return {"webhook_id": webhook_id, "status_code": None, "skipped": True}
+
+    url = settings.webhook_target_url
+    headers["X-Crewspan-Signature"] = _sign_payload(settings.webhook_signing_secret, body)
     try:
         with httpx.Client(timeout=settings.webhook_timeout_seconds) as client:
             response = client.post(url, content=body, headers=headers)

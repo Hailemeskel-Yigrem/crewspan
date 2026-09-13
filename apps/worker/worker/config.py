@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import tempfile
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -15,7 +18,12 @@ class WorkerSettings(BaseSettings):
     log_level: str = "INFO"
     webhook_timeout_seconds: int = 30
     notification_from_email: str = "noreply@crewspan.local"
-    report_export_dir: str = "/tmp/crewspan/exports"
+    report_export_dir: str = str(Path(tempfile.gettempdir()) / "crewspan" / "exports")
+
+    # Webhook delivery is inert until both are configured; see
+    # worker.jobs.webhooks.deliver_event.
+    webhook_target_url: str = ""
+    webhook_signing_secret: str = ""
 
 
 settings = WorkerSettings()
