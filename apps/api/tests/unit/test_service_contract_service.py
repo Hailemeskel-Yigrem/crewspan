@@ -26,8 +26,8 @@ def mock_repo():
     entity.end_date = date.today()
     entity.billing_frequency = "sample-billing_frequency"
     entity.annual_value = Decimal('10.00')
-    entity.covered_sites = "sample-covered_sites"
-    entity.terms = "sample-terms"
+    entity.covered_sites = []
+    entity.terms = {}
     entity.status = "draft"
     entity.created_at = datetime.now(timezone.utc)
     entity.updated_at = datetime.now(timezone.utc)

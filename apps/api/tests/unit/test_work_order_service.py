@@ -124,6 +124,7 @@ class TestWorkOrderDomainMethods:
     @pytest.mark.asyncio
     async def test_assign_technician_with_entity(self, service, mock_repo):
         entity = mock_repo.get_by_id.return_value
+        entity.status = "submitted"
         result = await service.assign_technician(entity_id=entity.id, tenant_id=uuid4(), technician_id=uuid4())
         assert result is not None
 
@@ -136,6 +137,7 @@ class TestWorkOrderDomainMethods:
     @pytest.mark.asyncio
     async def test_start_with_entity(self, service, mock_repo):
         entity = mock_repo.get_by_id.return_value
+        entity.status = "assigned"
         result = await service.start(entity_id=entity.id, tenant_id=uuid4())
         assert result is not None
 
@@ -148,6 +150,7 @@ class TestWorkOrderDomainMethods:
     @pytest.mark.asyncio
     async def test_complete_with_entity(self, service, mock_repo):
         entity = mock_repo.get_by_id.return_value
+        entity.status = "in_progress"
         result = await service.complete(entity_id=entity.id, tenant_id=uuid4(), notes="sample")
         assert result is not None
 

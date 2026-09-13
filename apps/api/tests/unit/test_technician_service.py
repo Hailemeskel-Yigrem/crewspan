@@ -25,8 +25,8 @@ def mock_repo():
     entity.home_base_longitude = Decimal('10.00')
     entity.max_daily_hours = 1
     entity.status = "draft"
-    entity.certifications = "sample-certifications"
-    entity.vehicle_info = "sample-vehicle_info"
+    entity.certifications = []
+    entity.vehicle_info = {}
     entity.created_at = datetime.now(timezone.utc)
     entity.updated_at = datetime.now(timezone.utc)
     entity.deleted_at = None
@@ -107,7 +107,7 @@ class TestTechnicianDomainMethods:
     @pytest.mark.asyncio
     async def test_set_status_with_entity(self, service, mock_repo):
         entity = mock_repo.get_by_id.return_value
-        result = await service.set_status(entity_id=entity.id, tenant_id=uuid4(), status="sample")
+        result = await service.set_status(entity_id=entity.id, tenant_id=uuid4(), status="active")
         assert result is not None
 
     @pytest.mark.asyncio

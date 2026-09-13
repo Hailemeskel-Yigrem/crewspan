@@ -28,7 +28,7 @@ def mock_repo():
     entity.serial_number = "sample-serial_number"
     entity.install_date = date.today()
     entity.warranty_expires = date.today()
-    entity.specifications = "sample-specifications"
+    entity.specifications = {}
     entity.status = "draft"
     entity.created_at = datetime.now(timezone.utc)
     entity.updated_at = datetime.now(timezone.utc)

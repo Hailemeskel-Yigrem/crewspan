@@ -107,6 +107,7 @@ class TestWorkOrderTaskDomainMethods:
     @pytest.mark.asyncio
     async def test_complete_with_entity(self, service, mock_repo):
         entity = mock_repo.get_by_id.return_value
+        entity.status = "in_progress"
         result = await service.complete(entity_id=entity.id, tenant_id=uuid4())
         assert result is not None
 

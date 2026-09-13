@@ -27,7 +27,7 @@ def mock_repo():
     entity.body = "sample-body"
     entity.status = "draft"
     entity.sent_at = datetime.now(timezone.utc)
-    entity.payload_meta = "sample-payload_meta"
+    entity.payload_meta = {}
     entity.created_at = datetime.now(timezone.utc)
     entity.updated_at = datetime.now(timezone.utc)
     entity.deleted_at = None
@@ -132,5 +132,6 @@ class TestNotificationDomainMethods:
     @pytest.mark.asyncio
     async def test_retry_with_entity(self, service, mock_repo):
         entity = mock_repo.get_by_id.return_value
+        entity.status = "failed"
         result = await service.retry(entity_id=entity.id, tenant_id=uuid4())
         assert result is not None

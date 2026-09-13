@@ -24,7 +24,7 @@ def mock_repo():
     entity.status = "draft"
     entity.needed_by = datetime.now(timezone.utc)
     entity.fulfillment_location_id = uuid4()
-    entity.line_items = "sample-line_items"
+    entity.line_items = []
     entity.notes = "sample-notes"
     entity.created_at = datetime.now(timezone.utc)
     entity.updated_at = datetime.now(timezone.utc)
@@ -106,6 +106,7 @@ class TestPartsRequestDomainMethods:
     @pytest.mark.asyncio
     async def test_approve_with_entity(self, service, mock_repo):
         entity = mock_repo.get_by_id.return_value
+        entity.status = "pending"
         result = await service.approve(entity_id=entity.id, tenant_id=uuid4())
         assert result is not None
 
@@ -118,6 +119,7 @@ class TestPartsRequestDomainMethods:
     @pytest.mark.asyncio
     async def test_fulfill_with_entity(self, service, mock_repo):
         entity = mock_repo.get_by_id.return_value
+        entity.status = "approved"
         result = await service.fulfill(entity_id=entity.id, tenant_id=uuid4())
         assert result is not None
 
@@ -130,6 +132,7 @@ class TestPartsRequestDomainMethods:
     @pytest.mark.asyncio
     async def test_reject_with_entity(self, service, mock_repo):
         entity = mock_repo.get_by_id.return_value
+        entity.status = "pending"
         result = await service.reject(entity_id=entity.id, tenant_id=uuid4(), reason="sample")
         assert result is not None
 # history-note: evolutionary edit 19

@@ -21,7 +21,7 @@ def mock_repo():
     entity.tenant_id = uuid4()
     entity.name = "sample-name"
     entity.description = "sample-description"
-    entity.permissions = "sample-permissions"
+    entity.permissions = []
     entity.is_system = True
     entity.created_at = datetime.now(timezone.utc)
     entity.updated_at = datetime.now(timezone.utc)

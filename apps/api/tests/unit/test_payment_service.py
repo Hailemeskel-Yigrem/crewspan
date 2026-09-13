@@ -25,7 +25,7 @@ def mock_repo():
     entity.payment_date = date.today()
     entity.reference_number = "sample-reference_number"
     entity.status = "draft"
-    entity.processor_response = "sample-processor_response"
+    entity.processor_response = {}
     entity.created_at = datetime.now(timezone.utc)
     entity.updated_at = datetime.now(timezone.utc)
     entity.deleted_at = None

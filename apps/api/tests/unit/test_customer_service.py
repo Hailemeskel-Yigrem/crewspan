@@ -23,7 +23,7 @@ def mock_repo():
     entity.name = "sample-name"
     entity.customer_type = "sample-customer_type"
     entity.billing_email = "sample-billing_email"
-    entity.billing_address = "sample-billing_address"
+    entity.billing_address = {}
     entity.credit_limit = Decimal('10.00')
     entity.payment_terms_days = 1
     entity.notes = "sample-notes"

@@ -26,7 +26,7 @@ def mock_repo():
     entity.role_id = uuid4()
     entity.is_active = True
     entity.last_login_at = datetime.now(timezone.utc)
-    entity.preferences = "sample-preferences"
+    entity.preferences = {}
     entity.created_at = datetime.now(timezone.utc)
     entity.updated_at = datetime.now(timezone.utc)
     entity.deleted_at = None

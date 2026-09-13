@@ -25,7 +25,7 @@ def mock_repo():
     entity.response_minutes = 1
     entity.resolution_minutes = 1
     entity.business_hours_only = True
-    entity.escalation_rules = "sample-escalation_rules"
+    entity.escalation_rules = []
     entity.is_active = True
     entity.created_at = datetime.now(timezone.utc)
     entity.updated_at = datetime.now(timezone.utc)

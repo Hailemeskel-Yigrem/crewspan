@@ -23,7 +23,7 @@ def mock_repo():
     entity.name = "sample-name"
     entity.location_type = "sample-location_type"
     entity.technician_id = uuid4()
-    entity.address = "sample-address"
+    entity.address = {}
     entity.is_active = True
     entity.created_at = datetime.now(timezone.utc)
     entity.updated_at = datetime.now(timezone.utc)

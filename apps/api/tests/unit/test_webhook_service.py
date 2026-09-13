@@ -22,7 +22,7 @@ def mock_repo():
     entity.name = "sample-name"
     entity.url = "sample-url"
     entity.secret = "sample-secret"
-    entity.event_types = "sample-event_types"
+    entity.event_types = []
     entity.is_active = True
     entity.failure_count = 1
     entity.last_triggered_at = datetime.now(timezone.utc)

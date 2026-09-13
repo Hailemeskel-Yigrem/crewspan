@@ -22,11 +22,11 @@ def mock_repo():
     entity.customer_id = uuid4()
     entity.site_code = "sample-site_code"
     entity.name = "sample-name"
-    entity.address = "sample-address"
+    entity.address = {}
     entity.latitude = Decimal('10.00')
     entity.longitude = Decimal('10.00')
     entity.access_instructions = "sample-access_instructions"
-    entity.service_window = "sample-service_window"
+    entity.service_window = {}
     entity.is_active = True
     entity.created_at = datetime.now(timezone.utc)
     entity.updated_at = datetime.now(timezone.utc)

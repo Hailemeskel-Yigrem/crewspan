@@ -25,8 +25,8 @@ def mock_repo():
     entity.subscription_tier = "sample-subscription_tier"
     entity.timezone = "sample-timezone"
     entity.is_active = True
-    entity.feature_flags = "sample-feature_flags"
-    entity.settings = "sample-settings"
+    entity.feature_flags = {}
+    entity.settings = {}
     entity.created_at = datetime.now(timezone.utc)
     entity.updated_at = datetime.now(timezone.utc)
     entity.deleted_at = None
@@ -104,6 +104,7 @@ class TestTenantDomainMethods:
     @pytest.mark.asyncio
     async def test_activate_with_entity(self, service, mock_repo):
         entity = mock_repo.get_by_id.return_value
+        entity.is_active = False
         result = await service.activate(entity_id=entity.id, tenant_id=uuid4())
         assert result is not None
 
