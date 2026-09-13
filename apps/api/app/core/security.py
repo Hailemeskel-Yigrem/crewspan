@@ -6,15 +6,19 @@ from datetime import UTC, datetime, timedelta
 from typing import Any
 from uuid import UUID
 
+import bcrypt
+import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from jose import JWTError, jwt
-from passlib.context import CryptContext
+from jwt import PyJWTError
 
 from app.config import settings
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto", bcrypt__rounds=settings.bcrypt_rounds)
 bearer_scheme = HTTPBearer(auto_error=False)
+
+# bcrypt only considers the first 72 bytes of a password; rejecting longer
+# input is clearer than silently truncating it.
+MAX_PASSWORD_BYTES = 72
 
 ALGORITHM = "HS256"
 
@@ -22,13 +26,16 @@ ALGORITHM = "HS256"
 def hash_password(password: str) -> str:
     if len(password) < 8:
         raise ValueError("Password must be at least 8 characters")
-    return pwd_context.hash(password)
+    encoded = password.encode()
+    if len(encoded) > MAX_PASSWORD_BYTES:
+        raise ValueError(f"Password must be at most {MAX_PASSWORD_BYTES} bytes")
+    return bcrypt.hashpw(encoded, bcrypt.gensalt(settings.bcrypt_rounds)).decode()
 
 
 def verify_password(plain: str, hashed: str) -> bool:
     try:
-        return pwd_context.verify(plain, hashed)
-    except ValueError:
+        return bcrypt.checkpw(plain.encode(), hashed.encode())
+    except (ValueError, TypeError):
         return False
 
 
@@ -69,7 +76,7 @@ async def get_current_user_id(
         if payload.get("type") not in (None, "access"):
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token type")
         return UUID(payload["sub"])
-    except (JWTError, ValueError, KeyError) as exc:
+    except (PyJWTError, ValueError, KeyError) as exc:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token") from exc
 
 
