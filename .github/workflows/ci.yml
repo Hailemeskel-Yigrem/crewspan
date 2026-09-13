@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  PYTHON_VERSION: "3.11"
+  NODE_VERSION: "20"
+
 jobs:
   api-tests:
     runs-on: ubuntu-latest
@@ -31,28 +35,46 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
       - name: Install API dependencies
-        run: pip install -r apps/api/requirements.txt pytest pytest-asyncio ruff
+        run: |
+          pip install -r apps/api/requirements.lock.txt
+          pip install pytest pytest-asyncio pytest-cov ruff mypy
+          pip install -e packages/common -e packages/sdk
       - name: Lint
-        run: ruff check apps/api packages
-      - name: Test
+        run: ruff check apps packages scripts
+      - name: Typecheck
+        working-directory: apps/api
+        run: mypy app
+      - name: Test with coverage gate
+        working-directory: apps/api
         env:
           CREWSPAN_DATABASE_URL: postgresql+asyncpg://crewspan:crewspan@localhost:5432/crewspan_test
-        run: pytest apps/api/tests -v
+        run: pytest tests -v --cov=app --cov-report=term-missing
 
   web-tests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
-      - name: Install and test
-        working-directory: apps/web
-        run: |
-          npm ci
-          npm test
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Test with coverage gate
+        run: npm run test:coverage
+      - name: Build
+        run: npm run build
 
   worker-tests:
     runs-on: ubuntu-latest
@@ -60,8 +82,30 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-      - name: Install and test
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Install worker dependencies
         run: |
-          pip install -r apps/worker/requirements.txt pytest
-          pytest apps/worker/tests -v
+          pip install -r apps/worker/requirements.lock.txt
+          pip install pytest
+      - name: Test
+        run: pytest apps/worker/tests -v
+
+  audit-deps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Audit Python dependencies
+        run: |
+          pip install pip-audit
+          pip-audit -r apps/api/requirements.lock.txt
+          pip-audit -r apps/worker/requirements.lock.txt
+      - name: Audit npm dependencies
+        working-directory: apps/web
+        run: npm audit --audit-level=high
