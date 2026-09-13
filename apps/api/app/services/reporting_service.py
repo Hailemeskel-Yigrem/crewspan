@@ -140,7 +140,7 @@ class ReportingService:
             .where(
                 SlaBreach.tenant_id == tenant_id,
                 SlaBreach.deleted_at.is_(None),
-                SlaBreach.resolved_at.is_(None),
+                SlaBreach.acknowledged.is_(False),
             )
         )
         return int((await self._session.execute(stmt)).scalar_one())
