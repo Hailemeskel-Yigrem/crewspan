@@ -157,7 +157,7 @@ class TechnicianSkillService:
         await self._repo._session.refresh(entity)
         return entity
 
-    async def is_valid(self, entity_id: UUID, tenant_id: UUID | None) -> bool:
+    async def is_valid(self, entity_id: UUID, tenant_id: UUID | None) -> TechnicianSkill:
         """Check certification not expired"""
         entity = await self._require_entity(entity_id, tenant_id=tenant_id)
         logger.info("technician_skill.is_valid.start", entity_id=str(entity.id))

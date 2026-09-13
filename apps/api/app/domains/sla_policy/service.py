@@ -153,7 +153,7 @@ class SlaPolicyService:
         if new_priority is not None and new_priority not in {'low', 'normal', 'high', 'critical'}:
             raise SlaPolicyValidationError(f"Invalid priority: {new_priority}")
 
-    async def evaluate_deadlines(self, entity_id: UUID, tenant_id: UUID | None, opened_at: datetime) -> dict:
+    async def evaluate_deadlines(self, entity_id: UUID, tenant_id: UUID | None, opened_at: datetime) -> SlaPolicy:
         """Compute response/resolution deadlines"""
         entity = await self._require_entity(entity_id, tenant_id=tenant_id)
         logger.info("sla_policy.evaluate_deadlines.start", entity_id=str(entity.id))

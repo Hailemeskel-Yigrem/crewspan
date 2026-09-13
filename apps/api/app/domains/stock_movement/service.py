@@ -142,7 +142,7 @@ class StockMovementService:
         """Domain-specific update validation for StockMovement."""
         logger.debug("stock_movement.validate_update", entity_id=str(entity.id))
 
-    async def validate_quantity(self, entity_id: UUID, tenant_id: UUID | None) -> bool:
+    async def validate_quantity(self, entity_id: UUID, tenant_id: UUID | None) -> StockMovement:
         """Ensure sufficient stock for issue/transfer"""
         entity = await self._require_entity(entity_id, tenant_id=tenant_id)
         logger.info("stock_movement.validate_quantity.start", entity_id=str(entity.id))

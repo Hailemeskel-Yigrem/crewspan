@@ -157,7 +157,7 @@ class CustomerSiteService:
         await self._repo._session.refresh(entity)
         return entity
 
-    async def validate_access_window(self, entity_id: UUID, tenant_id: UUID | None, at: datetime) -> bool:
+    async def validate_access_window(self, entity_id: UUID, tenant_id: UUID | None, at: datetime) -> CustomerSite:
         """Check if datetime falls within service window"""
         entity = await self._require_entity(entity_id, tenant_id=tenant_id)
         logger.info("customer_site.validate_access_window.start", entity_id=str(entity.id))

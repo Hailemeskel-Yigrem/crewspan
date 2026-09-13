@@ -160,7 +160,7 @@ class WebhookService:
         await self._repo._session.refresh(entity)
         return entity
 
-    async def rotate_secret(self, entity_id: UUID, tenant_id: UUID | None) -> str:
+    async def rotate_secret(self, entity_id: UUID, tenant_id: UUID | None) -> Webhook:
         """Generate new signing secret"""
         entity = await self._require_entity(entity_id, tenant_id=tenant_id)
         logger.info("webhook.rotate_secret.start", entity_id=str(entity.id))

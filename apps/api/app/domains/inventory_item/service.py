@@ -172,7 +172,7 @@ class InventoryItemService:
         await self._repo._session.refresh(entity)
         return entity
 
-    async def calculate_stock_value(self, entity_id: UUID, tenant_id: UUID | None) -> Decimal:
+    async def calculate_stock_value(self, entity_id: UUID, tenant_id: UUID | None) -> InventoryItem:
         """Sum stock on hand times unit cost"""
         entity = await self._require_entity(entity_id, tenant_id=tenant_id)
         logger.info("inventory_item.calculate_stock_value.start", entity_id=str(entity.id))

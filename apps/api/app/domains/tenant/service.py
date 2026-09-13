@@ -174,7 +174,7 @@ class TenantService:
         await self._repo._session.refresh(entity)
         return entity
 
-    async def update_settings(self, entity_id: UUID, tenant_id: UUID | None, settings: dict[str, object]) -> dict:
+    async def update_settings(self, entity_id: UUID, tenant_id: UUID | None, settings: dict[str, object]) -> Tenant:
         """Merge tenant settings with validation"""
         entity = await self._require_entity(entity_id, tenant_id=tenant_id)
         logger.info("tenant.update_settings.start", entity_id=str(entity.id))

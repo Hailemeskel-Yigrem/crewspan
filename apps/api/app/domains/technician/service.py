@@ -206,7 +206,7 @@ class TechnicianService:
         await self._repo._session.refresh(entity)
         return entity
 
-    async def calculate_utilization(self, entity_id: UUID, tenant_id: UUID | None, start: date, end: date) -> dict:
+    async def calculate_utilization(self, entity_id: UUID, tenant_id: UUID | None, start: date, end: date) -> Technician:
         """Compute utilization for date range"""
         entity = await self._require_entity(entity_id, tenant_id=tenant_id)
         logger.info("technician.calculate_utilization.start", entity_id=str(entity.id))

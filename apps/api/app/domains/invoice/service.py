@@ -218,7 +218,7 @@ class InvoiceService:
         await self._repo._session.refresh(entity)
         return entity
 
-    async def recalculate_totals(self, entity_id: UUID, tenant_id: UUID | None) -> dict:
+    async def recalculate_totals(self, entity_id: UUID, tenant_id: UUID | None) -> Invoice:
         """Recompute subtotal, tax, and total"""
         entity = await self._require_entity(entity_id, tenant_id=tenant_id)
         logger.info("invoice.recalculate_totals.start", entity_id=str(entity.id))
