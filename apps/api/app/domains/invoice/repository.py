@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 from uuid import UUID
 
@@ -194,7 +194,7 @@ class InvoiceRepository:
         return entity
 
     async def soft_delete(self, entity: Invoice) -> None:
-        entity.deleted_at = datetime.now(timezone.utc)
+        entity.deleted_at = datetime.now(UTC)
         await self._session.flush()
         logger.info("invoice.deleted", entity_id=str(entity.id))
 

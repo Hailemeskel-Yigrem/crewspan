@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from uuid import uuid4
-
 import pytest
-from pydantic import ValidationError
 
-from app.domains.service_contract.schemas import ServiceContractCreate, ServiceContractListResponse, ServiceContractUpdate
+from app.domains.service_contract.schemas import (
+    ServiceContractCreate,
+    ServiceContractListResponse,
+    ServiceContractUpdate,
+)
 
 
 class TestServiceContractSchemas:

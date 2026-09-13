@@ -2,14 +2,16 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
-from decimal import Decimal
+from datetime import UTC, date, datetime
 from unittest.mock import AsyncMock, MagicMock
 from uuid import uuid4
 
 import pytest
 
-from app.domains.technician_skill.exceptions import TechnicianSkillNotFoundError, TechnicianSkillValidationError
+from app.domains.technician_skill.exceptions import (
+    TechnicianSkillNotFoundError,
+    TechnicianSkillValidationError,
+)
 from app.domains.technician_skill.service import TechnicianSkillService
 
 
@@ -25,8 +27,8 @@ def mock_repo():
     entity.proficiency_level = 1
     entity.certified_at = date.today()
     entity.expires_at = date.today()
-    entity.created_at = datetime.now(timezone.utc)
-    entity.updated_at = datetime.now(timezone.utc)
+    entity.created_at = datetime.now(UTC)
+    entity.updated_at = datetime.now(UTC)
     entity.deleted_at = None
     repo.get_by_id.return_value = entity
     repo.list.return_value = ([entity], 1)

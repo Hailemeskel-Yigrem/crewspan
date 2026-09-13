@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import structlog
 from celery import shared_task
@@ -15,7 +15,7 @@ logger = structlog.get_logger(__name__)
 @shared_task(base=CrewspanTask, name="worker.jobs.scheduling.send_upcoming_appointment_reminders")
 def send_upcoming_appointment_reminders(*, horizon_hours: int = 24) -> dict[str, int]:
     """Find appointments starting within horizon and notify assigned technicians."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     window_end = now + timedelta(hours=horizon_hours)
     logger.info(
         "scheduling.reminders.scan",
@@ -51,7 +51,7 @@ def detect_schedule_conflicts(
 @shared_task(base=CrewspanTask, name="worker.jobs.scheduling.auto_dispatch_overdue")
 def auto_dispatch_overdue(*, tenant_id: str, grace_minutes: int = 15) -> dict[str, int]:
     """Re-dispatch work orders past scheduled start without technician acceptance."""
-    cutoff = datetime.now(timezone.utc) - timedelta(minutes=grace_minutes)
+    cutoff = datetime.now(UTC) - timedelta(minutes=grace_minutes)
     logger.info(
         "scheduling.auto_dispatch.start",
         tenant_id=tenant_id,

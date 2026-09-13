@@ -28,7 +28,7 @@ class ErrorResponse(BaseModel):
     errors: list[ErrorDetail] | None = None
 
     @classmethod
-    def from_domain(cls, *, code: str, message: str, details: dict[str, Any] | None = None) -> "ErrorResponse":
+    def from_domain(cls, *, code: str, message: str, details: dict[str, Any] | None = None) -> ErrorResponse:
         return cls(code=code, message=message, details=details)
 
 

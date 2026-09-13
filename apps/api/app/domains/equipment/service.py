@@ -170,9 +170,9 @@ class EquipmentService:
         if raw is not None and not str(raw).strip():
             raise EquipmentValidationError("name is required and cannot be blank")
 
-        if hasattr(data, "status") and getattr(data, "status") is not None:
-            if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise EquipmentValidationError(f"Invalid status: {getattr(data, 'status')}")
+        if hasattr(data, "status") and data.status is not None:
+            if data.status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
+                raise EquipmentValidationError(f"Invalid status: {data.status}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, timedelta
+from itertools import pairwise
 
 
 @dataclass(frozen=True, slots=True)
@@ -17,7 +18,7 @@ class Interval:
         if self.end <= self.start:
             raise ValueError(f"interval {self.id}: end must be after start")
 
-    def overlaps(self, other: "Interval") -> bool:
+    def overlaps(self, other: Interval) -> bool:
         return self.start < other.end and other.start < self.end
 
     def duration_minutes(self) -> float:
@@ -41,7 +42,7 @@ def find_conflicts(intervals: list[Interval]) -> list[tuple[str, str]]:
 def find_gaps(intervals: list[Interval], *, min_gap_minutes: float = 15.0) -> list[tuple[str, str, float]]:
     ordered = sorted(intervals, key=lambda item: item.start)
     gaps: list[tuple[str, str, float]] = []
-    for left, right in zip(ordered, ordered[1:]):
+    for left, right in pairwise(ordered):
         gap_minutes = (right.start - left.end).total_seconds() / 60.0
         if gap_minutes >= min_gap_minutes:
             gaps.append((left.id, right.id, gap_minutes))

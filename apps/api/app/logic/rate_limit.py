@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from time import monotonic
-from typing import Callable
 
 
 @dataclass
@@ -15,7 +15,7 @@ class TokenBucket:
     updated_at: float
 
     @classmethod
-    def create(cls, capacity: float, refill_per_second: float) -> "TokenBucket":
+    def create(cls, capacity: float, refill_per_second: float) -> TokenBucket:
         now = monotonic()
         return cls(capacity=capacity, refill_per_second=refill_per_second, tokens=capacity, updated_at=now)
 

@@ -8,13 +8,16 @@ from uuid import UUID
 import structlog
 
 from app.domains.stock_movement.exceptions import (
-    StockMovementConflictError,
     StockMovementNotFoundError,
     StockMovementValidationError,
 )
 from app.domains.stock_movement.models import StockMovement
 from app.domains.stock_movement.repository import StockMovementRepository
-from app.domains.stock_movement.schemas import StockMovementCreate, StockMovementRead, StockMovementUpdate
+from app.domains.stock_movement.schemas import (
+    StockMovementCreate,
+    StockMovementRead,
+    StockMovementUpdate,
+)
 
 logger = structlog.get_logger(__name__)
 

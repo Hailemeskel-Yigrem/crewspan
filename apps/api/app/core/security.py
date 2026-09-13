@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any
 from uuid import UUID
 
@@ -38,7 +38,7 @@ def create_access_token(
     tenant_id: UUID | None = None,
     extra_claims: dict[str, Any] | None = None,
 ) -> str:
-    expire = datetime.now(timezone.utc) + timedelta(minutes=settings.access_token_expire_minutes)
+    expire = datetime.now(UTC) + timedelta(minutes=settings.access_token_expire_minutes)
     payload: dict[str, Any] = {"sub": subject, "exp": expire, "type": "access"}
     if tenant_id:
         payload["tenant_id"] = str(tenant_id)
@@ -48,7 +48,7 @@ def create_access_token(
 
 
 def create_refresh_token(subject: str, *, tenant_id: UUID | None = None) -> str:
-    expire = datetime.now(timezone.utc) + timedelta(days=settings.refresh_token_expire_days)
+    expire = datetime.now(UTC) + timedelta(days=settings.refresh_token_expire_days)
     payload: dict[str, Any] = {"sub": subject, "exp": expire, "type": "refresh"}
     if tenant_id:
         payload["tenant_id"] = str(tenant_id)

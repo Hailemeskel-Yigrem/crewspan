@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
-from decimal import Decimal
+from datetime import UTC, datetime
 from unittest.mock import AsyncMock, MagicMock
 from uuid import uuid4
 
@@ -22,13 +21,13 @@ def mock_repo():
     entity.work_order_id = uuid4()
     entity.sla_policy_id = uuid4()
     entity.breach_type = "sample-breach_type"
-    entity.expected_at = datetime.now(timezone.utc)
-    entity.detected_at = datetime.now(timezone.utc)
+    entity.expected_at = datetime.now(UTC)
+    entity.detected_at = datetime.now(UTC)
     entity.minutes_overdue = 1
     entity.acknowledged = True
     entity.escalation_level = 1
-    entity.created_at = datetime.now(timezone.utc)
-    entity.updated_at = datetime.now(timezone.utc)
+    entity.created_at = datetime.now(UTC)
+    entity.updated_at = datetime.now(UTC)
     entity.deleted_at = None
     repo.get_by_id.return_value = entity
     repo.list.return_value = ([entity], 1)

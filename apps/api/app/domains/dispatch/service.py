@@ -162,9 +162,9 @@ class DispatchService:
 
     def _validate_create(self, data: DispatchCreate) -> None:
         """Domain-specific create validation for Dispatch."""
-        if hasattr(data, "status") and getattr(data, "status") is not None:
-            if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise DispatchValidationError(f"Invalid status: {getattr(data, 'status')}")
+        if hasattr(data, "status") and data.status is not None:
+            if data.status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
+                raise DispatchValidationError(f"Invalid status: {data.status}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():

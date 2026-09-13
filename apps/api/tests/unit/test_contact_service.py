@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
-from decimal import Decimal
+from datetime import UTC, datetime
 from unittest.mock import AsyncMock, MagicMock
 from uuid import uuid4
 
@@ -28,8 +27,8 @@ def mock_repo():
     entity.role_title = "sample-role_title"
     entity.is_primary = True
     entity.notify_on_dispatch = True
-    entity.created_at = datetime.now(timezone.utc)
-    entity.updated_at = datetime.now(timezone.utc)
+    entity.created_at = datetime.now(UTC)
+    entity.updated_at = datetime.now(UTC)
     entity.deleted_at = None
     repo.get_by_id.return_value = entity
     repo.list.return_value = ([entity], 1)

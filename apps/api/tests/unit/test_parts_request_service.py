@@ -2,14 +2,16 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
-from decimal import Decimal
+from datetime import UTC, datetime
 from unittest.mock import AsyncMock, MagicMock
 from uuid import uuid4
 
 import pytest
 
-from app.domains.parts_request.exceptions import PartsRequestNotFoundError, PartsRequestValidationError
+from app.domains.parts_request.exceptions import (
+    PartsRequestNotFoundError,
+    PartsRequestValidationError,
+)
 from app.domains.parts_request.service import PartsRequestService
 
 
@@ -22,12 +24,12 @@ def mock_repo():
     entity.work_order_id = uuid4()
     entity.requested_by_id = uuid4()
     entity.status = "draft"
-    entity.needed_by = datetime.now(timezone.utc)
+    entity.needed_by = datetime.now(UTC)
     entity.fulfillment_location_id = uuid4()
     entity.line_items = []
     entity.notes = "sample-notes"
-    entity.created_at = datetime.now(timezone.utc)
-    entity.updated_at = datetime.now(timezone.utc)
+    entity.created_at = datetime.now(UTC)
+    entity.updated_at = datetime.now(UTC)
     entity.deleted_at = None
     repo.get_by_id.return_value = entity
     repo.list.return_value = ([entity], 1)

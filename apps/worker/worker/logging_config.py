@@ -7,8 +7,6 @@ import sys
 
 import structlog
 
-from worker.config import settings
-
 
 def configure_logging() -> None:
     logging.basicConfig(format="%(message)s", stream=sys.stdout, level=logging.INFO)

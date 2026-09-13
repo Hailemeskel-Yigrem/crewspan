@@ -17,10 +17,10 @@ export default defineConfig({
       // A ratchet, not an aspiration: these sit just under today's measured
       // numbers so a drop fails CI. Raise them as coverage grows.
       thresholds: {
-        lines: 29,
-        statements: 29,
-        functions: 17,
-        branches: 48,
+        lines: 31,
+        statements: 31,
+        functions: 27,
+        branches: 58,
       },
     },
   },

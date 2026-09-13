@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
+from datetime import UTC, datetime
 from decimal import Decimal
 from unittest.mock import AsyncMock, MagicMock
 from uuid import uuid4
 
 import pytest
 
-from app.domains.invoice_line_item.exceptions import InvoiceLineItemNotFoundError, InvoiceLineItemValidationError
+from app.domains.invoice_line_item.exceptions import (
+    InvoiceLineItemNotFoundError,
+    InvoiceLineItemValidationError,
+)
 from app.domains.invoice_line_item.service import InvoiceLineItemService
 
 
@@ -27,8 +30,8 @@ def mock_repo():
     entity.line_total = Decimal('10.00')
     entity.item_type = "sample-item_type"
     entity.reference_id = uuid4()
-    entity.created_at = datetime.now(timezone.utc)
-    entity.updated_at = datetime.now(timezone.utc)
+    entity.created_at = datetime.now(UTC)
+    entity.updated_at = datetime.now(UTC)
     entity.deleted_at = None
     repo.get_by_id.return_value = entity
     repo.list.return_value = ([entity], 1)

@@ -3,9 +3,7 @@
 
 from __future__ import annotations
 
-import asyncio
 import uuid
-from datetime import datetime, timezone
 
 print("Crewspan seed script")
 print("=" * 40)
@@ -36,7 +34,7 @@ demo_data = {
 
 print(f"Tenant ID:  {TENANT_ID}")
 print(f"User ID:    {USER_ID}")
-print(f"Login:      admin@demo-ops.local / demo1234")
+print("Login:      admin@demo-ops.local / demo1234")
 print(f"Work orders: {len(demo_data['work_orders'])} sample records defined")
 print()
 print("Note: Run against live database with SQLAlchemy session in production.")

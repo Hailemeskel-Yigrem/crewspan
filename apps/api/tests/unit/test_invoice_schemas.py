@@ -2,10 +2,7 @@
 
 from __future__ import annotations
 
-from uuid import uuid4
-
 import pytest
-from pydantic import ValidationError
 
 from app.domains.invoice.schemas import InvoiceCreate, InvoiceListResponse, InvoiceUpdate
 

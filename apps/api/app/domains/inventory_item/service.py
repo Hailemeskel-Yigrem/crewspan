@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from decimal import Decimal
 from typing import Any
 from uuid import UUID
 
@@ -15,7 +14,11 @@ from app.domains.inventory_item.exceptions import (
 )
 from app.domains.inventory_item.models import InventoryItem
 from app.domains.inventory_item.repository import InventoryItemRepository
-from app.domains.inventory_item.schemas import InventoryItemCreate, InventoryItemRead, InventoryItemUpdate
+from app.domains.inventory_item.schemas import (
+    InventoryItemCreate,
+    InventoryItemRead,
+    InventoryItemUpdate,
+)
 
 logger = structlog.get_logger(__name__)
 

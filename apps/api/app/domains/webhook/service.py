@@ -8,7 +8,6 @@ from uuid import UUID
 import structlog
 
 from app.domains.webhook.exceptions import (
-    WebhookConflictError,
     WebhookNotFoundError,
     WebhookValidationError,
 )

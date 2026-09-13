@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from uuid import uuid4
-
 import pytest
-from pydantic import ValidationError
 
-from app.domains.customer_site.schemas import CustomerSiteCreate, CustomerSiteListResponse, CustomerSiteUpdate
+from app.domains.customer_site.schemas import (
+    CustomerSiteCreate,
+    CustomerSiteListResponse,
+    CustomerSiteUpdate,
+)
 
 
 class TestCustomerSiteSchemas:

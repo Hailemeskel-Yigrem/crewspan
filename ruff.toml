@@ -23,8 +23,9 @@ select = [
     "S",   # flake8-bandit (security)
 ]
 ignore = [
-    "E501",  # line length is enforced by the formatter, not the linter
-    "B008",  # FastAPI's Depends()/Query() defaults are the framework idiom
+    "E501",   # line length is enforced by the formatter, not the linter
+    "B008",   # FastAPI's Depends()/Query() defaults are the framework idiom
+    "UP042",  # str+Enum -> StrEnum changes str() output; not a safe sweep
 ]
 
 [lint.per-file-ignores]

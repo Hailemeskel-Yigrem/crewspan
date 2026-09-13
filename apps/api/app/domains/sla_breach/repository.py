@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 from uuid import UUID
 
@@ -190,7 +190,7 @@ class SlaBreachRepository:
         return entity
 
     async def soft_delete(self, entity: SlaBreach) -> None:
-        entity.deleted_at = datetime.now(timezone.utc)
+        entity.deleted_at = datetime.now(UTC)
         await self._session.flush()
         logger.info("sla_breach.deleted", entity_id=str(entity.id))
 

@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from uuid import uuid4
-
 import pytest
-from pydantic import ValidationError
 
-from app.domains.parts_request.schemas import PartsRequestCreate, PartsRequestListResponse, PartsRequestUpdate
+from app.domains.parts_request.schemas import (
+    PartsRequestCreate,
+    PartsRequestListResponse,
+    PartsRequestUpdate,
+)
 
 
 class TestPartsRequestSchemas:

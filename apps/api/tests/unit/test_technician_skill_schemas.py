@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from uuid import uuid4
-
 import pytest
-from pydantic import ValidationError
 
-from app.domains.technician_skill.schemas import TechnicianSkillCreate, TechnicianSkillListResponse, TechnicianSkillUpdate
+from app.domains.technician_skill.schemas import (
+    TechnicianSkillCreate,
+    TechnicianSkillListResponse,
+    TechnicianSkillUpdate,
+)
 
 
 class TestTechnicianSkillSchemas:

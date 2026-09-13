@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
+from datetime import UTC, datetime
 from decimal import Decimal
 from unittest.mock import AsyncMock, MagicMock
 from uuid import uuid4
 
 import pytest
 
-from app.domains.customer_site.exceptions import CustomerSiteNotFoundError, CustomerSiteValidationError
+from app.domains.customer_site.exceptions import (
+    CustomerSiteNotFoundError,
+    CustomerSiteValidationError,
+)
 from app.domains.customer_site.service import CustomerSiteService
 
 
@@ -28,8 +31,8 @@ def mock_repo():
     entity.access_instructions = "sample-access_instructions"
     entity.service_window = {}
     entity.is_active = True
-    entity.created_at = datetime.now(timezone.utc)
-    entity.updated_at = datetime.now(timezone.utc)
+    entity.created_at = datetime.now(UTC)
+    entity.updated_at = datetime.now(UTC)
     entity.deleted_at = None
     repo.get_by_id.return_value = entity
     repo.list.return_value = ([entity], 1)

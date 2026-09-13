@@ -8,7 +8,6 @@ from uuid import UUID
 import structlog
 
 from app.domains.sla_breach.exceptions import (
-    SlaBreachConflictError,
     SlaBreachNotFoundError,
     SlaBreachValidationError,
 )

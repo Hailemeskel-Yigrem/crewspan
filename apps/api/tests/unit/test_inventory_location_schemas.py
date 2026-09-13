@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from uuid import uuid4
-
 import pytest
-from pydantic import ValidationError
 
-from app.domains.inventory_location.schemas import InventoryLocationCreate, InventoryLocationListResponse, InventoryLocationUpdate
+from app.domains.inventory_location.schemas import (
+    InventoryLocationCreate,
+    InventoryLocationListResponse,
+    InventoryLocationUpdate,
+)
 
 
 class TestInventoryLocationSchemas:

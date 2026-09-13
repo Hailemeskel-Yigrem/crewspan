@@ -3,9 +3,7 @@
 from unittest.mock import MagicMock, patch
 from uuid import uuid4
 
-import pytest
-
-from crewspan_sdk.client import CrewspanClient, CrewspanAPIError
+from crewspan_sdk.client import CrewspanAPIError, CrewspanClient
 
 
 def test_client_requires_base_url():

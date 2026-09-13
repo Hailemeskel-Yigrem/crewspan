@@ -2,10 +2,7 @@
 
 from __future__ import annotations
 
-from uuid import uuid4
-
 import pytest
-from pydantic import ValidationError
 
 from app.domains.sla_breach.schemas import SlaBreachCreate, SlaBreachListResponse, SlaBreachUpdate
 

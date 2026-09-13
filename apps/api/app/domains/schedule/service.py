@@ -9,7 +9,6 @@ from uuid import UUID
 import structlog
 
 from app.domains.schedule.exceptions import (
-    ScheduleConflictError,
     ScheduleNotFoundError,
     ScheduleValidationError,
 )

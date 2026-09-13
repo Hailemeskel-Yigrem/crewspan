@@ -11,34 +11,34 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.core.errors import register_exception_handlers
 from app.db import close_db, init_db
-from app.logging_config import configure_logging
-from app.middleware import RequestContextMiddleware, TenantContextMiddleware
-from app.domains.tenant.router import router as tenant_router
-from app.domains.user.router import router as user_router
-from app.domains.role.router import router as role_router
+from app.domains.audit_log.router import router as audit_log_router
+from app.domains.contact.router import router as contact_router
 from app.domains.customer.router import router as customer_router
 from app.domains.customer_site.router import router as customer_site_router
-from app.domains.contact.router import router as contact_router
-from app.domains.work_order.router import router as work_order_router
-from app.domains.work_order_task.router import router as work_order_task_router
-from app.domains.technician.router import router as technician_router
-from app.domains.technician_skill.router import router as technician_skill_router
-from app.domains.schedule.router import router as schedule_router
 from app.domains.dispatch.router import router as dispatch_router
+from app.domains.equipment.router import router as equipment_router
 from app.domains.inventory_item.router import router as inventory_item_router
 from app.domains.inventory_location.router import router as inventory_location_router
-from app.domains.stock_movement.router import router as stock_movement_router
-from app.domains.parts_request.router import router as parts_request_router
 from app.domains.invoice.router import router as invoice_router
 from app.domains.invoice_line_item.router import router as invoice_line_item_router
-from app.domains.payment.router import router as payment_router
-from app.domains.sla_policy.router import router as sla_policy_router
-from app.domains.sla_breach.router import router as sla_breach_router
-from app.domains.service_contract.router import router as service_contract_router
-from app.domains.equipment.router import router as equipment_router
 from app.domains.notification.router import router as notification_router
+from app.domains.parts_request.router import router as parts_request_router
+from app.domains.payment.router import router as payment_router
+from app.domains.role.router import router as role_router
+from app.domains.schedule.router import router as schedule_router
+from app.domains.service_contract.router import router as service_contract_router
+from app.domains.sla_breach.router import router as sla_breach_router
+from app.domains.sla_policy.router import router as sla_policy_router
+from app.domains.stock_movement.router import router as stock_movement_router
+from app.domains.technician.router import router as technician_router
+from app.domains.technician_skill.router import router as technician_skill_router
+from app.domains.tenant.router import router as tenant_router
+from app.domains.user.router import router as user_router
 from app.domains.webhook.router import router as webhook_router
-from app.domains.audit_log.router import router as audit_log_router
+from app.domains.work_order.router import router as work_order_router
+from app.domains.work_order_task.router import router as work_order_task_router
+from app.logging_config import configure_logging
+from app.middleware import RequestContextMiddleware, TenantContextMiddleware
 
 logger = structlog.get_logger(__name__)
 

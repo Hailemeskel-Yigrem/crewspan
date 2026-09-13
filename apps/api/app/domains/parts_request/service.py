@@ -14,7 +14,11 @@ from app.domains.parts_request.exceptions import (
 )
 from app.domains.parts_request.models import PartsRequest
 from app.domains.parts_request.repository import PartsRequestRepository
-from app.domains.parts_request.schemas import PartsRequestCreate, PartsRequestRead, PartsRequestUpdate
+from app.domains.parts_request.schemas import (
+    PartsRequestCreate,
+    PartsRequestRead,
+    PartsRequestUpdate,
+)
 
 logger = structlog.get_logger(__name__)
 
@@ -162,9 +166,9 @@ class PartsRequestService:
 
     def _validate_create(self, data: PartsRequestCreate) -> None:
         """Domain-specific create validation for PartsRequest."""
-        if hasattr(data, "status") and getattr(data, "status") is not None:
-            if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise PartsRequestValidationError(f"Invalid status: {getattr(data, 'status')}")
+        if hasattr(data, "status") and data.status is not None:
+            if data.status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
+                raise PartsRequestValidationError(f"Invalid status: {data.status}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():

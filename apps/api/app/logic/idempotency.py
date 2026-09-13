@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any, Literal
 
 Status = Literal["started", "completed", "failed"]
@@ -14,7 +14,7 @@ class IdempotencyRecord:
     key: str
     status: Status
     result: Any = None
-    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
     expires_at: datetime | None = None
 
 
@@ -24,7 +24,7 @@ class IdempotencyStore:
     ttl: timedelta = timedelta(hours=24)
 
     def _purge_expired(self) -> None:
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         expired = [k for k, v in self._seen.items() if v.expires_at and v.expires_at <= now]
         for key in expired:
             del self._seen[key]
@@ -37,7 +37,7 @@ class IdempotencyStore:
         self._seen[key] = IdempotencyRecord(
             key=key,
             status="started",
-            expires_at=datetime.now(timezone.utc) + self.ttl,
+            expires_at=datetime.now(UTC) + self.ttl,
         )
         return True
 

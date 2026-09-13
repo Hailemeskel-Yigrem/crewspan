@@ -8,13 +8,16 @@ from uuid import UUID
 import structlog
 
 from app.domains.invoice_line_item.exceptions import (
-    InvoiceLineItemConflictError,
     InvoiceLineItemNotFoundError,
     InvoiceLineItemValidationError,
 )
 from app.domains.invoice_line_item.models import InvoiceLineItem
 from app.domains.invoice_line_item.repository import InvoiceLineItemRepository
-from app.domains.invoice_line_item.schemas import InvoiceLineItemCreate, InvoiceLineItemRead, InvoiceLineItemUpdate
+from app.domains.invoice_line_item.schemas import (
+    InvoiceLineItemCreate,
+    InvoiceLineItemRead,
+    InvoiceLineItemUpdate,
+)
 
 logger = structlog.get_logger(__name__)
 

@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from math import ceil
-from typing import Generic, Sequence, TypeVar
+from typing import Generic, TypeVar
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -46,7 +47,7 @@ class PaginatedResponse(BaseModel, Generic[T]):
         items: Sequence[T],
         total: int,
         params: PaginationParams,
-    ) -> "PaginatedResponse[T]":
+    ) -> PaginatedResponse[T]:
         pages = max(1, ceil(total / params.page_size)) if params.page_size else 1
         return cls(
             items=list(items),
@@ -63,7 +64,7 @@ class PageSlice:
     limit: int
 
     @classmethod
-    def from_params(cls, params: PaginationParams) -> "PageSlice":
+    def from_params(cls, params: PaginationParams) -> PageSlice:
         return cls(offset=params.offset, limit=params.limit)
 
 

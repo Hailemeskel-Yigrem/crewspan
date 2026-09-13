@@ -8,13 +8,16 @@ from uuid import UUID
 import structlog
 
 from app.domains.inventory_location.exceptions import (
-    InventoryLocationConflictError,
     InventoryLocationNotFoundError,
     InventoryLocationValidationError,
 )
 from app.domains.inventory_location.models import InventoryLocation
 from app.domains.inventory_location.repository import InventoryLocationRepository
-from app.domains.inventory_location.schemas import InventoryLocationCreate, InventoryLocationRead, InventoryLocationUpdate
+from app.domains.inventory_location.schemas import (
+    InventoryLocationCreate,
+    InventoryLocationRead,
+    InventoryLocationUpdate,
+)
 
 logger = structlog.get_logger(__name__)
 

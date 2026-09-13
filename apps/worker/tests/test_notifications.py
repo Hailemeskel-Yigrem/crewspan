@@ -1,6 +1,6 @@
 """Worker notification job tests."""
 
-from worker.jobs.notifications import send_email, process_pending_batch
+from worker.jobs.notifications import process_pending_batch, send_email
 
 
 def test_send_email_returns_status():

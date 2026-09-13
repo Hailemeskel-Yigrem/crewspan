@@ -14,7 +14,11 @@ from app.domains.work_order_task.exceptions import (
 )
 from app.domains.work_order_task.models import WorkOrderTask
 from app.domains.work_order_task.repository import WorkOrderTaskRepository
-from app.domains.work_order_task.schemas import WorkOrderTaskCreate, WorkOrderTaskRead, WorkOrderTaskUpdate
+from app.domains.work_order_task.schemas import (
+    WorkOrderTaskCreate,
+    WorkOrderTaskRead,
+    WorkOrderTaskUpdate,
+)
 
 logger = structlog.get_logger(__name__)
 
@@ -166,9 +170,9 @@ class WorkOrderTaskService:
         if raw is not None and not str(raw).strip():
             raise WorkOrderTaskValidationError("title is required and cannot be blank")
 
-        if hasattr(data, "status") and getattr(data, "status") is not None:
-            if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise WorkOrderTaskValidationError(f"Invalid status: {getattr(data, 'status')}")
+        if hasattr(data, "status") and data.status is not None:
+            if data.status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
+                raise WorkOrderTaskValidationError(f"Invalid status: {data.status}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():

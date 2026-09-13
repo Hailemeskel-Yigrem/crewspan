@@ -170,17 +170,17 @@ class WorkOrderService:
         if raw is not None and not str(raw).strip():
             raise WorkOrderValidationError("title is required and cannot be blank")
 
-        if hasattr(data, "priority") and getattr(data, "priority") is not None:
-            if getattr(data, "priority") not in {'low', 'normal', 'high', 'critical'}:
-                raise WorkOrderValidationError(f"Invalid priority: {getattr(data, 'priority')}")
+        if hasattr(data, "priority") and data.priority is not None:
+            if data.priority not in {'low', 'normal', 'high', 'critical'}:
+                raise WorkOrderValidationError(f"Invalid priority: {data.priority}")
 
         raw = getattr(data, "priority", None)
         if raw is not None and not str(raw).strip():
             raise WorkOrderValidationError("priority is required and cannot be blank")
 
-        if hasattr(data, "status") and getattr(data, "status") is not None:
-            if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise WorkOrderValidationError(f"Invalid status: {getattr(data, 'status')}")
+        if hasattr(data, "status") and data.status is not None:
+            if data.status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
+                raise WorkOrderValidationError(f"Invalid status: {data.status}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():

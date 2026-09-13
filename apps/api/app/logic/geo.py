@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+from itertools import pairwise
 
 EARTH_RADIUS_KM = 6371.0
 
@@ -34,7 +35,7 @@ class BoundingBox:
         )
 
     @classmethod
-    def around(cls, center: Coordinate, radius_km: float) -> "BoundingBox":
+    def around(cls, center: Coordinate, radius_km: float) -> BoundingBox:
         center.validate()
         delta_lat = radius_km / EARTH_RADIUS_KM * (180.0 / math.pi)
         cos_lat = math.cos(math.radians(center.latitude))
@@ -65,6 +66,6 @@ def total_route_km(points: list[Coordinate]) -> float:
     if len(points) < 2:
         return 0.0
     total = 0.0
-    for left, right in zip(points, points[1:]):
+    for left, right in pairwise(points):
         total += haversine_km(left.latitude, left.longitude, right.latitude, right.longitude)
     return total

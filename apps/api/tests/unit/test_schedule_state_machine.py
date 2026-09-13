@@ -1,6 +1,11 @@
 import pytest
 
-from app.domains.schedule.state_machine import assert_transition, can_transition, validate_path, is_terminal
+from app.domains.schedule.state_machine import (
+    assert_transition,
+    can_transition,
+    is_terminal,
+    validate_path,
+)
 
 
 def test_schedule_draft_to_active() -> None:

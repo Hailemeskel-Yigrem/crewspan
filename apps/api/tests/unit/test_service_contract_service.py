@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from decimal import Decimal
 from unittest.mock import AsyncMock, MagicMock
 from uuid import uuid4
 
 import pytest
 
-from app.domains.service_contract.exceptions import ServiceContractNotFoundError, ServiceContractValidationError
+from app.domains.service_contract.exceptions import (
+    ServiceContractNotFoundError,
+    ServiceContractValidationError,
+)
 from app.domains.service_contract.service import ServiceContractService
 
 
@@ -29,8 +32,8 @@ def mock_repo():
     entity.covered_sites = []
     entity.terms = {}
     entity.status = "draft"
-    entity.created_at = datetime.now(timezone.utc)
-    entity.updated_at = datetime.now(timezone.utc)
+    entity.created_at = datetime.now(UTC)
+    entity.updated_at = datetime.now(UTC)
     entity.deleted_at = None
     repo.get_by_id.return_value = entity
     repo.list.return_value = ([entity], 1)

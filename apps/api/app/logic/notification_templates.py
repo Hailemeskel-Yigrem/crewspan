@@ -5,7 +5,6 @@ from __future__ import annotations
 from string import Formatter
 from typing import Any
 
-
 TEMPLATES: dict[str, str] = {
     "work_order.assigned": "Work order {number} assigned to {technician}.",
     "work_order.completed": "Work order {number} completed by {technician}.",

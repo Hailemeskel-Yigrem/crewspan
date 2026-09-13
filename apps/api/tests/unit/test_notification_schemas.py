@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from uuid import uuid4
-
 import pytest
-from pydantic import ValidationError
 
-from app.domains.notification.schemas import NotificationCreate, NotificationListResponse, NotificationUpdate
+from app.domains.notification.schemas import (
+    NotificationCreate,
+    NotificationListResponse,
+    NotificationUpdate,
+)
 
 
 class TestNotificationSchemas:

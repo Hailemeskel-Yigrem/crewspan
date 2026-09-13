@@ -5,10 +5,11 @@ from __future__ import annotations
 import csv
 import io
 import json
+from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Sequence
+from typing import Any
 from uuid import UUID, uuid4
 
 import structlog

@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 from uuid import UUID
 
 import structlog
-from sqlalchemy import Select, func, or_, select
+from sqlalchemy import Select, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domains.contact.models import Contact
@@ -181,7 +181,7 @@ class ContactRepository:
         return entity
 
     async def soft_delete(self, entity: Contact) -> None:
-        entity.deleted_at = datetime.now(timezone.utc)
+        entity.deleted_at = datetime.now(UTC)
         await self._session.flush()
         logger.info("contact.deleted", entity_id=str(entity.id))
 

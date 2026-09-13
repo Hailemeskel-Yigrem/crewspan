@@ -1,6 +1,11 @@
 import pytest
 
-from app.domains.technician.state_machine import assert_transition, can_transition, validate_path, is_terminal
+from app.domains.technician.state_machine import (
+    assert_transition,
+    can_transition,
+    is_terminal,
+    validate_path,
+)
 
 
 def test_technician_draft_to_active() -> None:

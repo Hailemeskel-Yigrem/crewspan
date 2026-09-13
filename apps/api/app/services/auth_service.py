@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from uuid import UUID
 
 import structlog
@@ -27,7 +27,7 @@ logger = structlog.get_logger(__name__)
 class AuthTokens:
     access_token: str
     refresh_token: str
-    token_type: str = "bearer"
+    token_type: str = "bearer"  # noqa: S105 - OAuth token type, not a credential
     expires_in_minutes: int = 60
 
 
@@ -71,7 +71,7 @@ class AuthService:
             logger.info("auth.login.failed", reason="bad_password", user_id=str(user.id))
             raise AuthorizationError("Invalid email or password")
 
-        user.last_login_at = datetime.now(timezone.utc)
+        user.last_login_at = datetime.now(UTC)
         await self._session.flush()
 
         access = create_access_token(

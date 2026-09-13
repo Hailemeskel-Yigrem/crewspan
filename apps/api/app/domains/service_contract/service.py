@@ -15,7 +15,11 @@ from app.domains.service_contract.exceptions import (
 )
 from app.domains.service_contract.models import ServiceContract
 from app.domains.service_contract.repository import ServiceContractRepository
-from app.domains.service_contract.schemas import ServiceContractCreate, ServiceContractRead, ServiceContractUpdate
+from app.domains.service_contract.schemas import (
+    ServiceContractCreate,
+    ServiceContractRead,
+    ServiceContractUpdate,
+)
 
 logger = structlog.get_logger(__name__)
 
@@ -175,9 +179,9 @@ class ServiceContractService:
         if raw is not None and not str(raw).strip():
             raise ServiceContractValidationError("billing_frequency is required and cannot be blank")
 
-        if hasattr(data, "status") and getattr(data, "status") is not None:
-            if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise ServiceContractValidationError(f"Invalid status: {getattr(data, 'status')}")
+        if hasattr(data, "status") and data.status is not None:
+            if data.status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
+                raise ServiceContractValidationError(f"Invalid status: {data.status}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():

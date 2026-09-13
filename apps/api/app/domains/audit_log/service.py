@@ -8,7 +8,6 @@ from uuid import UUID
 import structlog
 
 from app.domains.audit_log.exceptions import (
-    AuditLogConflictError,
     AuditLogNotFoundError,
     AuditLogValidationError,
 )

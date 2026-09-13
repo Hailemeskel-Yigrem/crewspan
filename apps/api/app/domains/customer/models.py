@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from decimal import Decimal
 from uuid import UUID, uuid4
 
-from sqlalchemy import Boolean, Date, DateTime, Integer, JSON, Numeric, String, Text, func
+from sqlalchemy import JSON, Boolean, DateTime, Integer, Numeric, String, Text, func
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -51,6 +51,6 @@ class Customer(Base):
 
     def touch_updated(self) -> None:
         """Mark instance as updated (ORM onupdate also applies at flush)."""
-        from datetime import datetime, timezone
+        from datetime import datetime
 
-        self.updated_at = datetime.now(timezone.utc)
+        self.updated_at = datetime.now(UTC)

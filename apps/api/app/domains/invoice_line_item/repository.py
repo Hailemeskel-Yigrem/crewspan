@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 from uuid import UUID
 
 import structlog
-from sqlalchemy import Select, func, or_, select
+from sqlalchemy import Select, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domains.invoice_line_item.models import InvoiceLineItem
@@ -176,7 +176,7 @@ class InvoiceLineItemRepository:
         return entity
 
     async def soft_delete(self, entity: InvoiceLineItem) -> None:
-        entity.deleted_at = datetime.now(timezone.utc)
+        entity.deleted_at = datetime.now(UTC)
         await self._session.flush()
         logger.info("invoice_line_item.deleted", entity_id=str(entity.id))
 

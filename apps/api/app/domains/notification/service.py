@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import UTC
 from typing import Any
 from uuid import UUID
 
@@ -14,7 +15,11 @@ from app.domains.notification.exceptions import (
 )
 from app.domains.notification.models import Notification
 from app.domains.notification.repository import NotificationRepository
-from app.domains.notification.schemas import NotificationCreate, NotificationRead, NotificationUpdate
+from app.domains.notification.schemas import (
+    NotificationCreate,
+    NotificationRead,
+    NotificationUpdate,
+)
 
 logger = structlog.get_logger(__name__)
 
@@ -178,9 +183,9 @@ class NotificationService:
         if raw is not None and not str(raw).strip():
             raise NotificationValidationError("body is required and cannot be blank")
 
-        if hasattr(data, "status") and getattr(data, "status") is not None:
-            if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise NotificationValidationError(f"Invalid status: {getattr(data, 'status')}")
+        if hasattr(data, "status") and data.status is not None:
+            if data.status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
+                raise NotificationValidationError(f"Invalid status: {data.status}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():
@@ -198,9 +203,9 @@ class NotificationService:
     async def mark_sent(self, entity_id: UUID, tenant_id: UUID | None):
         """Record successful delivery"""
         entity = await self._require_entity(entity_id, tenant_id=tenant_id)
-        from datetime import datetime, timezone
+        from datetime import datetime
         entity.status = "sent"
-        entity.sent_at = datetime.now(timezone.utc)
+        entity.sent_at = datetime.now(UTC)
         logger.info("notification.mark_sent", entity_id=str(entity.id))
         await self._repo._session.flush()
         await self._repo._session.refresh(entity)

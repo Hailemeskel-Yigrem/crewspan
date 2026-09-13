@@ -2,12 +2,10 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime
-from decimal import Decimal
+from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
-import re
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class WorkOrderTaskBase(BaseModel):
@@ -89,7 +87,7 @@ class WorkOrderTaskListResponse(BaseModel):
     pages: int = Field(default=1, ge=1)
 
     @classmethod
-    def from_page(cls, items: list[WorkOrderTaskRead], total: int, page: int, page_size: int) -> "WorkOrderTaskListResponse":
+    def from_page(cls, items: list[WorkOrderTaskRead], total: int, page: int, page_size: int) -> WorkOrderTaskListResponse:
         pages = max(1, (total + page_size - 1) // page_size)
         return cls(items=items, total=total, page=page, page_size=page_size, pages=pages)
 

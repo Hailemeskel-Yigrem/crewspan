@@ -3,10 +3,9 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from decimal import Decimal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class TechnicianSkillBase(BaseModel):
@@ -71,7 +70,7 @@ class TechnicianSkillListResponse(BaseModel):
     pages: int = Field(default=1, ge=1)
 
     @classmethod
-    def from_page(cls, items: list[TechnicianSkillRead], total: int, page: int, page_size: int) -> "TechnicianSkillListResponse":
+    def from_page(cls, items: list[TechnicianSkillRead], total: int, page: int, page_size: int) -> TechnicianSkillListResponse:
         pages = max(1, (total + page_size - 1) // page_size)
         return cls(items=items, total=total, page=page, page_size=page_size, pages=pages)
 

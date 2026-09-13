@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from uuid import uuid4
-
 import pytest
-from pydantic import ValidationError
 
-from app.domains.work_order_task.schemas import WorkOrderTaskCreate, WorkOrderTaskListResponse, WorkOrderTaskUpdate
+from app.domains.work_order_task.schemas import (
+    WorkOrderTaskCreate,
+    WorkOrderTaskListResponse,
+    WorkOrderTaskUpdate,
+)
 
 
 class TestWorkOrderTaskSchemas:

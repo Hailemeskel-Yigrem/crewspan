@@ -2,14 +2,16 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
-from decimal import Decimal
+from datetime import UTC, datetime
 from unittest.mock import AsyncMock, MagicMock
 from uuid import uuid4
 
 import pytest
 
-from app.domains.inventory_location.exceptions import InventoryLocationNotFoundError, InventoryLocationValidationError
+from app.domains.inventory_location.exceptions import (
+    InventoryLocationNotFoundError,
+    InventoryLocationValidationError,
+)
 from app.domains.inventory_location.service import InventoryLocationService
 
 
@@ -25,8 +27,8 @@ def mock_repo():
     entity.technician_id = uuid4()
     entity.address = {}
     entity.is_active = True
-    entity.created_at = datetime.now(timezone.utc)
-    entity.updated_at = datetime.now(timezone.utc)
+    entity.created_at = datetime.now(UTC)
+    entity.updated_at = datetime.now(UTC)
     entity.deleted_at = None
     repo.get_by_id.return_value = entity
     repo.list.return_value = ([entity], 1)

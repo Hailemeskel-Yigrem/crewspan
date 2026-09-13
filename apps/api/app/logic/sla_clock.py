@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from enum import Enum
 
 
@@ -24,11 +24,11 @@ class SlaWindow:
         return self.started_at + timedelta(minutes=self.target_minutes)
 
     def elapsed_minutes(self, now: datetime | None = None) -> float:
-        now = now or datetime.now(timezone.utc)
+        now = now or datetime.now(UTC)
         return max(0.0, (now - self.started_at).total_seconds() / 60.0)
 
     def remaining_minutes(self, now: datetime | None = None) -> float:
-        now = now or datetime.now(timezone.utc)
+        now = now or datetime.now(UTC)
         return (self.due_at - now).total_seconds() / 60.0
 
     def progress_pct(self, now: datetime | None = None) -> float:

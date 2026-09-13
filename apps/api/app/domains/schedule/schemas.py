@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime
-from decimal import Decimal
+from datetime import datetime
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -52,7 +51,7 @@ class ScheduleCreate(BaseModel):
         return stripped
 
     @model_validator(mode="after")
-    def validate_starts_at_ends_at_ordering(self) -> "ScheduleCreate":
+    def validate_starts_at_ends_at_ordering(self) -> ScheduleCreate:
         start = getattr(self, "starts_at", None)
         end = getattr(self, "ends_at", None)
         if start is not None and end is not None and end < start:
@@ -84,7 +83,7 @@ class ScheduleListResponse(BaseModel):
     pages: int = Field(default=1, ge=1)
 
     @classmethod
-    def from_page(cls, items: list[ScheduleRead], total: int, page: int, page_size: int) -> "ScheduleListResponse":
+    def from_page(cls, items: list[ScheduleRead], total: int, page: int, page_size: int) -> ScheduleListResponse:
         pages = max(1, (total + page_size - 1) // page_size)
         return cls(items=items, total=total, page=page, page_size=page_size, pages=pages)
 

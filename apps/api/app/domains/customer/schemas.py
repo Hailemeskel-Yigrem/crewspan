@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import datetime
 from decimal import Decimal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
-import re
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class CustomerBase(BaseModel):
@@ -118,7 +117,7 @@ class CustomerListResponse(BaseModel):
     pages: int = Field(default=1, ge=1)
 
     @classmethod
-    def from_page(cls, items: list[CustomerRead], total: int, page: int, page_size: int) -> "CustomerListResponse":
+    def from_page(cls, items: list[CustomerRead], total: int, page: int, page_size: int) -> CustomerListResponse:
         pages = max(1, (total + page_size - 1) // page_size)
         return cls(items=items, total=total, page=page, page_size=page_size, pages=pages)
 

@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import date, datetime, timedelta, timezone
+from datetime import UTC, date, datetime, timedelta
 from decimal import Decimal
-from typing import Any
 from uuid import UUID
 
 import structlog
@@ -28,7 +27,7 @@ class DashboardMetrics:
     revenue_mtd: Decimal = Decimal("0")
     sla_breaches_open: int = 0
     completed_this_week: int = 0
-    generated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    generated_at: datetime = field(default_factory=lambda: datetime.now(UTC))
 
 
 @dataclass(slots=True)
@@ -49,7 +48,7 @@ class ReportingService:
         self._session = session
 
     async def dashboard(self, tenant_id: UUID) -> DashboardMetrics:
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         month_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         week_start = now - timedelta(days=now.weekday())
 

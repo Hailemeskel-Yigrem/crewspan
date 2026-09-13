@@ -9,13 +9,16 @@ from uuid import UUID
 import structlog
 
 from app.domains.customer_site.exceptions import (
-    CustomerSiteConflictError,
     CustomerSiteNotFoundError,
     CustomerSiteValidationError,
 )
 from app.domains.customer_site.models import CustomerSite
 from app.domains.customer_site.repository import CustomerSiteRepository
-from app.domains.customer_site.schemas import CustomerSiteCreate, CustomerSiteRead, CustomerSiteUpdate
+from app.domains.customer_site.schemas import (
+    CustomerSiteCreate,
+    CustomerSiteRead,
+    CustomerSiteUpdate,
+)
 
 logger = structlog.get_logger(__name__)
 

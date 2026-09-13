@@ -9,13 +9,16 @@ from uuid import UUID
 import structlog
 
 from app.domains.technician_skill.exceptions import (
-    TechnicianSkillConflictError,
     TechnicianSkillNotFoundError,
     TechnicianSkillValidationError,
 )
 from app.domains.technician_skill.models import TechnicianSkill
 from app.domains.technician_skill.repository import TechnicianSkillRepository
-from app.domains.technician_skill.schemas import TechnicianSkillCreate, TechnicianSkillRead, TechnicianSkillUpdate
+from app.domains.technician_skill.schemas import (
+    TechnicianSkillCreate,
+    TechnicianSkillRead,
+    TechnicianSkillUpdate,
+)
 
 logger = structlog.get_logger(__name__)
 

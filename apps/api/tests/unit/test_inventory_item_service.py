@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
+from datetime import UTC, datetime
 from decimal import Decimal
 from unittest.mock import AsyncMock, MagicMock
 from uuid import uuid4
 
 import pytest
 
-from app.domains.inventory_item.exceptions import InventoryItemNotFoundError, InventoryItemValidationError
+from app.domains.inventory_item.exceptions import (
+    InventoryItemNotFoundError,
+    InventoryItemValidationError,
+)
 from app.domains.inventory_item.service import InventoryItemService
 
 
@@ -28,8 +31,8 @@ def mock_repo():
     entity.reorder_quantity = 1
     entity.is_active = True
     entity.category = "sample-category"
-    entity.created_at = datetime.now(timezone.utc)
-    entity.updated_at = datetime.now(timezone.utc)
+    entity.created_at = datetime.now(UTC)
+    entity.updated_at = datetime.now(UTC)
     entity.deleted_at = None
     repo.get_by_id.return_value = entity
     repo.list.return_value = ([entity], 1)

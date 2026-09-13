@@ -2,12 +2,10 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime
-from decimal import Decimal
+from datetime import datetime
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
-import re
 
 
 class WorkOrderBase(BaseModel):
@@ -103,7 +101,7 @@ class WorkOrderCreate(BaseModel):
         return stripped
 
     @model_validator(mode="after")
-    def validate_scheduled_start_scheduled_end_ordering(self) -> "WorkOrderCreate":
+    def validate_scheduled_start_scheduled_end_ordering(self) -> WorkOrderCreate:
         start = getattr(self, "scheduled_start", None)
         end = getattr(self, "scheduled_end", None)
         if start is not None and end is not None and end < start:
@@ -140,7 +138,7 @@ class WorkOrderListResponse(BaseModel):
     pages: int = Field(default=1, ge=1)
 
     @classmethod
-    def from_page(cls, items: list[WorkOrderRead], total: int, page: int, page_size: int) -> "WorkOrderListResponse":
+    def from_page(cls, items: list[WorkOrderRead], total: int, page: int, page_size: int) -> WorkOrderListResponse:
         pages = max(1, (total + page_size - 1) // page_size)
         return cls(items=items, total=total, page=page, page_size=page_size, pages=pages)
 

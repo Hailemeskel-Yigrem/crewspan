@@ -9,7 +9,6 @@ from uuid import UUID
 import structlog
 
 from app.domains.sla_policy.exceptions import (
-    SlaPolicyConflictError,
     SlaPolicyNotFoundError,
     SlaPolicyValidationError,
 )
@@ -139,9 +138,9 @@ class SlaPolicyService:
         if raw is not None and not str(raw).strip():
             raise SlaPolicyValidationError("name is required and cannot be blank")
 
-        if hasattr(data, "priority") and getattr(data, "priority") is not None:
-            if getattr(data, "priority") not in {'low', 'normal', 'high', 'critical'}:
-                raise SlaPolicyValidationError(f"Invalid priority: {getattr(data, 'priority')}")
+        if hasattr(data, "priority") and data.priority is not None:
+            if data.priority not in {'low', 'normal', 'high', 'critical'}:
+                raise SlaPolicyValidationError(f"Invalid priority: {data.priority}")
 
         raw = getattr(data, "priority", None)
         if raw is not None and not str(raw).strip():

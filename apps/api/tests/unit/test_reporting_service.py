@@ -1,11 +1,10 @@
 """Unit tests for ReportingService."""
 
 from unittest.mock import AsyncMock
-from uuid import uuid4
 
 import pytest
 
-from app.services.reporting_service import ReportingService, DashboardMetrics
+from app.services.reporting_service import DashboardMetrics, ReportingService
 
 
 @pytest.fixture

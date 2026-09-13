@@ -9,7 +9,6 @@ from uuid import UUID
 import structlog
 
 from app.domains.customer.exceptions import (
-    CustomerConflictError,
     CustomerNotFoundError,
     CustomerValidationError,
 )
@@ -143,9 +142,9 @@ class CustomerService:
         if raw is not None and not str(raw).strip():
             raise CustomerValidationError("name is required and cannot be blank")
 
-        if hasattr(data, "customer_type") and getattr(data, "customer_type") is not None:
-            if getattr(data, "customer_type") not in {'residential', 'commercial', 'government'}:
-                raise CustomerValidationError(f"Invalid customer_type: {getattr(data, 'customer_type')}")
+        if hasattr(data, "customer_type") and data.customer_type is not None:
+            if data.customer_type not in {'residential', 'commercial', 'government'}:
+                raise CustomerValidationError(f"Invalid customer_type: {data.customer_type}")
 
         raw = getattr(data, "customer_type", None)
         if raw is not None and not str(raw).strip():
