@@ -2,14 +2,12 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from uuid import UUID
+from datetime import UTC, datetime
 
 import structlog
 from celery import shared_task
 
 from worker.base import CrewspanTask
-from worker.config import settings
 
 logger = structlog.get_logger(__name__)
 
@@ -23,7 +21,7 @@ def send_email(notification_id: str, *, tenant_id: str) -> dict[str, str]:
         tenant_id=tenant_id,
     )
     # Production integration would fetch notification, render template, call provider.
-    delivered_at = datetime.now(timezone.utc).isoformat()
+    delivered_at = datetime.now(UTC).isoformat()
     logger.info(
         "notification.send_email.complete",
         notification_id=notification_id,
@@ -75,6 +73,6 @@ def dispatch_work_order_update(
     )
     enqueued = []
     for recipient_id in recipient_ids or []:
-        task = send_email.delay(str(UUID(int=0)), tenant_id=tenant_id)
+        task = send_email.delay(str(recipient_id), tenant_id=tenant_id)
         enqueued.append(task.id)
     return {"event": event, "enqueued_tasks": enqueued}
