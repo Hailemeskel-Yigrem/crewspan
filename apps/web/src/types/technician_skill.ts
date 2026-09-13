@@ -17,8 +17,8 @@ expires_at: string | null;
         technician_id?: string;
 skill_code?: string;
 skill_name?: string;
-certified_at: string | null;
-expires_at: string | null;
+certified_at?: string | null;
+expires_at?: string | null;
       }
 
       export interface TechnicianSkillUpdate {

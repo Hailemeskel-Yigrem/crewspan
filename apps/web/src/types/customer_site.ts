@@ -21,10 +21,10 @@ is_active: boolean;
 site_code?: string;
 name?: string;
 address?: Record<string, unknown>;
-latitude: string | null;
-longitude: string | null;
-access_instructions: string | null;
-service_window: Record<string, unknown> | null;
+latitude?: string | null;
+longitude?: string | null;
+access_instructions?: string | null;
+service_window?: Record<string, unknown> | null;
       }
 
       export interface CustomerSiteUpdate {

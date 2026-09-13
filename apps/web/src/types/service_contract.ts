@@ -22,10 +22,10 @@ status: string;
 contract_number?: string;
 name?: string;
 start_date?: string;
-end_date: string | null;
-annual_value: string | null;
-covered_sites: unknown[] | null;
-terms: Record<string, unknown> | null;
+end_date?: string | null;
+annual_value?: string | null;
+covered_sites?: unknown[] | null;
+terms?: Record<string, unknown> | null;
       }
 
       export interface ServiceContractUpdate {

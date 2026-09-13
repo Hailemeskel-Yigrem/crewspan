@@ -19,7 +19,7 @@ last_triggered_at: string | null;
 url?: string;
 secret?: string;
 event_types?: unknown[];
-last_triggered_at: string | null;
+last_triggered_at?: string | null;
       }
 
       export interface WebhookUpdate {

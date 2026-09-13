@@ -17,14 +17,14 @@ payload_meta: Record<string, unknown> | null;
       }
 
       export interface NotificationCreate {
-        recipient_id: string | null;
-recipient_email: string | null;
+        recipient_id?: string | null;
+recipient_email?: string | null;
 channel?: string;
 template_key?: string;
-subject: string | null;
+subject?: string | null;
 body?: string;
-sent_at: string | null;
-payload_meta: Record<string, unknown> | null;
+sent_at?: string | null;
+payload_meta?: Record<string, unknown> | null;
       }
 
       export interface NotificationUpdate {

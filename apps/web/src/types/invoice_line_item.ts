@@ -19,7 +19,7 @@ reference_id: string | null;
         invoice_id?: string;
 description?: string;
 unit_price?: string;
-reference_id: string | null;
+reference_id?: string | null;
       }
 
       export interface InvoiceLineItemUpdate {

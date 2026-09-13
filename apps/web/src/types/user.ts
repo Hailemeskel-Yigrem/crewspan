@@ -19,10 +19,10 @@ preferences: Record<string, unknown> | null;
         email?: string;
 full_name?: string;
 password_hash?: string;
-phone: string | null;
+phone?: string | null;
 role_id?: string;
-last_login_at: string | null;
-preferences: Record<string, unknown> | null;
+last_login_at?: string | null;
+preferences?: Record<string, unknown> | null;
       }
 
       export interface UserUpdate {

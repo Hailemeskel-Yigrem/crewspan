@@ -22,16 +22,18 @@ completion_notes: string | null;
 
       export interface WorkOrderCreate {
         order_number?: string;
+priority?: string;
+status?: string;
 customer_id?: string;
 site_id?: string;
 title?: string;
-description: string | null;
-scheduled_start: string | null;
-scheduled_end: string | null;
-assigned_technician_id: string | null;
-sla_policy_id: string | null;
-estimated_duration_minutes: number | null;
-completion_notes: string | null;
+description?: string | null;
+scheduled_start?: string | null;
+scheduled_end?: string | null;
+assigned_technician_id?: string | null;
+sla_policy_id?: string | null;
+estimated_duration_minutes?: number | null;
+completion_notes?: string | null;
       }
 
       export interface WorkOrderUpdate {

@@ -19,8 +19,8 @@ category: string | null;
       export interface InventoryItemCreate {
         sku?: string;
 name?: string;
-description: string | null;
-category: string | null;
+description?: string | null;
+category?: string | null;
       }
 
       export interface InventoryItemUpdate {

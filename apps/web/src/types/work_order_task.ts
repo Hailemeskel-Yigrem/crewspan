@@ -18,9 +18,9 @@ completed_by_id: string | null;
       export interface WorkOrderTaskCreate {
         work_order_id?: string;
 title?: string;
-instructions: string | null;
-completed_at: string | null;
-completed_by_id: string | null;
+instructions?: string | null;
+completed_at?: string | null;
+completed_by_id?: string | null;
       }
 
       export interface WorkOrderTaskUpdate {

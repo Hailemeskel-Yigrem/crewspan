@@ -16,8 +16,8 @@ is_active: boolean;
       export interface InventoryLocationCreate {
         code?: string;
 name?: string;
-technician_id: string | null;
-address: Record<string, unknown> | null;
+technician_id?: string | null;
+address?: Record<string, unknown> | null;
       }
 
       export interface InventoryLocationUpdate {

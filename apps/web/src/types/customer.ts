@@ -18,11 +18,14 @@ is_active: boolean;
 
       export interface CustomerCreate {
         account_number?: string;
+customer_type?: string;
+payment_terms_days?: number;
+is_active?: boolean;
 name?: string;
-billing_email: string | null;
-billing_address: Record<string, unknown> | null;
-credit_limit: string | null;
-notes: string | null;
+billing_email?: string | null;
+billing_address?: Record<string, unknown> | null;
+credit_limit?: string | null;
+notes?: string | null;
       }
 
       export interface CustomerUpdate {

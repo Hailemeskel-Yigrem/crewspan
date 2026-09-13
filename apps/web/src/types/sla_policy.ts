@@ -17,11 +17,11 @@ is_active: boolean;
 
       export interface SlaPolicyCreate {
         name?: string;
-description: string | null;
+description?: string | null;
 priority?: string;
 response_minutes?: number;
 resolution_minutes?: number;
-escalation_rules: unknown[] | null;
+escalation_rules?: unknown[] | null;
       }
 
       export interface SlaPolicyUpdate {

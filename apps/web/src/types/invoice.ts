@@ -21,10 +21,10 @@ notes: string | null;
       export interface InvoiceCreate {
         invoice_number?: string;
 customer_id?: string;
-work_order_id: string | null;
+work_order_id?: string | null;
 issue_date?: string;
 due_date?: string;
-notes: string | null;
+notes?: string | null;
       }
 
       export interface InvoiceUpdate {

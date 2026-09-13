@@ -18,9 +18,9 @@ settings: Record<string, unknown> | null;
       export interface TenantCreate {
         slug?: string;
 display_name?: string;
-legal_name: string | null;
-feature_flags: Record<string, unknown> | null;
-settings: Record<string, unknown> | null;
+legal_name?: string | null;
+feature_flags?: Record<string, unknown> | null;
+settings?: Record<string, unknown> | null;
       }
 
       export interface TenantUpdate {

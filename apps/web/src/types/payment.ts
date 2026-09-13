@@ -19,8 +19,8 @@ processor_response: Record<string, unknown> | null;
 amount?: string;
 payment_method?: string;
 payment_date?: string;
-reference_number: string | null;
-processor_response: Record<string, unknown> | null;
+reference_number?: string | null;
+processor_response?: Record<string, unknown> | null;
       }
 
       export interface PaymentUpdate {

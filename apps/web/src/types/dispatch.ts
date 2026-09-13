@@ -18,9 +18,9 @@ route_eta_minutes: number | null;
         work_order_id?: string;
 technician_id?: string;
 dispatched_at?: string;
-accepted_at: string | null;
-dispatch_notes: string | null;
-route_eta_minutes: number | null;
+accepted_at?: string | null;
+dispatch_notes?: string | null;
+route_eta_minutes?: number | null;
       }
 
       export interface DispatchUpdate {

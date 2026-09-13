@@ -20,15 +20,15 @@ status: string;
 
       export interface EquipmentCreate {
         customer_id?: string;
-site_id: string | null;
+site_id?: string | null;
 asset_tag?: string;
 name?: string;
-manufacturer: string | null;
-model_number: string | null;
-serial_number: string | null;
-install_date: string | null;
-warranty_expires: string | null;
-specifications: Record<string, unknown> | null;
+manufacturer?: string | null;
+model_number?: string | null;
+serial_number?: string | null;
+install_date?: string | null;
+warranty_expires?: string | null;
+specifications?: Record<string, unknown> | null;
       }
 
       export interface EquipmentUpdate {

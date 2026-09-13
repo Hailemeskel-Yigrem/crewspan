@@ -18,10 +18,10 @@ vehicle_info: Record<string, unknown> | null;
       export interface TechnicianCreate {
         user_id?: string;
 employee_id?: string;
-home_base_latitude: string | null;
-home_base_longitude: string | null;
-certifications: unknown[] | null;
-vehicle_info: Record<string, unknown> | null;
+home_base_latitude?: string | null;
+home_base_longitude?: string | null;
+certifications?: unknown[] | null;
+vehicle_info?: Record<string, unknown> | null;
       }
 
       export interface TechnicianUpdate {

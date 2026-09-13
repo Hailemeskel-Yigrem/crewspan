@@ -17,11 +17,11 @@ is_locked: boolean;
 
       export interface ScheduleCreate {
         technician_id?: string;
-work_order_id: string | null;
+work_order_id?: string | null;
 starts_at?: string;
 ends_at?: string;
 title?: string;
-notes: string | null;
+notes?: string | null;
       }
 
       export interface ScheduleUpdate {

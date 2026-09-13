@@ -18,14 +18,14 @@ notes: string | null;
 
       export interface StockMovementCreate {
         item_id?: string;
-from_location_id: string | null;
-to_location_id: string | null;
+from_location_id?: string | null;
+to_location_id?: string | null;
 quantity?: string;
 movement_type?: string;
-reference_type: string | null;
-reference_id: string | null;
-performed_by_id: string | null;
-notes: string | null;
+reference_type?: string | null;
+reference_id?: string | null;
+performed_by_id?: string | null;
+notes?: string | null;
       }
 
       export interface StockMovementUpdate {

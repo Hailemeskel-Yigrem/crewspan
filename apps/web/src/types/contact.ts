@@ -18,12 +18,12 @@ notify_on_dispatch: boolean;
 
       export interface ContactCreate {
         customer_id?: string;
-site_id: string | null;
+site_id?: string | null;
 first_name?: string;
 last_name?: string;
-email: string | null;
-phone: string | null;
-role_title: string | null;
+email?: string | null;
+phone?: string | null;
+role_title?: string | null;
       }
 
       export interface ContactUpdate {

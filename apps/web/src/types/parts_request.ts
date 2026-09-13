@@ -17,10 +17,10 @@ notes: string | null;
       export interface PartsRequestCreate {
         work_order_id?: string;
 requested_by_id?: string;
-needed_by: string | null;
-fulfillment_location_id: string | null;
+needed_by?: string | null;
+fulfillment_location_id?: string | null;
 line_items?: unknown[];
-notes: string | null;
+notes?: string | null;
       }
 
       export interface PartsRequestUpdate {

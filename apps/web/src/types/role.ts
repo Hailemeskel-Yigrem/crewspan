@@ -13,7 +13,7 @@ is_system: boolean;
 
       export interface RoleCreate {
         name?: string;
-description: string | null;
+description?: string | null;
 permissions?: unknown[];
       }
 
