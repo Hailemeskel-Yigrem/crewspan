@@ -58,7 +58,7 @@ python-dateutil==2.9.0.post0
     # via celery
 python-dotenv==1.2.3
     # via pydantic-settings
-redis==6.4.0
+redis==8.1.0
     # via
     #   -r apps/worker/requirements.txt
     #   kombu
