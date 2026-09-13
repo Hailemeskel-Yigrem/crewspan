@@ -109,9 +109,7 @@ async def renew_certification(
 ) -> TechnicianSkillRead:
     """Extend certification expiry"""
     result = await service.renew_certification(entity_id, tenant_id, expires_at=payload.expires_at)
-    if hasattr(result, "__table__"):
-        return TechnicianSkillRead.model_validate(result)
-    return result
+    return TechnicianSkillRead.model_validate(result)
 
 @router.get("/{entity_id}/is-valid", response_model=TechnicianSkillRead)
 async def is_valid(
@@ -121,6 +119,4 @@ async def is_valid(
 ) -> TechnicianSkillRead:
     """Check certification not expired"""
     result = await service.is_valid(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return TechnicianSkillRead.model_validate(result)
-    return result
+    return TechnicianSkillRead.model_validate(result)

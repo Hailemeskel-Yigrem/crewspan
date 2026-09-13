@@ -107,9 +107,7 @@ async def complete(
 ) -> WorkOrderTaskRead:
     """Mark task completed"""
     result = await service.complete(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return WorkOrderTaskRead.model_validate(result)
-    return result
+    return WorkOrderTaskRead.model_validate(result)
 
 @router.post("/{entity_id}/reopen", response_model=WorkOrderTaskRead)
 async def reopen(
@@ -119,9 +117,7 @@ async def reopen(
 ) -> WorkOrderTaskRead:
     """Revert completed task to pending"""
     result = await service.reopen(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return WorkOrderTaskRead.model_validate(result)
-    return result
+    return WorkOrderTaskRead.model_validate(result)
 
 @router.patch("/{entity_id}/reorder", response_model=WorkOrderTaskRead)
 async def reorder(
@@ -132,7 +128,5 @@ async def reorder(
 ) -> WorkOrderTaskRead:
     """Change task sequence"""
     result = await service.reorder(entity_id, tenant_id, sequence=payload.sequence)
-    if hasattr(result, "__table__"):
-        return WorkOrderTaskRead.model_validate(result)
-    return result
+    return WorkOrderTaskRead.model_validate(result)
 # history-note: evolutionary edit 45

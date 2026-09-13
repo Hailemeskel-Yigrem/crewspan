@@ -109,9 +109,7 @@ async def assign_to_technician(
 ) -> InventoryLocationRead:
     """Link location to technician van stock"""
     result = await service.assign_to_technician(entity_id, tenant_id, technician_id=payload.technician_id)
-    if hasattr(result, "__table__"):
-        return InventoryLocationRead.model_validate(result)
-    return result
+    return InventoryLocationRead.model_validate(result)
 
 @router.get("/{entity_id}/low-stock", response_model=InventoryLocationRead)
 async def list_low_stock(
@@ -121,6 +119,4 @@ async def list_low_stock(
 ) -> InventoryLocationRead:
     """Return items below reorder point at location"""
     result = await service.list_low_stock(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return InventoryLocationRead.model_validate(result)
-    return result
+    return InventoryLocationRead.model_validate(result)

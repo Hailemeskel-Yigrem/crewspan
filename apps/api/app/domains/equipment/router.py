@@ -112,9 +112,7 @@ async def record_service(
 ) -> EquipmentRead:
     """Log service event on equipment"""
     result = await service.record_service(entity_id, tenant_id, work_order_id=payload.work_order_id, notes=payload.notes)
-    if hasattr(result, "__table__"):
-        return EquipmentRead.model_validate(result)
-    return result
+    return EquipmentRead.model_validate(result)
 
 @router.post("/{entity_id}/retire", response_model=EquipmentRead)
 async def retire(
@@ -125,6 +123,4 @@ async def retire(
 ) -> EquipmentRead:
     """Mark equipment out of service"""
     result = await service.retire(entity_id, tenant_id, reason=payload.reason)
-    if hasattr(result, "__table__"):
-        return EquipmentRead.model_validate(result)
-    return result
+    return EquipmentRead.model_validate(result)

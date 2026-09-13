@@ -106,6 +106,4 @@ async def recalculate(
 ) -> InvoiceLineItemRead:
     """Update line total from quantity and price"""
     result = await service.recalculate(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return InvoiceLineItemRead.model_validate(result)
-    return result
+    return InvoiceLineItemRead.model_validate(result)

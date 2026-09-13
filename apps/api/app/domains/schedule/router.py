@@ -110,9 +110,7 @@ async def lock(
 ) -> ScheduleRead:
     """Prevent schedule modifications"""
     result = await service.lock(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return ScheduleRead.model_validate(result)
-    return result
+    return ScheduleRead.model_validate(result)
 
 @router.post("/{entity_id}/unlock", response_model=ScheduleRead)
 async def unlock(
@@ -122,9 +120,7 @@ async def unlock(
 ) -> ScheduleRead:
     """Allow schedule modifications"""
     result = await service.unlock(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return ScheduleRead.model_validate(result)
-    return result
+    return ScheduleRead.model_validate(result)
 
 @router.post("/{entity_id}/detect-conflicts", response_model=ScheduleRead)
 async def detect_conflicts(
@@ -135,6 +131,4 @@ async def detect_conflicts(
 ) -> ScheduleRead:
     """Find overlapping events"""
     result = await service.detect_conflicts(entity_id, tenant_id, starts_at=payload.starts_at, ends_at=payload.ends_at)
-    if hasattr(result, "__table__"):
-        return ScheduleRead.model_validate(result)
-    return result
+    return ScheduleRead.model_validate(result)

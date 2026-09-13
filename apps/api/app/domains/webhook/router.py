@@ -105,9 +105,7 @@ async def trigger_test(
 ) -> WebhookRead:
     """Send test payload"""
     result = await service.trigger_test(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return WebhookRead.model_validate(result)
-    return result
+    return WebhookRead.model_validate(result)
 
 @router.post("/{entity_id}/rotate-secret", response_model=WebhookRead)
 async def rotate_secret(
@@ -117,9 +115,7 @@ async def rotate_secret(
 ) -> WebhookRead:
     """Generate new signing secret"""
     result = await service.rotate_secret(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return WebhookRead.model_validate(result)
-    return result
+    return WebhookRead.model_validate(result)
 
 @router.post("/{entity_id}/disable-on-failures", response_model=WebhookRead)
 async def disable_on_failures(
@@ -130,6 +126,4 @@ async def disable_on_failures(
 ) -> WebhookRead:
     """Auto-disable after threshold"""
     result = await service.disable_on_failures(entity_id, tenant_id, threshold=payload.threshold)
-    if hasattr(result, "__table__"):
-        return WebhookRead.model_validate(result)
-    return result
+    return WebhookRead.model_validate(result)

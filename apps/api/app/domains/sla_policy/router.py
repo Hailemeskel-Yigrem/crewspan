@@ -110,9 +110,7 @@ async def evaluate_deadlines(
 ) -> SlaPolicyRead:
     """Compute response/resolution deadlines"""
     result = await service.evaluate_deadlines(entity_id, tenant_id, opened_at=payload.opened_at)
-    if hasattr(result, "__table__"):
-        return SlaPolicyRead.model_validate(result)
-    return result
+    return SlaPolicyRead.model_validate(result)
 
 @router.post("/{entity_id}/clone", response_model=SlaPolicyRead, status_code=status.HTTP_201_CREATED)
 async def clone(
@@ -123,6 +121,4 @@ async def clone(
 ) -> SlaPolicyRead:
     """Duplicate policy"""
     result = await service.clone(entity_id, tenant_id, new_name=payload.new_name)
-    if hasattr(result, "__table__"):
-        return SlaPolicyRead.model_validate(result)
-    return result
+    return SlaPolicyRead.model_validate(result)

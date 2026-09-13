@@ -110,9 +110,7 @@ async def validate_quantity(
 ) -> StockMovementRead:
     """Ensure sufficient stock for issue/transfer"""
     result = await service.validate_quantity(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return StockMovementRead.model_validate(result)
-    return result
+    return StockMovementRead.model_validate(result)
 
 @router.post("/{entity_id}/reverse", response_model=StockMovementRead)
 async def reverse(
@@ -123,7 +121,5 @@ async def reverse(
 ) -> StockMovementRead:
     """Create compensating movement"""
     result = await service.reverse(entity_id, tenant_id, reason=payload.reason)
-    if hasattr(result, "__table__"):
-        return StockMovementRead.model_validate(result)
-    return result
+    return StockMovementRead.model_validate(result)
 # history-note: evolutionary edit 59

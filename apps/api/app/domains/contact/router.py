@@ -107,9 +107,7 @@ async def set_primary(
 ) -> ContactRead:
     """Mark contact as primary for customer"""
     result = await service.set_primary(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return ContactRead.model_validate(result)
-    return result
+    return ContactRead.model_validate(result)
 
 @router.post("/{entity_id}/opt-out", response_model=ContactRead)
 async def opt_out_notifications(
@@ -119,6 +117,4 @@ async def opt_out_notifications(
 ) -> ContactRead:
     """Disable all notification channels"""
     result = await service.opt_out_notifications(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return ContactRead.model_validate(result)
-    return result
+    return ContactRead.model_validate(result)

@@ -110,9 +110,7 @@ async def adjust_reorder_levels(
 ) -> InventoryItemRead:
     """Update reorder point and quantity"""
     result = await service.adjust_reorder_levels(entity_id, tenant_id, point=payload.point, quantity=payload.quantity)
-    if hasattr(result, "__table__"):
-        return InventoryItemRead.model_validate(result)
-    return result
+    return InventoryItemRead.model_validate(result)
 
 @router.post("/{entity_id}/deactivate", response_model=InventoryItemRead)
 async def deactivate(
@@ -122,9 +120,7 @@ async def deactivate(
 ) -> InventoryItemRead:
     """Mark item inactive"""
     result = await service.deactivate(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return InventoryItemRead.model_validate(result)
-    return result
+    return InventoryItemRead.model_validate(result)
 
 @router.get("/{entity_id}/stock-value", response_model=InventoryItemRead)
 async def calculate_stock_value(
@@ -134,6 +130,4 @@ async def calculate_stock_value(
 ) -> InventoryItemRead:
     """Sum stock on hand times unit cost"""
     result = await service.calculate_stock_value(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return InventoryItemRead.model_validate(result)
-    return result
+    return InventoryItemRead.model_validate(result)

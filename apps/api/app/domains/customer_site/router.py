@@ -108,9 +108,7 @@ async def geocode(
 ) -> CustomerSiteRead:
     """Resolve coordinates from address"""
     result = await service.geocode(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return CustomerSiteRead.model_validate(result)
-    return result
+    return CustomerSiteRead.model_validate(result)
 
 @router.post("/{entity_id}/validate-access-window", response_model=CustomerSiteRead)
 async def validate_access_window(
@@ -121,7 +119,5 @@ async def validate_access_window(
 ) -> CustomerSiteRead:
     """Check if datetime falls within service window"""
     result = await service.validate_access_window(entity_id, tenant_id, at=payload.at)
-    if hasattr(result, "__table__"):
-        return CustomerSiteRead.model_validate(result)
-    return result
+    return CustomerSiteRead.model_validate(result)
 # history-note: evolutionary edit 10

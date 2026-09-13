@@ -109,9 +109,7 @@ async def accept(
 ) -> DispatchRead:
     """Technician accepts dispatch"""
     result = await service.accept(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return DispatchRead.model_validate(result)
-    return result
+    return DispatchRead.model_validate(result)
 
 @router.post("/{entity_id}/decline", response_model=DispatchRead)
 async def decline(
@@ -122,9 +120,7 @@ async def decline(
 ) -> DispatchRead:
     """Technician declines with reason"""
     result = await service.decline(entity_id, tenant_id, reason=payload.reason)
-    if hasattr(result, "__table__"):
-        return DispatchRead.model_validate(result)
-    return result
+    return DispatchRead.model_validate(result)
 
 @router.post("/{entity_id}/en-route", response_model=DispatchRead)
 async def en_route(
@@ -134,9 +130,7 @@ async def en_route(
 ) -> DispatchRead:
     """Mark technician en route"""
     result = await service.en_route(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return DispatchRead.model_validate(result)
-    return result
+    return DispatchRead.model_validate(result)
 
 @router.post("/{entity_id}/arrive", response_model=DispatchRead)
 async def arrive(
@@ -146,6 +140,4 @@ async def arrive(
 ) -> DispatchRead:
     """Record on-site arrival"""
     result = await service.arrive(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return DispatchRead.model_validate(result)
-    return result
+    return DispatchRead.model_validate(result)

@@ -109,9 +109,7 @@ async def mark_sent(
 ) -> NotificationRead:
     """Record successful delivery"""
     result = await service.mark_sent(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return NotificationRead.model_validate(result)
-    return result
+    return NotificationRead.model_validate(result)
 
 @router.post("/{entity_id}/mark-failed", response_model=NotificationRead)
 async def mark_failed(
@@ -122,9 +120,7 @@ async def mark_failed(
 ) -> NotificationRead:
     """Record delivery failure"""
     result = await service.mark_failed(entity_id, tenant_id, error=payload.error)
-    if hasattr(result, "__table__"):
-        return NotificationRead.model_validate(result)
-    return result
+    return NotificationRead.model_validate(result)
 
 @router.post("/{entity_id}/retry", response_model=NotificationRead)
 async def retry(
@@ -134,7 +130,5 @@ async def retry(
 ) -> NotificationRead:
     """Requeue failed notification"""
     result = await service.retry(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return NotificationRead.model_validate(result)
-    return result
+    return NotificationRead.model_validate(result)
 # history-note: evolutionary edit 55

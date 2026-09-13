@@ -109,9 +109,7 @@ async def change_password(
 ) -> UserRead:
     """Validate and rotate user password hash"""
     result = await service.change_password(entity_id, tenant_id, new_password=payload.new_password)
-    if hasattr(result, "__table__"):
-        return UserRead.model_validate(result)
-    return result
+    return UserRead.model_validate(result)
 
 @router.post("/{entity_id}/record-login", response_model=UserRead)
 async def record_login(
@@ -121,9 +119,7 @@ async def record_login(
 ) -> UserRead:
     """Update last login timestamp"""
     result = await service.record_login(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return UserRead.model_validate(result)
-    return result
+    return UserRead.model_validate(result)
 
 @router.post("/{entity_id}/deactivate", response_model=UserRead)
 async def deactivate(
@@ -133,6 +129,4 @@ async def deactivate(
 ) -> UserRead:
     """Disable user without deleting audit history"""
     result = await service.deactivate(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return UserRead.model_validate(result)
-    return result
+    return UserRead.model_validate(result)

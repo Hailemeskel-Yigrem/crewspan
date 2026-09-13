@@ -105,6 +105,4 @@ async def search_by_resource(
 ) -> AuditLogRead:
     """Find audit entries for resource"""
     result = await service.search_by_resource(entity_id, tenant_id, resource_type=payload.resource_type, resource_id=payload.resource_id)
-    if hasattr(result, "__table__"):
-        return AuditLogRead.model_validate(result)
-    return result
+    return AuditLogRead.model_validate(result)

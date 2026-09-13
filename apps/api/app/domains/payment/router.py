@@ -108,9 +108,7 @@ async def refund(
 ) -> PaymentRead:
     """Issue partial or full refund"""
     result = await service.refund(entity_id, tenant_id, amount=payload.amount, reason=payload.reason)
-    if hasattr(result, "__table__"):
-        return PaymentRead.model_validate(result)
-    return result
+    return PaymentRead.model_validate(result)
 
 @router.post("/{entity_id}/reconcile", response_model=PaymentRead)
 async def reconcile(
@@ -120,6 +118,4 @@ async def reconcile(
 ) -> PaymentRead:
     """Mark payment reconciled with bank feed"""
     result = await service.reconcile(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return PaymentRead.model_validate(result)
-    return result
+    return PaymentRead.model_validate(result)

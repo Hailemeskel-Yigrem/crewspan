@@ -112,9 +112,7 @@ async def submit(
 ) -> WorkOrderRead:
     """Transition draft work order to submitted queue"""
     result = await service.submit(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return WorkOrderRead.model_validate(result)
-    return result
+    return WorkOrderRead.model_validate(result)
 
 @router.post("/{entity_id}/assign-technician", response_model=WorkOrderRead)
 async def assign_technician(
@@ -125,9 +123,7 @@ async def assign_technician(
 ) -> WorkOrderRead:
     """Assign technician with conflict check"""
     result = await service.assign_technician(entity_id, tenant_id, technician_id=payload.technician_id)
-    if hasattr(result, "__table__"):
-        return WorkOrderRead.model_validate(result)
-    return result
+    return WorkOrderRead.model_validate(result)
 
 @router.post("/{entity_id}/start", response_model=WorkOrderRead)
 async def start(
@@ -137,9 +133,7 @@ async def start(
 ) -> WorkOrderRead:
     """Mark work order in progress"""
     result = await service.start(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return WorkOrderRead.model_validate(result)
-    return result
+    return WorkOrderRead.model_validate(result)
 
 @router.post("/{entity_id}/complete", response_model=WorkOrderRead)
 async def complete(
@@ -150,9 +144,7 @@ async def complete(
 ) -> WorkOrderRead:
     """Complete work order with notes"""
     result = await service.complete(entity_id, tenant_id, notes=payload.notes)
-    if hasattr(result, "__table__"):
-        return WorkOrderRead.model_validate(result)
-    return result
+    return WorkOrderRead.model_validate(result)
 
 @router.post("/{entity_id}/cancel", response_model=WorkOrderRead)
 async def cancel(
@@ -163,6 +155,4 @@ async def cancel(
 ) -> WorkOrderRead:
     """Cancel with reason"""
     result = await service.cancel(entity_id, tenant_id, reason=payload.reason)
-    if hasattr(result, "__table__"):
-        return WorkOrderRead.model_validate(result)
-    return result
+    return WorkOrderRead.model_validate(result)

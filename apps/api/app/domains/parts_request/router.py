@@ -109,9 +109,7 @@ async def approve(
 ) -> PartsRequestRead:
     """Approve parts request"""
     result = await service.approve(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return PartsRequestRead.model_validate(result)
-    return result
+    return PartsRequestRead.model_validate(result)
 
 @router.post("/{entity_id}/fulfill", response_model=PartsRequestRead)
 async def fulfill(
@@ -121,9 +119,7 @@ async def fulfill(
 ) -> PartsRequestRead:
     """Issue parts and update inventory"""
     result = await service.fulfill(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return PartsRequestRead.model_validate(result)
-    return result
+    return PartsRequestRead.model_validate(result)
 
 @router.post("/{entity_id}/reject", response_model=PartsRequestRead)
 async def reject(
@@ -134,6 +130,4 @@ async def reject(
 ) -> PartsRequestRead:
     """Reject with reason"""
     result = await service.reject(entity_id, tenant_id, reason=payload.reason)
-    if hasattr(result, "__table__"):
-        return PartsRequestRead.model_validate(result)
-    return result
+    return PartsRequestRead.model_validate(result)

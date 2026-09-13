@@ -112,9 +112,7 @@ async def set_status(
 ) -> TechnicianRead:
     """Update availability status"""
     result = await service.set_status(entity_id, tenant_id, status=payload.status)
-    if hasattr(result, "__table__"):
-        return TechnicianRead.model_validate(result)
-    return result
+    return TechnicianRead.model_validate(result)
 
 @router.post("/{entity_id}/update-location", response_model=TechnicianRead)
 async def update_location(
@@ -125,9 +123,7 @@ async def update_location(
 ) -> TechnicianRead:
     """Record current GPS coordinates"""
     result = await service.update_location(entity_id, tenant_id, lat=payload.lat, lng=payload.lng)
-    if hasattr(result, "__table__"):
-        return TechnicianRead.model_validate(result)
-    return result
+    return TechnicianRead.model_validate(result)
 
 @router.post("/{entity_id}/calculate-utilization", response_model=TechnicianRead)
 async def calculate_utilization(
@@ -138,6 +134,4 @@ async def calculate_utilization(
 ) -> TechnicianRead:
     """Compute utilization for date range"""
     result = await service.calculate_utilization(entity_id, tenant_id, start=payload.start, end=payload.end)
-    if hasattr(result, "__table__"):
-        return TechnicianRead.model_validate(result)
-    return result
+    return TechnicianRead.model_validate(result)

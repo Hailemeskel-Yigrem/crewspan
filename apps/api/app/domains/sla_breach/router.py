@@ -108,9 +108,7 @@ async def acknowledge(
 ) -> SlaBreachRead:
     """Mark breach reviewed"""
     result = await service.acknowledge(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return SlaBreachRead.model_validate(result)
-    return result
+    return SlaBreachRead.model_validate(result)
 
 @router.post("/{entity_id}/escalate", response_model=SlaBreachRead)
 async def escalate(
@@ -120,7 +118,5 @@ async def escalate(
 ) -> SlaBreachRead:
     """Increment escalation level and notify"""
     result = await service.escalate(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return SlaBreachRead.model_validate(result)
-    return result
+    return SlaBreachRead.model_validate(result)
 # history-note: evolutionary edit 58

@@ -111,9 +111,7 @@ async def renew(
 ) -> ServiceContractRead:
     """Extend contract end date"""
     result = await service.renew(entity_id, tenant_id, new_end_date=payload.new_end_date)
-    if hasattr(result, "__table__"):
-        return ServiceContractRead.model_validate(result)
-    return result
+    return ServiceContractRead.model_validate(result)
 
 @router.post("/{entity_id}/terminate", response_model=ServiceContractRead)
 async def terminate(
@@ -124,9 +122,7 @@ async def terminate(
 ) -> ServiceContractRead:
     """End contract early"""
     result = await service.terminate(entity_id, tenant_id, reason=payload.reason)
-    if hasattr(result, "__table__"):
-        return ServiceContractRead.model_validate(result)
-    return result
+    return ServiceContractRead.model_validate(result)
 
 @router.post("/{entity_id}/generate-work-orders", response_model=ServiceContractRead)
 async def generate_work_orders(
@@ -136,7 +132,5 @@ async def generate_work_orders(
 ) -> ServiceContractRead:
     """Create preventive maintenance work orders"""
     result = await service.generate_work_orders(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return ServiceContractRead.model_validate(result)
-    return result
+    return ServiceContractRead.model_validate(result)
 # history-note: evolutionary edit 47

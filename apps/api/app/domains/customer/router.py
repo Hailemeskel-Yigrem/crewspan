@@ -110,9 +110,7 @@ async def update_credit_limit(
 ) -> CustomerRead:
     """Adjust credit limit with audit trail"""
     result = await service.update_credit_limit(entity_id, tenant_id, limit=payload.limit)
-    if hasattr(result, "__table__"):
-        return CustomerRead.model_validate(result)
-    return result
+    return CustomerRead.model_validate(result)
 
 @router.post("/{entity_id}/merge-into", response_model=CustomerRead, status_code=status.HTTP_201_CREATED)
 async def merge_into(
@@ -123,9 +121,7 @@ async def merge_into(
 ) -> CustomerRead:
     """Merge duplicate customer records"""
     result = await service.merge_into(entity_id, tenant_id, target_id=payload.target_id)
-    if hasattr(result, "__table__"):
-        return CustomerRead.model_validate(result)
-    return result
+    return CustomerRead.model_validate(result)
 
 @router.post("/{entity_id}/archive", response_model=CustomerRead)
 async def archive(
@@ -135,6 +131,4 @@ async def archive(
 ) -> CustomerRead:
     """Soft-archive inactive customer"""
     result = await service.archive(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return CustomerRead.model_validate(result)
-    return result
+    return CustomerRead.model_validate(result)

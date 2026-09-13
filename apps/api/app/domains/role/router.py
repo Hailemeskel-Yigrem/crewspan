@@ -110,9 +110,7 @@ async def grant_permission(
 ) -> RoleRead:
     """Add permission if not already present"""
     result = await service.grant_permission(entity_id, tenant_id, permission=payload.permission)
-    if hasattr(result, "__table__"):
-        return RoleRead.model_validate(result)
-    return result
+    return RoleRead.model_validate(result)
 
 @router.post("/{entity_id}/revoke-permission", response_model=RoleRead)
 async def revoke_permission(
@@ -123,9 +121,7 @@ async def revoke_permission(
 ) -> RoleRead:
     """Remove permission from role"""
     result = await service.revoke_permission(entity_id, tenant_id, permission=payload.permission)
-    if hasattr(result, "__table__"):
-        return RoleRead.model_validate(result)
-    return result
+    return RoleRead.model_validate(result)
 
 @router.post("/{entity_id}/clone", response_model=RoleRead, status_code=status.HTTP_201_CREATED)
 async def clone(
@@ -136,6 +132,4 @@ async def clone(
 ) -> RoleRead:
     """Duplicate role under a new name"""
     result = await service.clone(entity_id, tenant_id, new_name=payload.new_name)
-    if hasattr(result, "__table__"):
-        return RoleRead.model_validate(result)
-    return result
+    return RoleRead.model_validate(result)

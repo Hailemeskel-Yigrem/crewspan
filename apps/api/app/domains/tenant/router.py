@@ -107,9 +107,7 @@ async def activate(
 ) -> TenantRead:
     """Enable tenant access and notify administrators"""
     result = await service.activate(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return TenantRead.model_validate(result)
-    return result
+    return TenantRead.model_validate(result)
 
 @router.post("/{entity_id}/deactivate", response_model=TenantRead)
 async def deactivate(
@@ -119,9 +117,7 @@ async def deactivate(
 ) -> TenantRead:
     """Suspend tenant access while preserving data"""
     result = await service.deactivate(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return TenantRead.model_validate(result)
-    return result
+    return TenantRead.model_validate(result)
 
 @router.post("/{entity_id}/update-settings", response_model=TenantRead)
 async def update_settings(
@@ -132,7 +128,5 @@ async def update_settings(
 ) -> TenantRead:
     """Merge tenant settings with validation"""
     result = await service.update_settings(entity_id, tenant_id, settings=payload.settings)
-    if hasattr(result, "__table__"):
-        return TenantRead.model_validate(result)
-    return result
+    return TenantRead.model_validate(result)
 # history-note: evolutionary edit 28

@@ -110,9 +110,7 @@ async def finalize(
 ) -> InvoiceRead:
     """Lock invoice totals and assign number"""
     result = await service.finalize(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return InvoiceRead.model_validate(result)
-    return result
+    return InvoiceRead.model_validate(result)
 
 @router.post("/{entity_id}/send", response_model=InvoiceRead)
 async def send(
@@ -122,9 +120,7 @@ async def send(
 ) -> InvoiceRead:
     """Email invoice to customer"""
     result = await service.send(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return InvoiceRead.model_validate(result)
-    return result
+    return InvoiceRead.model_validate(result)
 
 @router.post("/{entity_id}/void", response_model=InvoiceRead)
 async def void(
@@ -135,9 +131,7 @@ async def void(
 ) -> InvoiceRead:
     """Void draft or sent invoice"""
     result = await service.void(entity_id, tenant_id, reason=payload.reason)
-    if hasattr(result, "__table__"):
-        return InvoiceRead.model_validate(result)
-    return result
+    return InvoiceRead.model_validate(result)
 
 @router.post("/{entity_id}/recalculate", response_model=InvoiceRead)
 async def recalculate_totals(
@@ -147,6 +141,4 @@ async def recalculate_totals(
 ) -> InvoiceRead:
     """Recompute subtotal, tax, and total"""
     result = await service.recalculate_totals(entity_id, tenant_id)
-    if hasattr(result, "__table__"):
-        return InvoiceRead.model_validate(result)
-    return result
+    return InvoiceRead.model_validate(result)
