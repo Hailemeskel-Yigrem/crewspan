@@ -13,7 +13,9 @@ seed:
 	python scripts/seed.py
 
 test:
-	pytest apps/api/tests apps/worker/tests packages -v
+	cd apps/api && pytest tests -v
+	cd apps/worker && pytest tests -v
+	pytest packages -v
 	cd apps/web && npm test
 
 lint:

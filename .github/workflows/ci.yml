@@ -89,7 +89,8 @@ jobs:
           pip install -r apps/worker/requirements.lock.txt
           pip install pytest
       - name: Test
-        run: pytest apps/worker/tests -v
+        working-directory: apps/worker
+        run: pytest tests -v
 
   audit-deps:
     runs-on: ubuntu-latest
