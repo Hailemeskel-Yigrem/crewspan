@@ -27,6 +27,7 @@ dependencies = [
 dev = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
     "ruff>=0.3.0",
     "mypy>=1.8.0",
 ]
@@ -35,11 +36,26 @@ dev = [
 where = ["."]
 include = ["app*"]
 
-[tool.ruff]
-line-length = 100
-target-version = "py311"
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+# The gate enforces the error classes that have actually produced 500s here --
+# undefined names and attributes, bad calls, wrong return types. The disabled
+# codes are annotation debt in the domain layer (SQLAlchemy Mapped[...] columns
+# assigned plain values, Pydantic field types used as annotations); re-enable
+# them one at a time as the annotations are tightened.
+disable_error_code = ["assignment", "arg-type", "valid-type", "call-overload"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["app"]
+
+[tool.coverage.report]
+show_missing = true
+# A floor, not a target: set just under the current measured figure so a
+# regression fails CI. Raise it as tests are added.
+fail_under = 70
 # pydantic>=2.6 — v2 migration complete
