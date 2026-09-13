@@ -44,16 +44,16 @@
 },
 
         async set_primary(id: string): Promise<Contact> {
-  return apiFetch<Contact>(`/api/v1/contacts/{id}/set-primary`, {
+  return apiFetch<Contact>(`/api/v1/contacts/${id}/set-primary`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
 async opt_out_notifications(id: string): Promise<Contact> {
-  return apiFetch<Contact>(`/api/v1/contacts/{id}/opt-out`, {
+  return apiFetch<Contact>(`/api/v1/contacts/${id}/opt-out`, {
     method: "POST",
     body: undefined,
   });
-}
+},
       };

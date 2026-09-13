@@ -45,30 +45,30 @@
 },
 
         async accept(id: string): Promise<Dispatch> {
-  return apiFetch<Dispatch>(`/api/v1/dispatchs/{id}/accept`, {
+  return apiFetch<Dispatch>(`/api/v1/dispatchs/${id}/accept`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
-async decline(id: string, reason: str): Promise<Dispatch> {
-  return apiFetch<Dispatch>(`/api/v1/dispatchs/{id}/decline`, {
+async decline(id: string, reason: string): Promise<Dispatch> {
+  return apiFetch<Dispatch>(`/api/v1/dispatchs/${id}/decline`, {
     method: "POST",
     body: JSON.stringify({reason: reason}),
   });
-}
+},
 
 async en_route(id: string): Promise<Dispatch> {
-  return apiFetch<Dispatch>(`/api/v1/dispatchs/{id}/en-route`, {
+  return apiFetch<Dispatch>(`/api/v1/dispatchs/${id}/en-route`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
 async arrive(id: string): Promise<Dispatch> {
-  return apiFetch<Dispatch>(`/api/v1/dispatchs/{id}/arrive`, {
+  return apiFetch<Dispatch>(`/api/v1/dispatchs/${id}/arrive`, {
     method: "POST",
     body: undefined,
   });
-}
+},
       };

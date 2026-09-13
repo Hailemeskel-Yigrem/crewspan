@@ -43,24 +43,24 @@
   return apiFetch<User>(`/api/v1/users/${id}/restore`, { method: 'POST' });
 },
 
-        async change_password(id: string, newPassword: str): Promise<User> {
-  return apiFetch<User>(`/api/v1/users/{id}/change-password`, {
+        async change_password(id: string, newPassword: string): Promise<User> {
+  return apiFetch<User>(`/api/v1/users/${id}/change-password`, {
     method: "POST",
-    body: JSON.stringify({newPassword: newPassword}),
+    body: JSON.stringify({new_password: newPassword}),
   });
-}
+},
 
 async record_login(id: string): Promise<User> {
-  return apiFetch<User>(`/api/v1/users/{id}/record-login`, {
+  return apiFetch<User>(`/api/v1/users/${id}/record-login`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
 async deactivate(id: string): Promise<User> {
-  return apiFetch<User>(`/api/v1/users/{id}/deactivate`, {
+  return apiFetch<User>(`/api/v1/users/${id}/deactivate`, {
     method: "POST",
     body: undefined,
   });
-}
+},
       };

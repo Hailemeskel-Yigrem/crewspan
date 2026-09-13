@@ -43,24 +43,24 @@
   return apiFetch<Customer>(`/api/v1/customers/${id}/restore`, { method: 'POST' });
 },
 
-        async update_credit_limit(id: string, limit: Decimal): Promise<Customer> {
-  return apiFetch<Customer>(`/api/v1/customers/{id}/update-credit-limit`, {
+        async update_credit_limit(id: string, limit: number): Promise<Customer> {
+  return apiFetch<Customer>(`/api/v1/customers/${id}/update-credit-limit`, {
     method: "POST",
     body: JSON.stringify({limit: limit}),
   });
-}
+},
 
 async merge_into(id: string, targetId: string): Promise<Customer> {
-  return apiFetch<Customer>(`/api/v1/customers/{id}/merge-into`, {
+  return apiFetch<Customer>(`/api/v1/customers/${id}/merge-into`, {
     method: "POST",
-    body: JSON.stringify({targetId: targetId}),
+    body: JSON.stringify({target_id: targetId}),
   });
-}
+},
 
 async archive(id: string): Promise<Customer> {
-  return apiFetch<Customer>(`/api/v1/customers/{id}/archive`, {
+  return apiFetch<Customer>(`/api/v1/customers/${id}/archive`, {
     method: "POST",
     body: undefined,
   });
-}
+},
       };

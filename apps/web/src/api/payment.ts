@@ -42,17 +42,17 @@
   return apiFetch<Payment>(`/api/v1/payments/${id}/restore`, { method: 'POST' });
 },
 
-        async refund(id: string, amount: Decimal, reason: str): Promise<Payment> {
-  return apiFetch<Payment>(`/api/v1/payments/{id}/refund`, {
+        async refund(id: string, amount: number, reason: string): Promise<Payment> {
+  return apiFetch<Payment>(`/api/v1/payments/${id}/refund`, {
     method: "POST",
     body: JSON.stringify({amount: amount, reason: reason}),
   });
-}
+},
 
 async reconcile(id: string): Promise<Payment> {
-  return apiFetch<Payment>(`/api/v1/payments/{id}/reconcile`, {
+  return apiFetch<Payment>(`/api/v1/payments/${id}/reconcile`, {
     method: "POST",
     body: undefined,
   });
-}
+},
       };

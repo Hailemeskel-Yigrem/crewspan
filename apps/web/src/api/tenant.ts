@@ -43,23 +43,23 @@
 },
 
         async activate(id: string): Promise<Tenant> {
-  return apiFetch<Tenant>(`/api/v1/tenants/{id}/activate`, {
+  return apiFetch<Tenant>(`/api/v1/tenants/${id}/activate`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
 async deactivate(id: string): Promise<Tenant> {
-  return apiFetch<Tenant>(`/api/v1/tenants/{id}/deactivate`, {
+  return apiFetch<Tenant>(`/api/v1/tenants/${id}/deactivate`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
-async update_settings(id: string, settings: dict): Promise<Tenant> {
-  return apiFetch<Tenant>(`/api/v1/tenants/{id}/update-settings`, {
+async update_settings(id: string, settings: Record<string, unknown>): Promise<Tenant> {
+  return apiFetch<Tenant>(`/api/v1/tenants/${id}/update-settings`, {
     method: "POST",
     body: JSON.stringify({settings: settings}),
   });
-}
+},
       };

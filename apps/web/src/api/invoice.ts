@@ -46,30 +46,30 @@
 },
 
         async finalize(id: string): Promise<Invoice> {
-  return apiFetch<Invoice>(`/api/v1/invoices/{id}/finalize`, {
+  return apiFetch<Invoice>(`/api/v1/invoices/${id}/finalize`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
 async send(id: string): Promise<Invoice> {
-  return apiFetch<Invoice>(`/api/v1/invoices/{id}/send`, {
+  return apiFetch<Invoice>(`/api/v1/invoices/${id}/send`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
-async void(id: string, reason: str): Promise<Invoice> {
-  return apiFetch<Invoice>(`/api/v1/invoices/{id}/void`, {
+async void(id: string, reason: string): Promise<Invoice> {
+  return apiFetch<Invoice>(`/api/v1/invoices/${id}/void`, {
     method: "POST",
     body: JSON.stringify({reason: reason}),
   });
-}
+},
 
 async recalculate_totals(id: string): Promise<Invoice> {
-  return apiFetch<Invoice>(`/api/v1/invoices/{id}/recalculate`, {
+  return apiFetch<Invoice>(`/api/v1/invoices/${id}/recalculate`, {
     method: "POST",
     body: undefined,
   });
-}
+},
       };

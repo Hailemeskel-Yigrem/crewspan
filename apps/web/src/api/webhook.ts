@@ -43,23 +43,23 @@
 },
 
         async trigger_test(id: string): Promise<Webhook> {
-  return apiFetch<Webhook>(`/api/v1/webhooks/{id}/test`, {
+  return apiFetch<Webhook>(`/api/v1/webhooks/${id}/test`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
 async rotate_secret(id: string): Promise<Webhook> {
-  return apiFetch<Webhook>(`/api/v1/webhooks/{id}/rotate-secret`, {
+  return apiFetch<Webhook>(`/api/v1/webhooks/${id}/rotate-secret`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
-async disable_on_failures(id: string, threshold: int): Promise<Webhook> {
-  return apiFetch<Webhook>(`/api/v1/webhooks/{id}/disable-on-failures`, {
+async disable_on_failures(id: string, threshold: number): Promise<Webhook> {
+  return apiFetch<Webhook>(`/api/v1/webhooks/${id}/disable-on-failures`, {
     method: "POST",
     body: JSON.stringify({threshold: threshold}),
   });
-}
+},
       };

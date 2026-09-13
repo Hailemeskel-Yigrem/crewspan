@@ -42,7 +42,7 @@
           return apiFetch<{ total: number }>(`/api/v1/audit-logs/count`);
         },
 
-        async search_by_resource(id: string, resourceType: str, resourceId: string): Promise<AuditLog> {
-  return apiFetch<AuditLog>('/api/v1/audit-logs/${id}/by-resource', { method: "GET", body: JSON.stringify({resourceType: resourceType, resourceId: resourceId}) });
-}
+        async search_by_resource(id: string, resourceType: string, resourceId: string): Promise<AuditLog> {
+  return apiFetch<AuditLog>(`/api/v1/audit-logs/${id}/by-resource`, { method: "GET", body: JSON.stringify({resource_type: resourceType, resource_id: resourceId}) });
+},
       };

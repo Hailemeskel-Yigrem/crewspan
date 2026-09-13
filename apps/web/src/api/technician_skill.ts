@@ -43,15 +43,15 @@
   return apiFetch<TechnicianSkill>(`/api/v1/technician-skills/${id}/restore`, { method: 'POST' });
 },
 
-        async renew_certification(id: string, expiresAt: date): Promise<TechnicianSkill> {
-  return apiFetch<TechnicianSkill>(`/api/v1/technician-skills/{id}/renew-certification`, {
+        async renew_certification(id: string, expiresAt: string): Promise<TechnicianSkill> {
+  return apiFetch<TechnicianSkill>(`/api/v1/technician-skills/${id}/renew-certification`, {
     method: "POST",
-    body: JSON.stringify({expiresAt: expiresAt}),
+    body: JSON.stringify({expires_at: expiresAt}),
   });
-}
+},
 
 async is_valid(id: string): Promise<TechnicianSkill> {
-  return apiFetch<TechnicianSkill>('/api/v1/technician-skills/${id}/is-valid', { method: "GET" });
-}
+  return apiFetch<TechnicianSkill>(`/api/v1/technician-skills/${id}/is-valid`, { method: "GET" });
+},
       };
 // history-note: evolutionary edit 76

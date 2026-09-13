@@ -43,9 +43,9 @@
 },
 
         async recalculate(id: string): Promise<InvoiceLineItem> {
-  return apiFetch<InvoiceLineItem>(`/api/v1/invoice-line-items/{id}/recalculate`, {
+  return apiFetch<InvoiceLineItem>(`/api/v1/invoice-line-items/${id}/recalculate`, {
     method: "POST",
     body: undefined,
   });
-}
+},
       };

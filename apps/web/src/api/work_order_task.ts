@@ -43,23 +43,23 @@
 },
 
         async complete(id: string): Promise<WorkOrderTask> {
-  return apiFetch<WorkOrderTask>(`/api/v1/work-order-tasks/{id}/complete`, {
+  return apiFetch<WorkOrderTask>(`/api/v1/work-order-tasks/${id}/complete`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
 async reopen(id: string): Promise<WorkOrderTask> {
-  return apiFetch<WorkOrderTask>(`/api/v1/work-order-tasks/{id}/reopen`, {
+  return apiFetch<WorkOrderTask>(`/api/v1/work-order-tasks/${id}/reopen`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
-async reorder(id: string, sequence: int): Promise<WorkOrderTask> {
-  return apiFetch<WorkOrderTask>(`/api/v1/work-order-tasks/{id}/reorder`, {
+async reorder(id: string, sequence: number): Promise<WorkOrderTask> {
+  return apiFetch<WorkOrderTask>(`/api/v1/work-order-tasks/${id}/reorder`, {
     method: "PATCH",
     body: JSON.stringify({sequence: sequence}),
   });
-}
+},
       };

@@ -44,24 +44,24 @@
   return apiFetch<ServiceContract>(`/api/v1/service-contracts/${id}/restore`, { method: 'POST' });
 },
 
-        async renew(id: string, newEndDate: date): Promise<ServiceContract> {
-  return apiFetch<ServiceContract>(`/api/v1/service-contracts/{id}/renew`, {
+        async renew(id: string, newEndDate: string): Promise<ServiceContract> {
+  return apiFetch<ServiceContract>(`/api/v1/service-contracts/${id}/renew`, {
     method: "POST",
-    body: JSON.stringify({newEndDate: newEndDate}),
+    body: JSON.stringify({new_end_date: newEndDate}),
   });
-}
+},
 
-async terminate(id: string, reason: str): Promise<ServiceContract> {
-  return apiFetch<ServiceContract>(`/api/v1/service-contracts/{id}/terminate`, {
+async terminate(id: string, reason: string): Promise<ServiceContract> {
+  return apiFetch<ServiceContract>(`/api/v1/service-contracts/${id}/terminate`, {
     method: "POST",
     body: JSON.stringify({reason: reason}),
   });
-}
+},
 
 async generate_work_orders(id: string): Promise<ServiceContract> {
-  return apiFetch<ServiceContract>(`/api/v1/service-contracts/{id}/generate-work-orders`, {
+  return apiFetch<ServiceContract>(`/api/v1/service-contracts/${id}/generate-work-orders`, {
     method: "POST",
     body: undefined,
   });
-}
+},
       };

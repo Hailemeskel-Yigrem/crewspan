@@ -43,17 +43,17 @@
   return apiFetch<SlaPolicy>(`/api/v1/sla-policies/${id}/restore`, { method: 'POST' });
 },
 
-        async evaluate_deadlines(id: string, openedAt: datetime): Promise<SlaPolicy> {
-  return apiFetch<SlaPolicy>(`/api/v1/sla-policies/{id}/evaluate-deadlines`, {
+        async evaluate_deadlines(id: string, openedAt: string): Promise<SlaPolicy> {
+  return apiFetch<SlaPolicy>(`/api/v1/sla-policies/${id}/evaluate-deadlines`, {
     method: "POST",
-    body: JSON.stringify({openedAt: openedAt}),
+    body: JSON.stringify({opened_at: openedAt}),
   });
-}
+},
 
-async clone(id: string, newName: str): Promise<SlaPolicy> {
-  return apiFetch<SlaPolicy>(`/api/v1/sla-policies/{id}/clone`, {
+async clone(id: string, newName: string): Promise<SlaPolicy> {
+  return apiFetch<SlaPolicy>(`/api/v1/sla-policies/${id}/clone`, {
     method: "POST",
-    body: JSON.stringify({newName: newName}),
+    body: JSON.stringify({new_name: newName}),
   });
-}
+},
       };

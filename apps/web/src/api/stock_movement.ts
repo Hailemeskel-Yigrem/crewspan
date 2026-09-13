@@ -46,16 +46,16 @@
 },
 
         async validate_quantity(id: string): Promise<StockMovement> {
-  return apiFetch<StockMovement>(`/api/v1/stock-movements/{id}/validate`, {
+  return apiFetch<StockMovement>(`/api/v1/stock-movements/${id}/validate`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
-async reverse(id: string, reason: str): Promise<StockMovement> {
-  return apiFetch<StockMovement>(`/api/v1/stock-movements/{id}/reverse`, {
+async reverse(id: string, reason: string): Promise<StockMovement> {
+  return apiFetch<StockMovement>(`/api/v1/stock-movements/${id}/reverse`, {
     method: "POST",
     body: JSON.stringify({reason: reason}),
   });
-}
+},
       };

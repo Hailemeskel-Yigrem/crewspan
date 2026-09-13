@@ -45,16 +45,16 @@
 },
 
         async acknowledge(id: string): Promise<SlaBreach> {
-  return apiFetch<SlaBreach>(`/api/v1/sla-breachs/{id}/acknowledge`, {
+  return apiFetch<SlaBreach>(`/api/v1/sla-breachs/${id}/acknowledge`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
 async escalate(id: string): Promise<SlaBreach> {
-  return apiFetch<SlaBreach>(`/api/v1/sla-breachs/{id}/escalate`, {
+  return apiFetch<SlaBreach>(`/api/v1/sla-breachs/${id}/escalate`, {
     method: "POST",
     body: undefined,
   });
-}
+},
       };

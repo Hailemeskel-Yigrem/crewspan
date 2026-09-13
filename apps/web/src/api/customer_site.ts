@@ -44,16 +44,16 @@
 },
 
         async geocode(id: string): Promise<CustomerSite> {
-  return apiFetch<CustomerSite>(`/api/v1/customer-sites/{id}/geocode`, {
+  return apiFetch<CustomerSite>(`/api/v1/customer-sites/${id}/geocode`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
-async validate_access_window(id: string, at: datetime): Promise<CustomerSite> {
-  return apiFetch<CustomerSite>(`/api/v1/customer-sites/{id}/validate-access-window`, {
+async validate_access_window(id: string, at: string): Promise<CustomerSite> {
+  return apiFetch<CustomerSite>(`/api/v1/customer-sites/${id}/validate-access-window`, {
     method: "POST",
     body: JSON.stringify({at: at}),
   });
-}
+},
       };

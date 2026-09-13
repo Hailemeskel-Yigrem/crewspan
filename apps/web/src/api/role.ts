@@ -42,24 +42,24 @@
   return apiFetch<Role>(`/api/v1/roles/${id}/restore`, { method: 'POST' });
 },
 
-        async grant_permission(id: string, permission: str): Promise<Role> {
-  return apiFetch<Role>(`/api/v1/roles/{id}/grant-permission`, {
+        async grant_permission(id: string, permission: string): Promise<Role> {
+  return apiFetch<Role>(`/api/v1/roles/${id}/grant-permission`, {
     method: "POST",
     body: JSON.stringify({permission: permission}),
   });
-}
+},
 
-async revoke_permission(id: string, permission: str): Promise<Role> {
-  return apiFetch<Role>(`/api/v1/roles/{id}/revoke-permission`, {
+async revoke_permission(id: string, permission: string): Promise<Role> {
+  return apiFetch<Role>(`/api/v1/roles/${id}/revoke-permission`, {
     method: "POST",
     body: JSON.stringify({permission: permission}),
   });
-}
+},
 
-async clone(id: string, newName: str): Promise<Role> {
-  return apiFetch<Role>(`/api/v1/roles/{id}/clone`, {
+async clone(id: string, newName: string): Promise<Role> {
+  return apiFetch<Role>(`/api/v1/roles/${id}/clone`, {
     method: "POST",
-    body: JSON.stringify({newName: newName}),
+    body: JSON.stringify({new_name: newName}),
   });
-}
+},
       };

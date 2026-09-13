@@ -45,23 +45,23 @@
 },
 
         async approve(id: string): Promise<PartsRequest> {
-  return apiFetch<PartsRequest>(`/api/v1/parts-requests/{id}/approve`, {
+  return apiFetch<PartsRequest>(`/api/v1/parts-requests/${id}/approve`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
 async fulfill(id: string): Promise<PartsRequest> {
-  return apiFetch<PartsRequest>(`/api/v1/parts-requests/{id}/fulfill`, {
+  return apiFetch<PartsRequest>(`/api/v1/parts-requests/${id}/fulfill`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
-async reject(id: string, reason: str): Promise<PartsRequest> {
-  return apiFetch<PartsRequest>(`/api/v1/parts-requests/{id}/reject`, {
+async reject(id: string, reason: string): Promise<PartsRequest> {
+  return apiFetch<PartsRequest>(`/api/v1/parts-requests/${id}/reject`, {
     method: "POST",
     body: JSON.stringify({reason: reason}),
   });
-}
+},
       };

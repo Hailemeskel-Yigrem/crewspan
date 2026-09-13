@@ -45,23 +45,23 @@
 },
 
         async lock(id: string): Promise<Schedule> {
-  return apiFetch<Schedule>(`/api/v1/schedules/{id}/lock`, {
+  return apiFetch<Schedule>(`/api/v1/schedules/${id}/lock`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
 async unlock(id: string): Promise<Schedule> {
-  return apiFetch<Schedule>(`/api/v1/schedules/{id}/unlock`, {
+  return apiFetch<Schedule>(`/api/v1/schedules/${id}/unlock`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
-async detect_conflicts(id: string, startsAt: datetime, endsAt: datetime): Promise<Schedule> {
-  return apiFetch<Schedule>(`/api/v1/schedules/{id}/detect-conflicts`, {
+async detect_conflicts(id: string, startsAt: string, endsAt: string): Promise<Schedule> {
+  return apiFetch<Schedule>(`/api/v1/schedules/${id}/detect-conflicts`, {
     method: "POST",
-    body: JSON.stringify({startsAt: startsAt, endsAt: endsAt}),
+    body: JSON.stringify({starts_at: startsAt, ends_at: endsAt}),
   });
-}
+},
       };

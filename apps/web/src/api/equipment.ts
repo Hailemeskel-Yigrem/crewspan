@@ -45,17 +45,17 @@
   return apiFetch<Equipment>(`/api/v1/equipments/${id}/restore`, { method: 'POST' });
 },
 
-        async record_service(id: string, workOrderId: string, notes: str): Promise<Equipment> {
-  return apiFetch<Equipment>(`/api/v1/equipments/{id}/record-service`, {
+        async record_service(id: string, workOrderId: string, notes: string): Promise<Equipment> {
+  return apiFetch<Equipment>(`/api/v1/equipments/${id}/record-service`, {
     method: "POST",
-    body: JSON.stringify({workOrderId: workOrderId, notes: notes}),
+    body: JSON.stringify({work_order_id: workOrderId, notes: notes}),
   });
-}
+},
 
-async retire(id: string, reason: str): Promise<Equipment> {
-  return apiFetch<Equipment>(`/api/v1/equipments/{id}/retire`, {
+async retire(id: string, reason: string): Promise<Equipment> {
+  return apiFetch<Equipment>(`/api/v1/equipments/${id}/retire`, {
     method: "POST",
     body: JSON.stringify({reason: reason}),
   });
-}
+},
       };

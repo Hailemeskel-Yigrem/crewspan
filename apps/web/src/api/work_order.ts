@@ -47,37 +47,37 @@
 },
 
         async submit(id: string): Promise<WorkOrder> {
-  return apiFetch<WorkOrder>(`/api/v1/work-orders/{id}/submit`, {
+  return apiFetch<WorkOrder>(`/api/v1/work-orders/${id}/submit`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
 async assign_technician(id: string, technicianId: string): Promise<WorkOrder> {
-  return apiFetch<WorkOrder>(`/api/v1/work-orders/{id}/assign-technician`, {
+  return apiFetch<WorkOrder>(`/api/v1/work-orders/${id}/assign-technician`, {
     method: "POST",
-    body: JSON.stringify({technicianId: technicianId}),
+    body: JSON.stringify({technician_id: technicianId}),
   });
-}
+},
 
 async start(id: string): Promise<WorkOrder> {
-  return apiFetch<WorkOrder>(`/api/v1/work-orders/{id}/start`, {
+  return apiFetch<WorkOrder>(`/api/v1/work-orders/${id}/start`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
-async complete(id: string, notes: str | null): Promise<WorkOrder> {
-  return apiFetch<WorkOrder>(`/api/v1/work-orders/{id}/complete`, {
+async complete(id: string, notes: string | null): Promise<WorkOrder> {
+  return apiFetch<WorkOrder>(`/api/v1/work-orders/${id}/complete`, {
     method: "POST",
     body: JSON.stringify({notes: notes}),
   });
-}
+},
 
-async cancel(id: string, reason: str): Promise<WorkOrder> {
-  return apiFetch<WorkOrder>(`/api/v1/work-orders/{id}/cancel`, {
+async cancel(id: string, reason: string): Promise<WorkOrder> {
+  return apiFetch<WorkOrder>(`/api/v1/work-orders/${id}/cancel`, {
     method: "POST",
     body: JSON.stringify({reason: reason}),
   });
-}
+},
       };

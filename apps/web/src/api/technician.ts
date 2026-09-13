@@ -44,24 +44,24 @@
   return apiFetch<Technician>(`/api/v1/technicians/${id}/restore`, { method: 'POST' });
 },
 
-        async set_status(id: string, status: str): Promise<Technician> {
-  return apiFetch<Technician>(`/api/v1/technicians/{id}/set-status`, {
+        async set_status(id: string, status: string): Promise<Technician> {
+  return apiFetch<Technician>(`/api/v1/technicians/${id}/set-status`, {
     method: "POST",
     body: JSON.stringify({status: status}),
   });
-}
+},
 
-async update_location(id: string, lat: Decimal, lng: Decimal): Promise<Technician> {
-  return apiFetch<Technician>(`/api/v1/technicians/{id}/update-location`, {
+async update_location(id: string, lat: number, lng: number): Promise<Technician> {
+  return apiFetch<Technician>(`/api/v1/technicians/${id}/update-location`, {
     method: "POST",
     body: JSON.stringify({lat: lat, lng: lng}),
   });
-}
+},
 
-async calculate_utilization(id: string, start: date, end: date): Promise<Technician> {
-  return apiFetch<Technician>(`/api/v1/technicians/{id}/calculate-utilization`, {
+async calculate_utilization(id: string, start: string, end: string): Promise<Technician> {
+  return apiFetch<Technician>(`/api/v1/technicians/${id}/calculate-utilization`, {
     method: "POST",
     body: JSON.stringify({start: start, end: end}),
   });
-}
+},
       };

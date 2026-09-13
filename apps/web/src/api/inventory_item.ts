@@ -44,21 +44,21 @@
   return apiFetch<InventoryItem>(`/api/v1/inventory-items/${id}/restore`, { method: 'POST' });
 },
 
-        async adjust_reorder_levels(id: string, point: int, quantity: int): Promise<InventoryItem> {
-  return apiFetch<InventoryItem>(`/api/v1/inventory-items/{id}/adjust-reorder-levels`, {
+        async adjust_reorder_levels(id: string, point: number, quantity: number): Promise<InventoryItem> {
+  return apiFetch<InventoryItem>(`/api/v1/inventory-items/${id}/adjust-reorder-levels`, {
     method: "POST",
     body: JSON.stringify({point: point, quantity: quantity}),
   });
-}
+},
 
 async deactivate(id: string): Promise<InventoryItem> {
-  return apiFetch<InventoryItem>(`/api/v1/inventory-items/{id}/deactivate`, {
+  return apiFetch<InventoryItem>(`/api/v1/inventory-items/${id}/deactivate`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
 async calculate_stock_value(id: string): Promise<InventoryItem> {
-  return apiFetch<InventoryItem>('/api/v1/inventory-items/${id}/stock-value', { method: "GET" });
-}
+  return apiFetch<InventoryItem>(`/api/v1/inventory-items/${id}/stock-value`, { method: "GET" });
+},
       };

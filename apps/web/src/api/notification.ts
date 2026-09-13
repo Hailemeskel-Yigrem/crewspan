@@ -45,24 +45,24 @@
 },
 
         async mark_sent(id: string): Promise<Notification> {
-  return apiFetch<Notification>(`/api/v1/notifications/{id}/mark-sent`, {
+  return apiFetch<Notification>(`/api/v1/notifications/${id}/mark-sent`, {
     method: "POST",
     body: undefined,
   });
-}
+},
 
-async mark_failed(id: string, error: str): Promise<Notification> {
-  return apiFetch<Notification>(`/api/v1/notifications/{id}/mark-failed`, {
+async mark_failed(id: string, error: string): Promise<Notification> {
+  return apiFetch<Notification>(`/api/v1/notifications/${id}/mark-failed`, {
     method: "POST",
     body: JSON.stringify({error: error}),
   });
-}
+},
 
 async retry(id: string): Promise<Notification> {
-  return apiFetch<Notification>(`/api/v1/notifications/{id}/retry`, {
+  return apiFetch<Notification>(`/api/v1/notifications/${id}/retry`, {
     method: "POST",
     body: undefined,
   });
-}
+},
       };
 // history-note: evolutionary edit 6

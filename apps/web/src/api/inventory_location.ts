@@ -44,13 +44,13 @@
 },
 
         async assign_to_technician(id: string, technicianId: string): Promise<InventoryLocation> {
-  return apiFetch<InventoryLocation>(`/api/v1/inventory-locations/{id}/assign-to-technician`, {
+  return apiFetch<InventoryLocation>(`/api/v1/inventory-locations/${id}/assign-to-technician`, {
     method: "POST",
-    body: JSON.stringify({technicianId: technicianId}),
+    body: JSON.stringify({technician_id: technicianId}),
   });
-}
+},
 
 async list_low_stock(id: string): Promise<InventoryLocation> {
-  return apiFetch<InventoryLocation>('/api/v1/inventory-locations/${id}/low-stock', { method: "GET" });
-}
+  return apiFetch<InventoryLocation>(`/api/v1/inventory-locations/${id}/low-stock`, { method: "GET" });
+},
       };
