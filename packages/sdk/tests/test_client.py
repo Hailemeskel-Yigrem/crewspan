@@ -19,7 +19,7 @@ def test_list_work_orders(mock_client_cls):
     mock_response.status_code = 200
     mock_response.json.return_value = {"data": [], "total": 0}
     mock_response.raise_for_status = MagicMock()
-    mock_client_cls.return_value.__enter__.return_value.get.return_value = mock_response
+    mock_client_cls.return_value.__enter__.return_value.request.return_value = mock_response
 
     client = CrewspanClient(base_url="http://localhost:8000", tenant_id=str(uuid4()), token="tok")
     result = client.list_work_orders()
