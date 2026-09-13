@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { TechnicianAvatar } from '../TechnicianAvatar';
+import { TechnicianAvatar } from './TechnicianAvatar';
 
 describe('TechnicianAvatar', () => {
   it('shows initials', () => {

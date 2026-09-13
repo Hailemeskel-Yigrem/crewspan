@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { DateRangePicker } from '../DateRangePicker';
+import { DateRangePicker } from './DateRangePicker';
 
 describe('DateRangePicker', () => {
   it('updates range on change', () => {

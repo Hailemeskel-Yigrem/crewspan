@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { ConfirmDialog } from '../ConfirmDialog';
+import { ConfirmDialog } from './ConfirmDialog';
 
 describe('ConfirmDialog', () => {
   it('calls onConfirm', () => {

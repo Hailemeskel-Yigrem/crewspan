@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatDateTime, formatDate, isToday } from '../dates';
+import { formatDateTime, formatDate } from './dates';
 
 describe('dates', () => {
   it('formatDateTime handles ISO strings', () => {

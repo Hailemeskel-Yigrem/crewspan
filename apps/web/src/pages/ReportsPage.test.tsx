@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect, vi } from 'vitest';
-import { ReportsPage } from '../ReportsPage';
+import { ReportsPage } from './ReportsPage';
 
 vi.mock('../hooks/useAuth', () => ({
   useAuth: () => ({ isAuthenticated: true, user: { fullName: 'Test User' }, logout: vi.fn() }),

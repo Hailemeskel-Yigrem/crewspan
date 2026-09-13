@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { statusColor, priorityWeight } from '../statusColors';
+import { statusColor, priorityWeight } from './statusColors';
 
 describe('statusColors', () => {
   it('returns color for known status', () => {

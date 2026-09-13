@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatCurrency, formatNumber, truncate, titleCase } from '../formatting';
+import { formatCurrency, truncate, titleCase } from './formatting';
 
 describe('formatting', () => {
   it('formatCurrency formats USD', () => {

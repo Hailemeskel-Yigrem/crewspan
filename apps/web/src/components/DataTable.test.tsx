@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { DataTable } from '../DataTable';
+import { DataTable } from './DataTable';
 
 const data = [{ id: '1', name: 'Alpha' }, { id: '2', name: 'Beta' }];
 const columns = [

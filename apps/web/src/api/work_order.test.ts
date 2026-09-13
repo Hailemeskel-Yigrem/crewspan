@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { workorderApi } from '../work_order';
+import { workOrderApi } from './work_order';
 
 describe('work_orderApi', () => {
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('work_orderApi', () => {
   });
 
   it('list calls correct endpoint', async () => {
-    await workorderApi.list({ page: 1 });
+    await workOrderApi.list({ page: 1 });
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('/api/v1/work-orders'),
       expect.any(Object),

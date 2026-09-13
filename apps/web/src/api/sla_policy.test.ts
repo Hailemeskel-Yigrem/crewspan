@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { slapolicyApi } from '../sla_policy';
+import { slaPolicyApi } from './sla_policy';
 
 describe('sla_policyApi', () => {
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('sla_policyApi', () => {
   });
 
   it('list calls correct endpoint', async () => {
-    await slapolicyApi.list({ page: 1 });
+    await slaPolicyApi.list({ page: 1 });
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining('/api/v1/sla-policies'),
       expect.any(Object),

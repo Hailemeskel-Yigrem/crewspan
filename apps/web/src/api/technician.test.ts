@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { technicianApi } from '../technician';
+import { technicianApi } from './technician';
 
 describe('technicianApi', () => {
   beforeEach(() => {

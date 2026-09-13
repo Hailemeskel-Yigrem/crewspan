@@ -1,5 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { Modal } from '../Modal';
+import { render, fireEvent } from '@testing-library/react';
+import { Modal } from './Modal';
 
 describe('Modal', () => {
   it('closes on escape', () => {

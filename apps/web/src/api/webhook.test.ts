@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { webhookApi } from '../webhook';
+import { webhookApi } from './webhook';
 
 describe('webhookApi', () => {
   beforeEach(() => {

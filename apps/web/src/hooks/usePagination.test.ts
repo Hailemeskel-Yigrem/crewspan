@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { usePagination } from '../usePagination';
+import { usePagination } from './usePagination';
 
 describe('usePagination', () => {
   it('calculates total pages', () => {

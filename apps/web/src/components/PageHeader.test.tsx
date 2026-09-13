@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { PageHeader } from '../PageHeader';
+import { PageHeader } from './PageHeader';
 
 describe('PageHeader', () => {
   it('renders title and subtitle', () => {
