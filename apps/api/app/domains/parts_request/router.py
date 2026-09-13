@@ -12,6 +12,7 @@ from app.domains.parts_request.schemas import (
     PartsRequestCreate,
     PartsRequestListResponse,
     PartsRequestRead,
+    PartsRequestRejectRequest,
     PartsRequestUpdate,
 )
 from app.domains.parts_request.service import PartsRequestService

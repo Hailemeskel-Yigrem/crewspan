@@ -12,6 +12,8 @@ from app.domains.service_contract.schemas import (
     ServiceContractCreate,
     ServiceContractListResponse,
     ServiceContractRead,
+    ServiceContractRenewRequest,
+    ServiceContractTerminateRequest,
     ServiceContractUpdate,
 )
 from app.domains.service_contract.service import ServiceContractService

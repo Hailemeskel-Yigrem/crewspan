@@ -12,6 +12,8 @@ from app.domains.equipment.schemas import (
     EquipmentCreate,
     EquipmentListResponse,
     EquipmentRead,
+    EquipmentRecordServiceRequest,
+    EquipmentRetireRequest,
     EquipmentUpdate,
 )
 from app.domains.equipment.service import EquipmentService

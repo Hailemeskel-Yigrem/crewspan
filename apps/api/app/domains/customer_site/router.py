@@ -13,6 +13,7 @@ from app.domains.customer_site.schemas import (
     CustomerSiteListResponse,
     CustomerSiteRead,
     CustomerSiteUpdate,
+    CustomerSiteValidateAccessWindowRequest,
 )
 from app.domains.customer_site.service import CustomerSiteService
 

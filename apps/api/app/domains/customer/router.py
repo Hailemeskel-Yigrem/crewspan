@@ -11,8 +11,10 @@ from app.domains.customer.repository import CustomerRepository
 from app.domains.customer.schemas import (
     CustomerCreate,
     CustomerListResponse,
+    CustomerMergeIntoRequest,
     CustomerRead,
     CustomerUpdate,
+    CustomerUpdateCreditLimitRequest,
 )
 from app.domains.customer.service import CustomerService
 

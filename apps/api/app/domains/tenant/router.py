@@ -13,6 +13,7 @@ from app.domains.tenant.schemas import (
     TenantListResponse,
     TenantRead,
     TenantUpdate,
+    TenantUpdateSettingsRequest,
 )
 from app.domains.tenant.service import TenantService
 

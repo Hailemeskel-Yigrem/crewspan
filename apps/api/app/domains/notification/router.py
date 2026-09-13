@@ -11,6 +11,7 @@ from app.domains.notification.repository import NotificationRepository
 from app.domains.notification.schemas import (
     NotificationCreate,
     NotificationListResponse,
+    NotificationMarkFailedRequest,
     NotificationRead,
     NotificationUpdate,
 )

@@ -12,6 +12,7 @@ from app.domains.stock_movement.schemas import (
     StockMovementCreate,
     StockMovementListResponse,
     StockMovementRead,
+    StockMovementReverseRequest,
     StockMovementUpdate,
 )
 from app.domains.stock_movement.service import StockMovementService

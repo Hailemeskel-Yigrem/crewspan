@@ -9,6 +9,7 @@ from fastapi import Response, APIRouter, Depends, Query, status
 from app.deps import get_db_session, get_tenant_id
 from app.domains.inventory_item.repository import InventoryItemRepository
 from app.domains.inventory_item.schemas import (
+    InventoryItemAdjustReorderLevelsRequest,
     InventoryItemCreate,
     InventoryItemListResponse,
     InventoryItemRead,

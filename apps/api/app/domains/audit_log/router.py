@@ -12,6 +12,7 @@ from app.domains.audit_log.schemas import (
     AuditLogCreate,
     AuditLogListResponse,
     AuditLogRead,
+    AuditLogSearchByResourceRequest,
     AuditLogUpdate,
 )
 from app.domains.audit_log.service import AuditLogService

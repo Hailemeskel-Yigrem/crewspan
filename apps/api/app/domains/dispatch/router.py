@@ -10,6 +10,7 @@ from app.deps import get_db_session, get_tenant_id
 from app.domains.dispatch.repository import DispatchRepository
 from app.domains.dispatch.schemas import (
     DispatchCreate,
+    DispatchDeclineRequest,
     DispatchListResponse,
     DispatchRead,
     DispatchUpdate,

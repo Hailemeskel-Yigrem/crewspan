@@ -12,6 +12,7 @@ from app.domains.technician_skill.schemas import (
     TechnicianSkillCreate,
     TechnicianSkillListResponse,
     TechnicianSkillRead,
+    TechnicianSkillRenewCertificationRequest,
     TechnicianSkillUpdate,
 )
 from app.domains.technician_skill.service import TechnicianSkillService

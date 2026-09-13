@@ -12,6 +12,7 @@ from app.domains.work_order_task.schemas import (
     WorkOrderTaskCreate,
     WorkOrderTaskListResponse,
     WorkOrderTaskRead,
+    WorkOrderTaskReorderRequest,
     WorkOrderTaskUpdate,
 )
 from app.domains.work_order_task.service import WorkOrderTaskService

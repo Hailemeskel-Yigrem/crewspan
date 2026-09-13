@@ -10,6 +10,7 @@ from app.deps import get_db_session, get_tenant_id
 from app.domains.webhook.repository import WebhookRepository
 from app.domains.webhook.schemas import (
     WebhookCreate,
+    WebhookDisableOnFailuresRequest,
     WebhookListResponse,
     WebhookRead,
     WebhookUpdate,

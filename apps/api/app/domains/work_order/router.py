@@ -9,6 +9,9 @@ from fastapi import Response, APIRouter, Depends, Query, status
 from app.deps import get_db_session, get_tenant_id
 from app.domains.work_order.repository import WorkOrderRepository
 from app.domains.work_order.schemas import (
+    WorkOrderAssignTechnicianRequest,
+    WorkOrderCancelRequest,
+    WorkOrderCompleteRequest,
     WorkOrderCreate,
     WorkOrderListResponse,
     WorkOrderRead,

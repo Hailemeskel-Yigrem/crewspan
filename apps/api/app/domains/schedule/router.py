@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import datetime
 from uuid import UUID
 
 from fastapi import Response, APIRouter, Depends, Query, status
@@ -10,6 +11,7 @@ from app.deps import get_db_session, get_tenant_id
 from app.domains.schedule.repository import ScheduleRepository
 from app.domains.schedule.schemas import (
     ScheduleCreate,
+    ScheduleDetectConflictsRequest,
     ScheduleListResponse,
     ScheduleRead,
     ScheduleUpdate,

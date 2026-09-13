@@ -9,10 +9,13 @@ from fastapi import Response, APIRouter, Depends, Query, status
 from app.deps import get_db_session, get_tenant_id
 from app.domains.technician.repository import TechnicianRepository
 from app.domains.technician.schemas import (
+    TechnicianCalculateUtilizationRequest,
     TechnicianCreate,
     TechnicianListResponse,
     TechnicianRead,
+    TechnicianSetStatusRequest,
     TechnicianUpdate,
+    TechnicianUpdateLocationRequest,
 )
 from app.domains.technician.service import TechnicianService
 

@@ -9,9 +9,12 @@ from fastapi import Response, APIRouter, Depends, Query, status
 from app.deps import get_db_session, get_tenant_id
 from app.domains.role.repository import RoleRepository
 from app.domains.role.schemas import (
+    RoleCloneRequest,
     RoleCreate,
+    RoleGrantPermissionRequest,
     RoleListResponse,
     RoleRead,
+    RoleRevokePermissionRequest,
     RoleUpdate,
 )
 from app.domains.role.service import RoleService

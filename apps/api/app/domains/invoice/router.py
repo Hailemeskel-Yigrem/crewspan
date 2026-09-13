@@ -13,6 +13,7 @@ from app.domains.invoice.schemas import (
     InvoiceListResponse,
     InvoiceRead,
     InvoiceUpdate,
+    InvoiceVoidRequest,
 )
 from app.domains.invoice.service import InvoiceService
 

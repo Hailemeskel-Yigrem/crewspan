@@ -9,6 +9,7 @@ from fastapi import Response, APIRouter, Depends, Query, status
 from app.deps import get_db_session, get_tenant_id
 from app.domains.user.repository import UserRepository
 from app.domains.user.schemas import (
+    UserChangePasswordRequest,
     UserCreate,
     UserListResponse,
     UserRead,
