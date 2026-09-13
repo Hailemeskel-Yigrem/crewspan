@@ -109,4 +109,4 @@ class PaymentFilterParams(BaseModel):
 class PaymentRefundRequest(BaseModel):
     """Payload for refund."""
     amount: Decimal
-reason: str
+    reason: str

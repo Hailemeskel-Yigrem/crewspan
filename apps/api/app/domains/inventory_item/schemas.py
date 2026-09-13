@@ -110,4 +110,4 @@ class InventoryItemFilterParams(BaseModel):
 class InventoryItemAdjustReorderLevelsRequest(BaseModel):
     """Payload for adjust_reorder_levels."""
     point: int
-quantity: int
+    quantity: int

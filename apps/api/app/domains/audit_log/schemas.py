@@ -95,4 +95,4 @@ class AuditLogFilterParams(BaseModel):
 class AuditLogSearchByResourceRequest(BaseModel):
     """Payload for search_by_resource."""
     resource_type: str
-resource_id: UUID
+    resource_id: UUID

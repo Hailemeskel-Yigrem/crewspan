@@ -128,7 +128,7 @@ class EquipmentFilterParams(BaseModel):
 class EquipmentRecordServiceRequest(BaseModel):
     """Payload for record_service."""
     work_order_id: UUID
-notes: str
+    notes: str
 
 class EquipmentRetireRequest(BaseModel):
     """Payload for retire."""

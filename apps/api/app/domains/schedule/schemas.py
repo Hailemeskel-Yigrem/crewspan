@@ -103,4 +103,4 @@ class ScheduleFilterParams(BaseModel):
 class ScheduleDetectConflictsRequest(BaseModel):
     """Payload for detect_conflicts."""
     starts_at: datetime
-ends_at: datetime
+    ends_at: datetime

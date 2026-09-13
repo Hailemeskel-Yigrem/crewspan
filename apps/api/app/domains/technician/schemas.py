@@ -112,9 +112,9 @@ class TechnicianSetStatusRequest(BaseModel):
 class TechnicianUpdateLocationRequest(BaseModel):
     """Payload for update_location."""
     lat: Decimal
-lng: Decimal
+    lng: Decimal
 
 class TechnicianCalculateUtilizationRequest(BaseModel):
     """Payload for calculate_utilization."""
     start: date
-end: date
+    end: date
