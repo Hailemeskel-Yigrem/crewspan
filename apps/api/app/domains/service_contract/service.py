@@ -177,7 +177,7 @@ class ServiceContractService:
 
         if hasattr(data, "status") and getattr(data, "status") is not None:
             if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise ServiceContractValidationError("Invalid status: {getattr(data, 'status')}")
+                raise ServiceContractValidationError(f"Invalid status: {getattr(data, 'status')}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():
@@ -186,11 +186,11 @@ class ServiceContractService:
     def _validate_update(self, entity: ServiceContract, data: ServiceContractUpdate) -> None:
         """Domain-specific update validation for ServiceContract."""
         if data.status is not None and data.status == entity.status:
-            raise ServiceContractConflictError("Status is already {entity.status}")
+            raise ServiceContractConflictError(f"Status is already {entity.status}")
 
         new_status = getattr(data, "status", None)
         if new_status is not None and new_status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-            raise ServiceContractValidationError("Invalid status: {new_status}")
+            raise ServiceContractValidationError(f"Invalid status: {new_status}")
 
     async def renew(self, entity_id: UUID, tenant_id: UUID | None, new_end_date: date):
         """Extend contract end date"""

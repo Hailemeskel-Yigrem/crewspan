@@ -145,7 +145,7 @@ class CustomerService:
 
         if hasattr(data, "customer_type") and getattr(data, "customer_type") is not None:
             if getattr(data, "customer_type") not in {'residential', 'commercial', 'government'}:
-                raise CustomerValidationError("Invalid customer_type: {getattr(data, 'customer_type')}")
+                raise CustomerValidationError(f"Invalid customer_type: {getattr(data, 'customer_type')}")
 
         raw = getattr(data, "customer_type", None)
         if raw is not None and not str(raw).strip():
@@ -159,7 +159,7 @@ class CustomerService:
         """Domain-specific update validation for Customer."""
         new_customer_type = getattr(data, "customer_type", None)
         if new_customer_type is not None and new_customer_type not in {'residential', 'commercial', 'government'}:
-            raise CustomerValidationError("Invalid customer_type: {new_customer_type}")
+            raise CustomerValidationError(f"Invalid customer_type: {new_customer_type}")
 
     async def update_credit_limit(self, entity_id: UUID, tenant_id: UUID | None, limit: Decimal):
         """Adjust credit limit with audit trail"""

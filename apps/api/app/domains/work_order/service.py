@@ -172,7 +172,7 @@ class WorkOrderService:
 
         if hasattr(data, "priority") and getattr(data, "priority") is not None:
             if getattr(data, "priority") not in {'low', 'normal', 'high', 'critical'}:
-                raise WorkOrderValidationError("Invalid priority: {getattr(data, 'priority')}")
+                raise WorkOrderValidationError(f"Invalid priority: {getattr(data, 'priority')}")
 
         raw = getattr(data, "priority", None)
         if raw is not None and not str(raw).strip():
@@ -180,7 +180,7 @@ class WorkOrderService:
 
         if hasattr(data, "status") and getattr(data, "status") is not None:
             if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise WorkOrderValidationError("Invalid status: {getattr(data, 'status')}")
+                raise WorkOrderValidationError(f"Invalid status: {getattr(data, 'status')}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():
@@ -189,15 +189,15 @@ class WorkOrderService:
     def _validate_update(self, entity: WorkOrder, data: WorkOrderUpdate) -> None:
         """Domain-specific update validation for WorkOrder."""
         if data.status is not None and data.status == entity.status:
-            raise WorkOrderConflictError("Status is already {entity.status}")
+            raise WorkOrderConflictError(f"Status is already {entity.status}")
 
         new_priority = getattr(data, "priority", None)
         if new_priority is not None and new_priority not in {'low', 'normal', 'high', 'critical'}:
-            raise WorkOrderValidationError("Invalid priority: {new_priority}")
+            raise WorkOrderValidationError(f"Invalid priority: {new_priority}")
 
         new_status = getattr(data, "status", None)
         if new_status is not None and new_status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-            raise WorkOrderValidationError("Invalid status: {new_status}")
+            raise WorkOrderValidationError(f"Invalid status: {new_status}")
 
         start = data.scheduled_start if data.scheduled_start is not None else entity.scheduled_start
         end = data.scheduled_end if data.scheduled_end is not None else entity.scheduled_end
@@ -238,7 +238,7 @@ class WorkOrderService:
         """Complete work order with notes"""
         entity = await self._require_entity(entity_id, tenant_id=tenant_id)
         if entity.status not in {"in_progress", "submitted"}:
-            raise WorkOrderValidationError("Work order cannot be completed from status {entity.status}")
+            raise WorkOrderValidationError(f"Work order cannot be completed from status {entity.status}")
         entity.status = "completed"
         if notes:
             entity.completion_notes = notes

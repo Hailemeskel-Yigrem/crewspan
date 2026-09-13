@@ -172,7 +172,7 @@ class EquipmentService:
 
         if hasattr(data, "status") and getattr(data, "status") is not None:
             if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise EquipmentValidationError("Invalid status: {getattr(data, 'status')}")
+                raise EquipmentValidationError(f"Invalid status: {getattr(data, 'status')}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():
@@ -181,11 +181,11 @@ class EquipmentService:
     def _validate_update(self, entity: Equipment, data: EquipmentUpdate) -> None:
         """Domain-specific update validation for Equipment."""
         if data.status is not None and data.status == entity.status:
-            raise EquipmentConflictError("Status is already {entity.status}")
+            raise EquipmentConflictError(f"Status is already {entity.status}")
 
         new_status = getattr(data, "status", None)
         if new_status is not None and new_status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-            raise EquipmentValidationError("Invalid status: {new_status}")
+            raise EquipmentValidationError(f"Invalid status: {new_status}")
 
     async def record_service(self, entity_id: UUID, tenant_id: UUID | None, work_order_id: UUID, notes: str):
         """Log service event on equipment"""

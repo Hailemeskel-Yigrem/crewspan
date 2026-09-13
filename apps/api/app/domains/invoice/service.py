@@ -168,7 +168,7 @@ class InvoiceService:
 
         if hasattr(data, "status") and getattr(data, "status") is not None:
             if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise InvoiceValidationError("Invalid status: {getattr(data, 'status')}")
+                raise InvoiceValidationError(f"Invalid status: {getattr(data, 'status')}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():
@@ -181,11 +181,11 @@ class InvoiceService:
     def _validate_update(self, entity: Invoice, data: InvoiceUpdate) -> None:
         """Domain-specific update validation for Invoice."""
         if data.status is not None and data.status == entity.status:
-            raise InvoiceConflictError("Status is already {entity.status}")
+            raise InvoiceConflictError(f"Status is already {entity.status}")
 
         new_status = getattr(data, "status", None)
         if new_status is not None and new_status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-            raise InvoiceValidationError("Invalid status: {new_status}")
+            raise InvoiceValidationError(f"Invalid status: {new_status}")
 
     async def finalize(self, entity_id: UUID, tenant_id: UUID | None):
         """Lock invoice totals and assign number"""

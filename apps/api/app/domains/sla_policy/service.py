@@ -141,7 +141,7 @@ class SlaPolicyService:
 
         if hasattr(data, "priority") and getattr(data, "priority") is not None:
             if getattr(data, "priority") not in {'low', 'normal', 'high', 'critical'}:
-                raise SlaPolicyValidationError("Invalid priority: {getattr(data, 'priority')}")
+                raise SlaPolicyValidationError(f"Invalid priority: {getattr(data, 'priority')}")
 
         raw = getattr(data, "priority", None)
         if raw is not None and not str(raw).strip():
@@ -151,7 +151,7 @@ class SlaPolicyService:
         """Domain-specific update validation for SlaPolicy."""
         new_priority = getattr(data, "priority", None)
         if new_priority is not None and new_priority not in {'low', 'normal', 'high', 'critical'}:
-            raise SlaPolicyValidationError("Invalid priority: {new_priority}")
+            raise SlaPolicyValidationError(f"Invalid priority: {new_priority}")
 
     async def evaluate_deadlines(self, entity_id: UUID, tenant_id: UUID | None, opened_at: datetime) -> dict:
         """Compute response/resolution deadlines"""

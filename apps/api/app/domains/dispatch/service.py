@@ -164,7 +164,7 @@ class DispatchService:
         """Domain-specific create validation for Dispatch."""
         if hasattr(data, "status") and getattr(data, "status") is not None:
             if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise DispatchValidationError("Invalid status: {getattr(data, 'status')}")
+                raise DispatchValidationError(f"Invalid status: {getattr(data, 'status')}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():
@@ -173,11 +173,11 @@ class DispatchService:
     def _validate_update(self, entity: Dispatch, data: DispatchUpdate) -> None:
         """Domain-specific update validation for Dispatch."""
         if data.status is not None and data.status == entity.status:
-            raise DispatchConflictError("Status is already {entity.status}")
+            raise DispatchConflictError(f"Status is already {entity.status}")
 
         new_status = getattr(data, "status", None)
         if new_status is not None and new_status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-            raise DispatchValidationError("Invalid status: {new_status}")
+            raise DispatchValidationError(f"Invalid status: {new_status}")
 
     async def accept(self, entity_id: UUID, tenant_id: UUID | None):
         """Technician accepts dispatch"""

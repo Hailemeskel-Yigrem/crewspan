@@ -168,7 +168,7 @@ class WorkOrderTaskService:
 
         if hasattr(data, "status") and getattr(data, "status") is not None:
             if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise WorkOrderTaskValidationError("Invalid status: {getattr(data, 'status')}")
+                raise WorkOrderTaskValidationError(f"Invalid status: {getattr(data, 'status')}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():

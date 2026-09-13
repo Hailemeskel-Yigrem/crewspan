@@ -170,7 +170,7 @@ class TechnicianService:
 
         if hasattr(data, "status") and getattr(data, "status") is not None:
             if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise TechnicianValidationError("Invalid status: {getattr(data, 'status')}")
+                raise TechnicianValidationError(f"Invalid status: {getattr(data, 'status')}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():
@@ -179,11 +179,11 @@ class TechnicianService:
     def _validate_update(self, entity: Technician, data: TechnicianUpdate) -> None:
         """Domain-specific update validation for Technician."""
         if data.status is not None and data.status == entity.status:
-            raise TechnicianConflictError("Status is already {entity.status}")
+            raise TechnicianConflictError(f"Status is already {entity.status}")
 
         new_status = getattr(data, "status", None)
         if new_status is not None and new_status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-            raise TechnicianValidationError("Invalid status: {new_status}")
+            raise TechnicianValidationError(f"Invalid status: {new_status}")
 
     async def set_status(self, entity_id: UUID, tenant_id: UUID | None, status: str):
         """Update availability status"""

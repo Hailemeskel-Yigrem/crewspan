@@ -164,7 +164,7 @@ class PartsRequestService:
         """Domain-specific create validation for PartsRequest."""
         if hasattr(data, "status") and getattr(data, "status") is not None:
             if getattr(data, "status") not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-                raise PartsRequestValidationError("Invalid status: {getattr(data, 'status')}")
+                raise PartsRequestValidationError(f"Invalid status: {getattr(data, 'status')}")
 
         raw = getattr(data, "status", None)
         if raw is not None and not str(raw).strip():
@@ -173,11 +173,11 @@ class PartsRequestService:
     def _validate_update(self, entity: PartsRequest, data: PartsRequestUpdate) -> None:
         """Domain-specific update validation for PartsRequest."""
         if data.status is not None and data.status == entity.status:
-            raise PartsRequestConflictError("Status is already {entity.status}")
+            raise PartsRequestConflictError(f"Status is already {entity.status}")
 
         new_status = getattr(data, "status", None)
         if new_status is not None and new_status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-            raise PartsRequestValidationError("Invalid status: {new_status}")
+            raise PartsRequestValidationError(f"Invalid status: {new_status}")
 
     async def approve(self, entity_id: UUID, tenant_id: UUID | None):
         """Approve parts request"""
