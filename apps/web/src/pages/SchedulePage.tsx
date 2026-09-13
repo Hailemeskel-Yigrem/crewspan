@@ -20,7 +20,7 @@ export function SchedulePage() {
     setLoading(true);
     try {
       const res = await scheduleApi.list({ pageSize: 100 });
-      setEvents(res.data.filter((e) => !techFilter || e.technicianId.includes(techFilter)));
+      setEvents(res.data.filter((e) => !techFilter || e.technician_id.includes(techFilter)));
     } finally { setLoading(false); }
   }, [techFilter]);
 
@@ -38,14 +38,14 @@ export function SchedulePage() {
           {events.map((ev) => (
             <button key={ev.id} type="button" className="schedule-block" onClick={() => setSelected(ev)}>
               <TechnicianAvatar name={ev.title} size={32} />
-              <div><strong>{ev.title}</strong><br /><small>{formatDateTime(ev.startsAt)} — {formatDateTime(ev.endsAt)}</small></div>
-              {ev.isLocked ? <span className="lock-badge">🔒</span> : null}
+              <div><strong>{ev.title}</strong><br /><small>{formatDateTime(ev.starts_at)} — {formatDateTime(ev.ends_at)}</small></div>
+              {ev.is_locked ? <span className="lock-badge">🔒</span> : null}
             </button>
           ))}
         </div>
       )}
       <Modal open={Boolean(selected)} title="Schedule Event" onClose={() => setSelected(null)}>
-        {selected ? <dl className="detail-grid"><dt>Type</dt><dd>{selected.eventType}</dd><dt>Notes</dt><dd>{selected.notes ?? '—'}</dd></dl> : null}
+        {selected ? <dl className="detail-grid"><dt>Type</dt><dd>{selected.event_type}</dd><dt>Notes</dt><dd>{selected.notes ?? '—'}</dd></dl> : null}
       </Modal>
       <style>{`.schedule-grid { display: flex; flex-direction: column; gap: 0.5rem; } .schedule-block { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); cursor: pointer; text-align: left; width: 100%; color: inherit; } .schedule-block:hover { border-color: var(--color-primary); }`}</style>
     </div>

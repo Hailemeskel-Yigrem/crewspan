@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { PageHeader } from '../components/PageHeader';
-import { StatusBadge } from '../components/StatusBadge';
 import { workOrderApi } from '../api/work_order';
 import type { WorkOrder } from '../types/work_order';
 import { formatDateTime } from '../utils/dates';
@@ -52,8 +51,8 @@ export function WorkOrderDetailPage() {
   return (
     <div className="page">
       <PageHeader
-        title="WorkOrder {record.id.slice(0, 8)}"
-        subtitle="Created {formatDateTime(record.createdAt)}"
+        title={`WorkOrder ${record.id.slice(0, 8)}`}
+        subtitle={`Created ${formatDateTime(record.createdAt)}`}
         actions={
           <>
             <button type="button" className="btn btn-secondary" onClick={() => navigate('/work_order')}>Back</button>
@@ -62,12 +61,12 @@ export function WorkOrderDetailPage() {
         }
       />
       <dl className="detail-grid">
-              <dt>Order Number</dt><dd>{{record.order_number != null ? String(record.order_number) : "—"}}</dd>
-      <dt>Customer Id</dt><dd>{{record.customer_id != null ? String(record.customer_id) : "—"}}</dd>
-      <dt>Site Id</dt><dd>{{record.site_id != null ? String(record.site_id) : "—"}}</dd>
-      <dt>Title</dt><dd>{{record.title != null ? String(record.title) : "—"}}</dd>
-      <dt>Description</dt><dd>{{record.description != null ? String(record.description) : "—"}}</dd>
-      <dt>Priority</dt><dd>{{record.priority != null ? String(record.priority) : "—"}}</dd>
+              <dt>Order Number</dt><dd>{record.order_number != null ? String(record.order_number) : "—"}</dd>
+      <dt>Customer Id</dt><dd>{record.customer_id != null ? String(record.customer_id) : "—"}</dd>
+      <dt>Site Id</dt><dd>{record.site_id != null ? String(record.site_id) : "—"}</dd>
+      <dt>Title</dt><dd>{record.title != null ? String(record.title) : "—"}</dd>
+      <dt>Description</dt><dd>{record.description != null ? String(record.description) : "—"}</dd>
+      <dt>Priority</dt><dd>{record.priority != null ? String(record.priority) : "—"}</dd>
         <dt>Updated</dt><dd>{formatDateTime(record.updatedAt)}</dd>
       </dl>
       <ConfirmDialog

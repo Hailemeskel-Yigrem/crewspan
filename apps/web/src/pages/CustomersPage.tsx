@@ -46,27 +46,27 @@ export function CustomersPage() {
   useEffect(() => { void load(); }, [load]);
 
   const filtered = useMemo(() => items.filter((c) => {
-    if (typeFilter && c.customerType !== typeFilter) return false;
-    if (activeOnly && !c.isActive) return false;
+    if (typeFilter && c.customer_type !== typeFilter) return false;
+    if (activeOnly && !c.is_active) return false;
     return true;
   }), [items, typeFilter, activeOnly]);
 
   const columns: Column<Customer>[] = [
-    { key: 'accountNumber', header: 'Account #', render: (r) => <code>{r.accountNumber}</code> },
+    { key: 'accountNumber', header: 'Account #', render: (r) => <code>{r.account_number}</code> },
     { key: 'name', header: 'Name', render: (r) => r.name },
-    { key: 'customerType', header: 'Type', render: (r) => <StatusBadge status={r.customerType} /> },
-    { key: 'creditLimit', header: 'Credit Limit', render: (r) => r.creditLimit ? formatCurrency(Number(r.creditLimit)) : '—' },
-    { key: 'isActive', header: 'Status', render: (r) => <StatusBadge status={r.isActive ? 'active' : 'inactive'} /> },
+    { key: 'customerType', header: 'Type', render: (r) => <StatusBadge status={r.customer_type} /> },
+    { key: 'creditLimit', header: 'Credit Limit', render: (r) => r.credit_limit ? formatCurrency(Number(r.credit_limit)) : '—' },
+    { key: 'isActive', header: 'Status', render: (r) => <StatusBadge status={r.is_active ? 'active' : 'inactive'} /> },
   ];
 
   const handleCreate = async () => {
     await customerApi.create({
       name: form.name,
-      accountNumber: form.accountNumber,
-      customerType: form.customerType,
-      billingEmail: form.billingEmail || null,
-      isActive: true,
-      paymentTermsDays: 30,
+      account_number: form.accountNumber,
+      customer_type: form.customerType,
+      billing_email: form.billingEmail || null,
+      is_active: true,
+      payment_terms_days: 30,
     });
     setCreateOpen(false);
     void load();

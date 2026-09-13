@@ -13,4 +13,4 @@ export { DateRangePicker } from './DateRangePicker';
 export { TechnicianAvatar } from './TechnicianAvatar';
 export { WorkOrderCard } from './WorkOrderCard';
 export { MetricCard } from './MetricCard';
-export { Toast } from './Toast';
+export { ToastProvider, type ToastVariant } from './Toast';

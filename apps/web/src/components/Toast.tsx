@@ -24,7 +24,18 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(() => ({ toast }), [toast]);
-  return <ToastContext.Provider value={value}>{children}</ToastContext.Provider>;
+  return (
+    <ToastContext.Provider value={value}>
+      {children}
+      <div className="toast-stack" role="status" aria-live="polite">
+        {items.map((item) => (
+          <div key={item.id} className={`toast toast-${item.variant}`}>
+            {item.message}
+          </div>
+        ))}
+      </div>
+    </ToastContext.Provider>
+  );
 }
 
 export function useToast() {

@@ -15,10 +15,10 @@ export function TechniciansPage() {
   }, []);
 
   const columns: Column<Technician>[] = [
-    { key: 'avatar', header: '', render: (r) => <TechnicianAvatar name={r.employeeId} status={r.status} /> },
-    { key: 'employeeId', header: 'Employee ID', render: (r) => r.employeeId },
+    { key: 'avatar', header: '', render: (r) => <TechnicianAvatar name={r.employee_id} status={r.status} /> },
+    { key: 'employeeId', header: 'Employee ID', render: (r) => r.employee_id },
     { key: 'status', header: 'Status', render: (r) => <StatusBadge status={r.status} /> },
-    { key: 'hours', header: 'Max Hours', render: (r) => String(r.maxDailyHours) },
+    { key: 'hours', header: 'Max Hours', render: (r) => String(r.max_daily_hours) },
   ];
 
   return (

@@ -19,11 +19,11 @@ export function DashboardPage() {
 
   const cards: WorkOrderCardData[] = workOrders.map((wo) => ({
     id: wo.id,
-    orderNumber: wo.orderNumber,
+    orderNumber: wo.order_number,
     title: wo.title,
     status: wo.status,
     priority: wo.priority,
-    scheduledStart: wo.scheduledStart,
+    scheduledStart: wo.scheduled_start,
   }));
 
   return (

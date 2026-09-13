@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { DataTable, type Column } from '../components/DataTable';
@@ -24,7 +24,7 @@ export function WorkOrdersPage() {
   const [statusFilter, setStatusFilter] = useState('');
   const [priorityFilter, setPriorityFilter] = useState('');
   const debouncedSearch = useDebounce(search, 300);
-  const { workOrders, total, loading, error, refresh } = useWorkOrders({
+  const { workOrders, total, loading, error } = useWorkOrders({
     search: debouncedSearch || undefined,
     status: statusFilter || undefined,
     pageSize: 25,
@@ -41,17 +41,17 @@ export function WorkOrdersPage() {
   );
 
   const columns: Column<WorkOrder>[] = [
-    { key: 'orderNumber', header: 'Order #', render: (r) => <code>{r.orderNumber}</code> },
+    { key: 'orderNumber', header: 'Order #', render: (r) => <code>{r.order_number}</code> },
     { key: 'title', header: 'Title', render: (r) => r.title },
     { key: 'status', header: 'Status', render: (r) => <StatusBadge status={r.status} /> },
     { key: 'priority', header: 'Priority', render: (r) => <StatusBadge status={r.priority} /> },
-    { key: 'scheduledStart', header: 'Scheduled', render: (r) => r.scheduledStart ? formatDateTime(r.scheduledStart) : '—' },
+    { key: 'scheduledStart', header: 'Scheduled', render: (r) => r.scheduled_start ? formatDateTime(r.scheduled_start) : '—' },
   ];
 
   const handleCreate = async () => {
     setSaving(true);
     try {
-      const created = await workOrderApi.create({ title: form.title, description: form.description, priority: form.priority, customerId: form.customerId, siteId: '', orderNumber: `WO-${Date.now()}` });
+      const created = await workOrderApi.create({ title: form.title, description: form.description, priority: form.priority, customer_id: form.customerId, site_id: '', order_number: `WO-${Date.now()}` });
       setCreateOpen(false);
       navigate(`/work-orders/${created.id}`);
     } catch { /* toast */ } finally { setSaving(false); }
