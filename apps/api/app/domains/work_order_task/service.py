@@ -177,20 +177,18 @@ class WorkOrderTaskService:
     def _validate_update(self, entity: WorkOrderTask, data: WorkOrderTaskUpdate) -> None:
         """Domain-specific update validation for WorkOrderTask."""
         if data.status is not None and data.status == entity.status:
-            raise WorkOrderTaskConflictError("Status is already {entity.status}")
+            raise WorkOrderTaskConflictError(f"Status is already {entity.status}")
 
         new_status = getattr(data, "status", None)
         if new_status is not None and new_status not in {'draft', 'pending', 'active', 'in_progress', 'completed', 'cancelled'}:
-            raise WorkOrderTaskValidationError("Invalid status: {new_status}")
+            raise WorkOrderTaskValidationError(f"Invalid status: {new_status}")
 
     async def complete(self, entity_id: UUID, tenant_id: UUID | None):
         """Mark task completed"""
         entity = await self._require_entity(entity_id, tenant_id=tenant_id)
         if entity.status not in {"in_progress", "submitted"}:
-            raise WorkOrderTaskValidationError("Work order cannot be completed from status {entity.status}")
+            raise WorkOrderTaskValidationError(f"Work order cannot be completed from status {entity.status}")
         entity.status = "completed"
-        if notes:
-            entity.completion_notes = notes
         logger.info("work_order_task.complete", entity_id=str(entity.id))
         await self._repo._session.flush()
         await self._repo._session.refresh(entity)
