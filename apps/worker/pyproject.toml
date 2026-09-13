@@ -21,3 +21,7 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["worker*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
