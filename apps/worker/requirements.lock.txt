@@ -64,7 +64,7 @@ redis==6.4.0
     #   kombu
 six==1.17.0
     # via python-dateutil
-sqlalchemy==2.0.52
+sqlalchemy==2.0.54
     # via -r apps/worker/requirements.txt
 structlog==26.1.0
     # via -r apps/worker/requirements.txt
